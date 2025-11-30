@@ -36,7 +36,53 @@
   * {
     @apply border-border;
   }
+  html {
+    /* Enable smooth scrolling */
+    scroll-behavior: smooth;
+    /* Prevent horizontal overflow on mobile */
+    overflow-x: hidden;
+  }
   body {
     @apply bg-background text-foreground;
+    /* Safe area insets for notched phones (iPhone) and foldables */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Prevent text size adjustment on orientation change */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Improve font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Touch-friendly tap highlights for mobile */
+@layer utilities {
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+}
+
+/* Responsive typography for very small screens */
+@media (max-width: 320px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Foldable device support - outer screen */
+@media (max-width: 280px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Support for horizontal foldables (Z Fold when unfolded) */
+@media (min-width: 600px) and (max-width: 900px) and (min-height: 600px) {
+  .container {
+    max-width: 100%;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
