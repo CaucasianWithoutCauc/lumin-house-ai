@@ -37,6 +37,17 @@ const gpuInventory = [
     popular: true,
     configs: ["Config A", "Config B"],
     deploymentType: ["bare-metal", "docker"],
+    // New detailed product info
+    tagline: "Cost-Effective AI Training",
+    description: "Perfect for startups and researchers. The RTX 4090 delivers exceptional performance for fine-tuning LLMs, image generation, and development workloads at an unbeatable price point.",
+    useCases: ["Fine-tuning LLMs", "Stable Diffusion", "Development & Testing"],
+    architecture: "Ada Lovelace",
+    tensorCores: 512,
+    cudaCores: 16384,
+    memoryBandwidth: "1008 GB/s",
+    interconnect: "PCIe Gen 4 x16",
+    tdp: "450W",
+    formFactor: "4U Server Chassis",
   },
   {
     id: "rtx-4090-48gb",
@@ -55,6 +66,17 @@ const gpuInventory = [
     popular: false,
     configs: ["Config C", "Config D"],
     deploymentType: ["bare-metal", "docker"],
+    // New detailed product info
+    tagline: "Extended Memory for Large Models",
+    description: "Double the VRAM for larger batch sizes and bigger models. Ideal for training medium-sized transformers and running inference on 30B+ parameter models.",
+    useCases: ["30B+ Model Inference", "Large Batch Training", "Multi-Model Serving"],
+    architecture: "Ada Lovelace (Enhanced)",
+    tensorCores: 512,
+    cudaCores: 16384,
+    memoryBandwidth: "1008 GB/s",
+    interconnect: "PCIe Gen 4 x16",
+    tdp: "500W",
+    formFactor: "4U Server Chassis",
   },
   {
     id: "rtx-5090-32gb",
@@ -73,6 +95,17 @@ const gpuInventory = [
     popular: true,
     configs: ["Config E", "Config F"],
     deploymentType: ["bare-metal", "docker"],
+    // New detailed product info
+    tagline: "Next-Gen Architecture",
+    description: "Featuring NVIDIA's latest Blackwell architecture with GDDR7 memory. 2x faster than RTX 4090 for AI workloads with improved power efficiency.",
+    useCases: ["Real-time Inference", "Video AI", "Next-Gen Model Training"],
+    architecture: "Blackwell",
+    tensorCores: 680,
+    cudaCores: 21760,
+    memoryBandwidth: "1792 GB/s",
+    interconnect: "PCIe Gen 5 x16",
+    tdp: "575W",
+    formFactor: "4U Server Chassis",
   },
   {
     id: "h100-80gb",
@@ -91,6 +124,17 @@ const gpuInventory = [
     popular: true,
     configs: ["Config G", "Config H"],
     deploymentType: ["bare-metal", "docker"],
+    // New detailed product info
+    tagline: "Industry Standard for LLM Training",
+    description: "The gold standard for enterprise AI. H100 delivers breakthrough performance for training foundation models, with NVLink for multi-GPU scaling.",
+    useCases: ["Foundation Model Training", "Enterprise AI", "Multi-Node Distributed Training"],
+    architecture: "Hopper",
+    tensorCores: 640,
+    cudaCores: 16896,
+    memoryBandwidth: "3350 GB/s",
+    interconnect: "NVLink 4.0 (900 GB/s)",
+    tdp: "700W",
+    formFactor: "8-GPU DGX-style Cluster",
   },
   {
     id: "h200-141gb",
@@ -109,6 +153,17 @@ const gpuInventory = [
     popular: false,
     configs: ["Config I", "Config J"],
     deploymentType: ["bare-metal", "docker"],
+    // New detailed product info
+    tagline: "Maximum Memory for Largest Models",
+    description: "76% more HBM memory than H100 with faster HBM3e. Train 70B+ models with larger batch sizes and run inference on 180B+ parameter models.",
+    useCases: ["70B+ Model Training", "180B+ Inference", "Research & Development"],
+    architecture: "Hopper (Enhanced)",
+    tensorCores: 640,
+    cudaCores: 16896,
+    memoryBandwidth: "4800 GB/s",
+    interconnect: "NVLink 4.0 (900 GB/s)",
+    tdp: "700W",
+    formFactor: "8-GPU DGX-style Cluster",
   },
   {
     id: "b200-180gb",
@@ -127,6 +182,17 @@ const gpuInventory = [
     popular: true,
     configs: ["Config K"],
     deploymentType: ["bare-metal"],
+    // New detailed product info
+    tagline: "The Ultimate AI Supercomputer",
+    description: "NVIDIA's flagship Blackwell GPU. 5x faster than H100 for LLM inference with revolutionary second-generation Transformer Engine and 180GB of HBM3e memory.",
+    useCases: ["Frontier Model Training", "Real-time LLM Inference", "AGI Research"],
+    architecture: "Blackwell",
+    tensorCores: 896,
+    cudaCores: 20480,
+    memoryBandwidth: "8000 GB/s",
+    interconnect: "NVLink 5.0 (1800 GB/s)",
+    tdp: "1000W",
+    formFactor: "GB200 NVL72 SuperPod",
   },
 ];
 
@@ -297,10 +363,223 @@ const PerformanceBar = ({ value, max, label, color = "primary" }: { value: numbe
   );
 };
 
+// GPU Product Detail Showcase Component (like Crusoe's hardware showcase)
+const GPUProductShowcase = ({ gpu, onClose }: { gpu: typeof gpuInventory[0] | null; onClose: () => void }) => {
+  if (!gpu) return null;
+  
+  const specs = gpuSpecs[gpu.id as keyof typeof gpuSpecs];
+  const isEnterprise = gpu.id.includes("h100") || gpu.id.includes("h200") || gpu.id.includes("b200");
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="mb-8 rounded-2xl border border-primary/30 bg-gradient-to-br from-card via-card to-primary/5 overflow-hidden"
+    >
+      <div className="p-6 sm:p-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* GPU Visual */}
+          <div className="lg:w-1/3 flex flex-col items-center justify-center">
+            <div className="relative w-full max-w-[280px] aspect-square">
+              {/* Animated GPU visualization */}
+              <motion.div 
+                className="absolute inset-0 rounded-2xl border-2 border-primary/40 bg-gradient-to-br from-card to-muted overflow-hidden"
+                animate={{ 
+                  boxShadow: ["0 0 30px rgba(139,92,246,0.3)", "0 0 60px rgba(139,92,246,0.5)", "0 0 30px rgba(139,92,246,0.3)"]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {/* GPU Circuit Board Pattern */}
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute top-4 left-4 right-4 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+                  <div className="absolute top-8 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+                  <div className="absolute bottom-8 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+                  <div className="absolute top-4 bottom-4 left-4 w-px bg-gradient-to-b from-transparent via-primary to-transparent" />
+                  <div className="absolute top-4 bottom-4 right-4 w-px bg-gradient-to-b from-transparent via-primary to-transparent" />
+                </div>
+                
+                {/* Central GPU Icon */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="relative">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      className="absolute -inset-8 border border-primary/20 rounded-full"
+                    />
+                    <motion.div
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                      className="absolute -inset-12 border border-primary/10 rounded-full"
+                    />
+                    <Cpu className={`h-20 w-20 ${isEnterprise ? 'text-primary' : 'text-green-500'}`} />
+                  </div>
+                </div>
+                
+                {/* Floating data points */}
+                <motion.div 
+                  className="absolute top-6 right-6 px-2 py-1 rounded bg-primary/20 text-primary text-xs font-mono"
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {gpu.vram}
+                </motion.div>
+                <motion.div 
+                  className="absolute bottom-6 left-6 px-2 py-1 rounded bg-primary/20 text-primary text-xs font-mono"
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                >
+                  {gpu.architecture}
+                </motion.div>
+                
+                {/* Corner accents */}
+                <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-primary/50" />
+                <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-primary/50" />
+                <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-primary/50" />
+                <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-primary/50" />
+              </motion.div>
+              
+              {/* Tier badge */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  specs?.tier === "Flagship" ? "bg-gradient-to-r from-primary to-pink-500 text-white" :
+                  specs?.tier === "Enterprise" ? "bg-primary text-primary-foreground" :
+                  "bg-green-500/20 text-green-500"
+                }`}>
+                  {specs?.tier || "Consumer"} GPU
+                </span>
+              </div>
+            </div>
+            
+            {/* Form Factor */}
+            <div className="mt-4 text-center">
+              <p className="text-xs text-muted-foreground">Form Factor</p>
+              <p className="text-sm font-medium">{gpu.formFactor}</p>
+            </div>
+          </div>
+          
+          {/* GPU Details */}
+          <div className="lg:w-2/3">
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-2xl font-bold">{gpu.name}</h3>
+                  {gpu.status === "Low Stock" && (
+                    <span className="px-2 py-0.5 rounded-full bg-warning/20 text-warning-foreground text-xs font-medium animate-pulse">
+                      Low Stock
+                    </span>
+                  )}
+                </div>
+                <p className="text-primary font-medium">{gpu.tagline}</p>
+              </div>
+              <button 
+                onClick={onClose}
+                className="text-muted-foreground hover:text-foreground p-2 rounded-lg hover:bg-muted transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <p className="text-muted-foreground mb-6">{gpu.description}</p>
+            
+            {/* Use Cases */}
+            <div className="mb-6">
+              <p className="text-sm font-medium mb-2">Best For:</p>
+              <div className="flex flex-wrap gap-2">
+                {gpu.useCases?.map((useCase) => (
+                  <span key={useCase} className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                    {useCase}
+                  </span>
+                ))}
+              </div>
+            </div>
+            
+            {/* Technical Specs Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+              <div className="p-3 rounded-lg bg-muted/50 text-center">
+                <p className="text-xs text-muted-foreground">VRAM</p>
+                <p className="text-lg font-bold text-primary">{gpu.vram}</p>
+              </div>
+              <div className="p-3 rounded-lg bg-muted/50 text-center">
+                <p className="text-xs text-muted-foreground">Tensor Cores</p>
+                <p className="text-lg font-bold">{gpu.tensorCores}</p>
+              </div>
+              <div className="p-3 rounded-lg bg-muted/50 text-center">
+                <p className="text-xs text-muted-foreground">Memory BW</p>
+                <p className="text-lg font-bold">{gpu.memoryBandwidth}</p>
+              </div>
+              <div className="p-3 rounded-lg bg-muted/50 text-center">
+                <p className="text-xs text-muted-foreground">TDP</p>
+                <p className="text-lg font-bold">{gpu.tdp}</p>
+              </div>
+            </div>
+            
+            {/* Performance Bars */}
+            {specs && (
+              <div className="mb-6 p-4 rounded-lg bg-muted/30 space-y-3">
+                <p className="text-sm font-medium mb-2">Performance Comparison</p>
+                <PerformanceBar 
+                  value={specs.vramGB} 
+                  max={specs.maxVram} 
+                  label="VRAM" 
+                  color={specs.tier === "Flagship" ? "gradient" : "primary"}
+                />
+                <PerformanceBar 
+                  value={specs.bandwidth} 
+                  max={specs.maxBandwidth} 
+                  label="Bandwidth" 
+                  color={specs.tier === "Flagship" ? "gradient" : "primary"}
+                />
+              </div>
+            )}
+            
+            {/* Additional Specs */}
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Architecture</span>
+                <span className="font-medium">{gpu.architecture}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">CUDA Cores</span>
+                <span className="font-medium">{gpu.cudaCores?.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Interconnect</span>
+                <span className="font-medium">{gpu.interconnect}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">GPUs per Node</span>
+                <span className="font-medium">{gpu.gpuCount}× GPU</span>
+              </div>
+            </div>
+            
+            {/* Pricing CTA */}
+            <div className="mt-6 flex flex-col sm:flex-row items-center gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+              <div className="flex-1">
+                <p className="text-sm text-muted-foreground">Starting from</p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl font-bold text-primary">${gpu.hourlyPrice.toFixed(2)}</span>
+                  <span className="text-muted-foreground">/GPU/hr</span>
+                </div>
+              </div>
+              <button className="w-full sm:w-auto inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-11 px-8">
+                Deploy Now
+                <ChevronRight className="h-4 w-4 ml-1" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("gpu");
   const [billingCycle, setBillingCycle] = useState<"hourly" | "monthly" | "spot">("hourly");
   const [selectedRegion, setSelectedRegion] = useState("apac-hk");
+  const [selectedGpu, setSelectedGpu] = useState<typeof gpuInventory[0] | null>(null);
 
   return (
     <div className="min-h-screen bg-background">
@@ -642,6 +921,13 @@ export default function Home() {
           </motion.div>
         )}
 
+        {/* GPU Product Showcase - Detailed view when a GPU is selected */}
+        <AnimatePresence>
+          {selectedGpu && activeCategory === "gpu" && (
+            <GPUProductShowcase gpu={selectedGpu} onClose={() => setSelectedGpu(null)} />
+          )}
+        </AnimatePresence>
+
         {/* GPU Pricing Cards */}
         <AnimatePresence mode="wait">
           {activeCategory === "gpu" && (
@@ -655,11 +941,20 @@ export default function Home() {
             >
               {gpuInventory.map((gpu) => {
                 const specs = gpuSpecs[gpu.id as keyof typeof gpuSpecs];
+                const isSelected = selectedGpu?.id === gpu.id;
                 return (
                 <div
                   key={gpu.id}
-                  className={`relative rounded-xl border ${gpu.popular ? 'border-primary' : 'border-border'} bg-card p-5 sm:p-6 hover:border-primary/50 transition-all`}
+                  onClick={() => setSelectedGpu(gpu)}
+                  className={`relative rounded-xl border ${isSelected ? 'border-primary ring-2 ring-primary/50' : gpu.popular ? 'border-primary' : 'border-border'} bg-card p-5 sm:p-6 hover:border-primary/50 transition-all cursor-pointer group`}
                 >
+                  {/* Click to view hint */}
+                  <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="px-2 py-1 rounded bg-primary/20 text-primary text-[10px] font-medium">
+                      Click to view details
+                    </span>
+                  </div>
+                  
                   {gpu.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-medium">
