@@ -714,41 +714,51 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border mt-8 py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
             <div>
               <h4 className="font-semibold mb-4">Products</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Cloud GPU</a></li>
-                <li><a href="#" className="hover:text-foreground">Cloud Compute</a></li>
-                <li><a href="#" className="hover:text-foreground">Bare Metal</a></li>
-                <li><a href="#" className="hover:text-foreground">Storage</a></li>
+                <li><a href="/pricing" className="hover:text-foreground">Cloud GPU</a></li>
+                <li><a href="/ai-studio" className="hover:text-foreground">AI Studio</a></li>
+                <li><a href="/serverless" className="hover:text-foreground">Serverless GPU</a></li>
+                <li><a href="/pricing" className="hover:text-foreground">Bare Metal</a></li>
+                <li><a href="/pricing" className="hover:text-foreground">Storage</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Resources</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Documentation</a></li>
-                <li><a href="#" className="hover:text-foreground">API Reference</a></li>
-                <li><a href="#" className="hover:text-foreground">Tutorials</a></li>
-                <li><a href="#" className="hover:text-foreground">Blog</a></li>
+                <li><a href="/docs" className="hover:text-foreground">Documentation</a></li>
+                <li><a href="/help-center" className="hover:text-foreground">Help Center</a></li>
+                <li><a href="/faq" className="hover:text-foreground">FAQ</a></li>
+                <li><a href="/blog" className="hover:text-foreground">Blog</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">About</a></li>
-                <li><a href="#" className="hover:text-foreground">Careers</a></li>
-                <li><a href="#" className="hover:text-foreground">Contact</a></li>
-                <li><a href="#" className="hover:text-foreground">Partners</a></li>
+                <li><a href="/about" className="hover:text-foreground">About Us</a></li>
+                <li><a href="/careers" className="hover:text-foreground">Careers</a></li>
+                <li><a href="/partners" className="hover:text-foreground">Partners</a></li>
+                <li><a href="/investor-relations" className="hover:text-foreground">Investors</a></li>
+                <li><a href="/contact" className="hover:text-foreground">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="/support" className="hover:text-foreground">Contact Support</a></li>
+                <li><a href="https://status.luminhouse.ai" className="hover:text-foreground">System Status</a></li>
+                <li><a href="https://discord.gg/luminhouse" className="hover:text-foreground">Discord</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Legal</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-foreground">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-foreground">SLA</a></li>
-                <li><a href="#" className="hover:text-foreground">Security</a></li>
+                <li><a href="/privacy" className="hover:text-foreground">Privacy Policy</a></li>
+                <li><a href="/terms" className="hover:text-foreground">Terms of Service</a></li>
+                <li><a href="/sla" className="hover:text-foreground">SLA</a></li>
+                <li><a href="/security-compliance" className="hover:text-foreground">Security</a></li>
               </ul>
             </div>
           </div>

@@ -3,19 +3,42 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Zap, Menu, X, ChevronDown, Cpu, Server, HardDrive, Database, Headphones, User, LogOut } from "lucide-react";
+import { 
+  Zap, Menu, X, ChevronDown, Cpu, Server, HardDrive, Database, 
+  Headphones, User, LogOut, Cloud, Layers, Book, FileText, 
+  MessageSquare, HelpCircle, Building2, Users, Briefcase, 
+  Mail, Globe2, Shield, TrendingUp
+} from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const products = [
-  { name: "Cloud GPU", href: "#gpu", icon: Cpu, description: "NVIDIA H100, A100, RTX 4090" },
-  { name: "Cloud Compute", href: "#compute", icon: Server, description: "Scalable virtual machines" },
-  { name: "Bare Metal", href: "#bare-metal", icon: HardDrive, description: "Dedicated servers" },
-  { name: "Storage", href: "#storage", icon: Database, description: "Block & Object storage" },
+  { name: "Cloud GPU", href: "/pricing", icon: Cpu, description: "NVIDIA H100, H200, B200, RTX 4090" },
+  { name: "AI Studio", href: "/ai-studio", icon: Layers, description: "Collaborative AI development platform" },
+  { name: "Serverless GPU", href: "/serverless", icon: Cloud, description: "Auto-scaling GPU functions" },
+  { name: "Bare Metal", href: "/pricing", icon: HardDrive, description: "Dedicated GPU servers" },
+  { name: "Storage", href: "/pricing", icon: Database, description: "Block & Object storage" },
+];
+
+const resources = [
+  { name: "Documentation", href: "/docs", icon: Book, description: "API reference and guides" },
+  { name: "Help Center", href: "/help-center", icon: HelpCircle, description: "Knowledge base and tutorials" },
+  { name: "FAQ", href: "/faq", icon: MessageSquare, description: "Frequently asked questions" },
+  { name: "Blog", href: "/blog", icon: FileText, description: "Latest news and updates" },
+];
+
+const company = [
+  { name: "About Us", href: "/about", icon: Building2, description: "Our story and mission" },
+  { name: "Careers", href: "/careers", icon: Briefcase, description: "Join our team" },
+  { name: "Partners", href: "/partners", icon: Users, description: "Partnership programs" },
+  { name: "Investor Relations", href: "/investor-relations", icon: TrendingUp, description: "For shareholders" },
+  { name: "Contact", href: "/contact", icon: Mail, description: "Get in touch" },
 ];
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isResourcesOpen, setIsResourcesOpen] = useState(false);
+  const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const { user, logout } = useAuth();
   const router = useRouter();
 
@@ -53,7 +76,7 @@ export function Navbar() {
               </button>
               
               {isProductsOpen && (
-                <div className="absolute top-full left-0 mt-1 w-64 rounded-lg border border-border bg-background shadow-lg py-2">
+                <div className="absolute top-full left-0 mt-1 w-72 rounded-lg border border-border bg-background shadow-lg py-2">
                   {products.map((product) => {
                     const Icon = product.icon;
                     return (
@@ -74,17 +97,85 @@ export function Navbar() {
               )}
             </div>
 
+            {/* Resources Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsResourcesOpen(true)}
+              onMouseLeave={() => setIsResourcesOpen(false)}
+            >
+              <button
+                onClick={() => setIsResourcesOpen(!isResourcesOpen)}
+                onFocus={() => setIsResourcesOpen(true)}
+                className="inline-flex items-center px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground text-foreground/70"
+              >
+                Resources
+                <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${isResourcesOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {isResourcesOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 rounded-lg border border-border bg-background shadow-lg py-2">
+                  {resources.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className="flex items-start px-4 py-3 hover:bg-accent transition-colors"
+                      >
+                        <Icon className="h-5 w-5 text-primary mr-3 mt-0.5" />
+                        <div>
+                          <div className="font-medium text-sm">{item.name}</div>
+                          <div className="text-xs text-muted-foreground">{item.description}</div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Company Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsCompanyOpen(true)}
+              onMouseLeave={() => setIsCompanyOpen(false)}
+            >
+              <button
+                onClick={() => setIsCompanyOpen(!isCompanyOpen)}
+                onFocus={() => setIsCompanyOpen(true)}
+                className="inline-flex items-center px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground text-foreground/70"
+              >
+                Company
+                <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${isCompanyOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {isCompanyOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 rounded-lg border border-border bg-background shadow-lg py-2">
+                  {company.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className="flex items-start px-4 py-3 hover:bg-accent transition-colors"
+                      >
+                        <Icon className="h-5 w-5 text-primary mr-3 mt-0.5" />
+                        <div>
+                          <div className="font-medium text-sm">{item.name}</div>
+                          <div className="text-xs text-muted-foreground">{item.description}</div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
             <Link
               href="/pricing"
               className="px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground text-foreground/70"
             >
               Pricing
-            </Link>
-            <Link
-              href="/docs"
-              className="px-3 py-2 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground text-foreground/70"
-            >
-              Docs
             </Link>
             <Link
               href="/support"
@@ -170,6 +261,50 @@ export function Navbar() {
               })}
             </div>
 
+            {/* Mobile Resources Section */}
+            <div className="space-y-2 border-t border-border/40 pt-4">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Resources</p>
+              {resources.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="flex items-center py-2 text-foreground/80 hover:text-foreground"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Icon className="h-5 w-5 text-primary mr-3" />
+                    <div>
+                      <div className="font-medium text-sm">{item.name}</div>
+                      <div className="text-xs text-muted-foreground">{item.description}</div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Mobile Company Section */}
+            <div className="space-y-2 border-t border-border/40 pt-4">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Company</p>
+              {company.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="flex items-center py-2 text-foreground/80 hover:text-foreground"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Icon className="h-5 w-5 text-primary mr-3" />
+                    <div>
+                      <div className="font-medium text-sm">{item.name}</div>
+                      <div className="text-xs text-muted-foreground">{item.description}</div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
             <div className="border-t border-border/40 pt-4">
               <nav className="flex flex-col space-y-2">
                 <Link
@@ -178,13 +313,6 @@ export function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Pricing
-                </Link>
-                <Link
-                  href="/docs"
-                  className="text-foreground/80 hover:text-foreground py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Documentation
                 </Link>
                 <Link
                   href="/support"
