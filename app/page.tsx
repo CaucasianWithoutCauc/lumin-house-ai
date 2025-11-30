@@ -20,69 +20,94 @@ const categories = [
 // GPU inventory data
 const gpuInventory = [
   {
-    id: "h100-sxm5",
-    name: "NVIDIA H100 SXM5",
-    vram: "80GB HBM3",
-    cores: "16,896 CUDA",
-    memory: "512GB DDR5",
-    storage: "3.84TB NVMe",
-    bandwidth: "32TB/mo",
-    hourlyPrice: 1.95,
-    monthlyPrice: 1250,
-    status: "Available",
-    popular: true,
-  },
-  {
-    id: "h800-sxm",
-    name: "NVIDIA H800 SXM",
-    vram: "80GB HBM3",
-    cores: "16,896 CUDA",
-    memory: "256GB DDR5",
-    storage: "1.92TB NVMe",
-    bandwidth: "20TB/mo",
-    hourlyPrice: 1.65,
-    monthlyPrice: 1050,
-    status: "Low Stock",
-    popular: false,
-  },
-  {
-    id: "a100-80gb",
-    name: "NVIDIA A100 80GB",
-    vram: "80GB HBM2e",
-    cores: "6,912 CUDA",
-    memory: "256GB DDR4",
-    storage: "1.92TB NVMe",
-    bandwidth: "20TB/mo",
-    hourlyPrice: 1.10,
-    monthlyPrice: 700,
-    status: "Available",
-    popular: false,
-  },
-  {
-    id: "rtx-4090",
-    name: "RTX 4090 Cluster",
+    id: "rtx-4090-24gb",
+    name: "RTX 4090 24GB",
     vram: "24GB GDDR6X",
-    cores: "16,384 CUDA",
-    memory: "128GB DDR5",
-    storage: "960GB NVMe",
-    bandwidth: "10TB/mo",
-    hourlyPrice: 0.35,
-    monthlyPrice: 220,
+    cpu: "2× Intel Xeon Gold 6330/6530",
+    memory: "512GB DDR5",
+    storage: "3.84TB NVMe × 2",
+    network: "25 GbE dual-port",
+    gpuCount: 8,
+    hourlyPrice: 0.20,
+    monthlyPrice: 144,
     status: "Available",
     popular: true,
+    configs: ["Config A", "Config B"],
   },
   {
-    id: "l40s",
-    name: "NVIDIA L40S",
-    vram: "48GB GDDR6",
-    cores: "18,176 CUDA",
-    memory: "128GB DDR5",
-    storage: "960GB NVMe",
-    bandwidth: "15TB/mo",
-    hourlyPrice: 0.75,
-    monthlyPrice: 480,
+    id: "rtx-4090-48gb",
+    name: "RTX 4090 48GB",
+    vram: "48GB GDDR6X",
+    cpu: "2× Intel Xeon Gold 8570/6530",
+    memory: "512GB DDR5-5600",
+    storage: "3.84TB NVMe",
+    network: "25 GbE dual-port × 2",
+    gpuCount: 8,
+    hourlyPrice: 0.29,
+    monthlyPrice: 209,
     status: "Available",
     popular: false,
+    configs: ["Config C", "Config D"],
+  },
+  {
+    id: "rtx-5090-32gb",
+    name: "RTX 5090 32GB",
+    vram: "32GB GDDR7",
+    cpu: "2× Intel Xeon Gold 6530 (32C/64T)",
+    memory: "1TB DDR5-4800",
+    storage: "3.84TB NVMe U.2 × 2",
+    network: "25 GbE × 2 + 100 GbE RDMA",
+    gpuCount: 8,
+    hourlyPrice: 0.34,
+    monthlyPrice: 245,
+    status: "Available",
+    popular: true,
+    configs: ["Config E", "Config F"],
+  },
+  {
+    id: "h100-80gb",
+    name: "NVIDIA H100 80GB",
+    vram: "80GB HBM3",
+    cpu: "2× Intel 8558/8468 (48C)",
+    memory: "2TB DDR5-5600",
+    storage: "7.68TB NVMe × 2-4",
+    network: "400 GbE × 8 + 200 GbE IB",
+    gpuCount: 8,
+    hourlyPrice: 1.84,
+    monthlyPrice: 1325,
+    status: "Available",
+    popular: true,
+    configs: ["Config G", "Config H"],
+  },
+  {
+    id: "h200-141gb",
+    name: "NVIDIA H200 141GB",
+    vram: "141GB HBM3e",
+    cpu: "2× Intel Xeon Platinum 8558/8468",
+    memory: "2TB DDR5",
+    storage: "3.84TB U.2 NVMe × 4",
+    network: "400 GbE/NDR × 8 + 200 GbE",
+    gpuCount: 8,
+    hourlyPrice: 2.28,
+    monthlyPrice: 1642,
+    status: "Available",
+    popular: false,
+    configs: ["Config I", "Config J"],
+  },
+  {
+    id: "b200-180gb",
+    name: "NVIDIA B200 180GB",
+    vram: "180GB HBM3e",
+    cpu: "2× Intel 6960P (72C, 2.7GHz)",
+    memory: "2.25TB DDR5-6400",
+    storage: "7.68TB NVMe × 8",
+    network: "400 GbE × 8",
+    gpuCount: 8,
+    hourlyPrice: 3.38,
+    monthlyPrice: 2434,
+    status: "Low Stock",
+    popular: true,
+    configs: ["Config K"],
   },
 ];
 
@@ -202,7 +227,7 @@ export default function Home() {
         >
           <div className="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm mb-4 sm:mb-6">
             <Zap className="h-4 w-4 mr-2" />
-            New: H100 SXM5 clusters now available
+            New: RTX 5090 & NVIDIA B200 clusters now available
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent leading-tight">
             Enterprise GPU Cloud
@@ -344,7 +369,7 @@ export default function Home() {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <h3 className="font-semibold text-base sm:text-lg">{gpu.name}</h3>
-                      <p className="text-sm text-muted-foreground">{gpu.vram}</p>
+                      <p className="text-sm text-muted-foreground">{gpu.vram} × {gpu.gpuCount} GPUs</p>
                     </div>
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(gpu.status)}`}>
                       {gpu.status === "Available" && <CheckCircle2 className="h-3 w-3 mr-1" />}
@@ -353,9 +378,9 @@ export default function Home() {
                   </div>
 
                   <div className="space-y-2 mb-6 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">CUDA Cores</span>
-                      <span className="font-medium">{gpu.cores}</span>
+                    <div className="flex justify-between gap-2">
+                      <span className="text-muted-foreground shrink-0">CPU</span>
+                      <span className="font-medium text-right">{gpu.cpu}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Memory</span>
@@ -365,10 +390,18 @@ export default function Home() {
                       <span className="text-muted-foreground">Storage</span>
                       <span className="font-medium">{gpu.storage}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Bandwidth</span>
-                      <span className="font-medium">{gpu.bandwidth}</span>
+                    <div className="flex justify-between gap-2">
+                      <span className="text-muted-foreground shrink-0">Network</span>
+                      <span className="font-medium text-right">{gpu.network}</span>
                     </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {gpu.configs.map((config) => (
+                      <span key={config} className="px-2 py-0.5 rounded bg-muted text-muted-foreground text-xs">
+                        {config}
+                      </span>
+                    ))}
                   </div>
 
                   <div className="border-t border-border pt-4">
@@ -378,7 +411,7 @@ export default function Home() {
                           ${billingCycle === "hourly" ? gpu.hourlyPrice.toFixed(2) : gpu.monthlyPrice}
                         </span>
                         <span className="text-sm text-muted-foreground">
-                          /{billingCycle === "hourly" ? "hr" : "mo"}
+                          /{billingCycle === "hourly" ? "GPU/hr" : "mo"}
                         </span>
                       </div>
                     </div>
