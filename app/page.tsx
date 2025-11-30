@@ -422,6 +422,7 @@ const GPUProductShowcase = ({ gpu, onClose }: { gpu: typeof gpuInventory[0] | nu
                   className="absolute top-6 right-6 px-2 py-1 rounded bg-primary/20 text-primary text-xs font-mono"
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 2, repeat: Infinity }}
+                  aria-label={`VRAM: ${gpu.vram}`}
                 >
                   {gpu.vram}
                 </motion.div>
@@ -429,6 +430,7 @@ const GPUProductShowcase = ({ gpu, onClose }: { gpu: typeof gpuInventory[0] | nu
                   className="absolute bottom-6 left-6 px-2 py-1 rounded bg-primary/20 text-primary text-xs font-mono"
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                  aria-label={`Architecture: ${gpu.architecture}`}
                 >
                   {gpu.architecture}
                 </motion.div>
@@ -476,8 +478,9 @@ const GPUProductShowcase = ({ gpu, onClose }: { gpu: typeof gpuInventory[0] | nu
               <button 
                 onClick={onClose}
                 className="text-muted-foreground hover:text-foreground p-2 rounded-lg hover:bg-muted transition-colors"
+                aria-label="Close GPU details"
               >
-                ✕
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               </button>
             </div>
             
@@ -950,7 +953,7 @@ export default function Home() {
                 >
                   {/* Click to view hint */}
                   <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="px-2 py-1 rounded bg-primary/20 text-primary text-[10px] font-medium">
+                    <span className="px-2 py-1 rounded bg-primary/20 text-primary text-xs font-medium">
                       Click to view details
                     </span>
                   </div>
