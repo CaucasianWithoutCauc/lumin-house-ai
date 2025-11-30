@@ -7,7 +7,8 @@ import {
   Zap, Server, CreditCard, Settings, LogOut, Plus, Play, Square, Trash2,
   Clock, Cpu, HardDrive, Activity, DollarSign, ChevronRight, Bell, User,
   BarChart3, Wallet, RefreshCw, Key, Terminal, BookOpen, Copy, Check,
-  ExternalLink, RotateCcw, FileCode2, HelpCircle
+  ExternalLink, RotateCcw, FileCode2, HelpCircle, Camera, Layers, Network,
+  Gift, Users
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -174,9 +175,15 @@ export default function DashboardPage() {
   const sidebarItems = [
     { id: "instances", label: "Instances", icon: Server },
     { id: "ssh-keys", label: "SSH Keys", icon: Key },
+    { id: "snapshots", label: "Snapshots", icon: Camera, href: "/snapshots" },
+    { id: "images", label: "Images", icon: Layers, href: "/images" },
+    { id: "network", label: "Network & VPC", icon: Network, href: "/network" },
     { id: "monitoring", label: "Monitoring", icon: Activity, href: "/monitoring" },
+    { id: "analytics", label: "Analytics", icon: BarChart3, href: "/analytics" },
     { id: "billing", label: "Billing", icon: CreditCard, href: "/billing-history" },
     { id: "api-keys", label: "API Keys", icon: Key, href: "/api-keys" },
+    { id: "team", label: "Team", icon: Users, href: "/team" },
+    { id: "referrals", label: "Referrals", icon: Gift, href: "/referrals" },
     { id: "support", label: "Support", icon: HelpCircle, href: "/support" },
     { id: "settings", label: "Settings", icon: Settings, href: "/settings" },
   ];
