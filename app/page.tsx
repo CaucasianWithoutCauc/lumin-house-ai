@@ -5,7 +5,8 @@ import { useState } from "react";
 import { 
   CheckCircle2, Zap, Globe2, ShieldCheck, Server, ArrowRight, 
   Cpu, HardDrive, Gauge, Cloud, Database, Monitor, 
-  ChevronRight, Star, Users, Clock, MapPin
+  ChevronRight, Star, Users, Clock, MapPin, AlertTriangle,
+  Wallet, Building2, Award, Timer
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,7 +18,7 @@ const categories = [
   { id: "storage", name: "Storage", icon: Database },
 ];
 
-// GPU inventory data
+// GPU inventory data with stock counts for urgency
 const gpuInventory = [
   {
     id: "rtx-4090-24gb",
@@ -30,9 +31,12 @@ const gpuInventory = [
     gpuCount: 8,
     hourlyPrice: 0.20,
     monthlyPrice: 144,
+    spotPrice: 0.06, // 70% discount for spot instances
     status: "Available",
+    stockCount: 12,
     popular: true,
     configs: ["Config A", "Config B"],
+    deploymentType: ["bare-metal", "docker"],
   },
   {
     id: "rtx-4090-48gb",
@@ -45,9 +49,12 @@ const gpuInventory = [
     gpuCount: 8,
     hourlyPrice: 0.29,
     monthlyPrice: 209,
+    spotPrice: 0.09,
     status: "Available",
+    stockCount: 8,
     popular: false,
     configs: ["Config C", "Config D"],
+    deploymentType: ["bare-metal", "docker"],
   },
   {
     id: "rtx-5090-32gb",
@@ -60,9 +67,12 @@ const gpuInventory = [
     gpuCount: 8,
     hourlyPrice: 0.34,
     monthlyPrice: 245,
+    spotPrice: 0.10,
     status: "Available",
+    stockCount: 5,
     popular: true,
     configs: ["Config E", "Config F"],
+    deploymentType: ["bare-metal", "docker"],
   },
   {
     id: "h100-80gb",
@@ -75,9 +85,12 @@ const gpuInventory = [
     gpuCount: 8,
     hourlyPrice: 1.84,
     monthlyPrice: 1325,
+    spotPrice: 0.55,
     status: "Available",
+    stockCount: 6,
     popular: true,
     configs: ["Config G", "Config H"],
+    deploymentType: ["bare-metal", "docker"],
   },
   {
     id: "h200-141gb",
@@ -90,9 +103,12 @@ const gpuInventory = [
     gpuCount: 8,
     hourlyPrice: 2.28,
     monthlyPrice: 1642,
-    status: "Available",
+    spotPrice: 0.68,
+    status: "Low Stock",
+    stockCount: 2,
     popular: false,
     configs: ["Config I", "Config J"],
+    deploymentType: ["bare-metal", "docker"],
   },
   {
     id: "b200-180gb",
@@ -105,9 +121,12 @@ const gpuInventory = [
     gpuCount: 8,
     hourlyPrice: 3.38,
     monthlyPrice: 2434,
+    spotPrice: 1.01,
     status: "Low Stock",
+    stockCount: 1,
     popular: true,
     configs: ["Config K"],
+    deploymentType: ["bare-metal"],
   },
 ];
 
@@ -169,12 +188,12 @@ const regions = [
   { id: "eu-lon", name: "London", flag: "🇬🇧", latency: "195ms" },
 ];
 
-// Statistics
+// Statistics with SLA guarantees
 const stats = [
-  { value: "99.99%", label: "Uptime SLA" },
-  { value: "32+", label: "Data Centers" },
-  { value: "<60s", label: "Deploy Time" },
-  { value: "24/7", label: "Support" },
+  { value: "99.99%", label: "Uptime SLA", icon: Award },
+  { value: "32+", label: "Data Centers", icon: Building2 },
+  { value: "<60s", label: "Deploy Time", icon: Timer },
+  { value: "24/7", label: "Support", icon: Clock },
 ];
 
 // Testimonials
@@ -211,7 +230,7 @@ const getStatusStyles = (status: string) => {
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("gpu");
-  const [billingCycle, setBillingCycle] = useState<"hourly" | "monthly">("hourly");
+  const [billingCycle, setBillingCycle] = useState<"hourly" | "monthly" | "spot">("hourly");
   const [selectedRegion, setSelectedRegion] = useState("apac-hk");
 
   return (
@@ -259,10 +278,65 @@ export default function Home() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="text-center p-4 rounded-lg border border-border bg-card"
             >
+              {stat.icon && <stat.icon className="h-6 w-6 text-primary mx-auto mb-2" />}
               <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">{stat.value}</div>
               <div className="text-sm text-muted-foreground">{stat.label}</div>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Infrastructure Trust Section */}
+      <section className="container mx-auto px-4 py-8">
+        <div className="p-6 rounded-xl border border-border bg-gradient-to-r from-card to-muted/30">
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="flex-1">
+              <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-primary" />
+                Enterprise-Grade Infrastructure
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Our data centers feature Tier-3 reliability with redundant power, cooling, and network connectivity. 
+                Every GPU server is monitored 24/7 with automated failover systems.
+              </p>
+              <div className="flex flex-wrap gap-4 text-sm">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-success-foreground" />
+                  <span>SOC 2 Type II Certified</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-success-foreground" />
+                  <span>99.99% SLA Guarantee</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-success-foreground" />
+                  <span>End-to-End Encryption</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-success-foreground" />
+                  <span>Dedicated VPC Options</span>
+                </div>
+              </div>
+            </div>
+            <div className="shrink-0">
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { label: "Hong Kong DC", status: "Operational" },
+                  { label: "Singapore DC", status: "Operational" },
+                  { label: "Tokyo DC", status: "Operational" },
+                  { label: "SF DC", status: "Operational" },
+                ].map((dc) => (
+                  <div key={dc.label} className="px-3 py-2 rounded-lg bg-card border border-border text-center">
+                    <p className="text-xs text-muted-foreground">{dc.label}</p>
+                    <p className="text-xs font-medium text-success-foreground flex items-center justify-center gap-1">
+                      <span className="h-1.5 w-1.5 rounded-full bg-success-foreground animate-pulse" />
+                      {dc.status}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -314,6 +388,17 @@ export default function Home() {
             >
               Monthly
               <span className="ml-1 text-xs text-success-foreground">Save 15%</span>
+            </button>
+            <button
+              onClick={() => setBillingCycle("spot")}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                billingCycle === "spot"
+                  ? "bg-background text-foreground shadow"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Spot
+              <span className="ml-1 text-xs text-warning-foreground">70% off</span>
             </button>
           </div>
         </div>
@@ -371,10 +456,18 @@ export default function Home() {
                       <h3 className="font-semibold text-base sm:text-lg">{gpu.name}</h3>
                       <p className="text-sm text-muted-foreground">{gpu.vram} × {gpu.gpuCount} GPUs</p>
                     </div>
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(gpu.status)}`}>
-                      {gpu.status === "Available" && <CheckCircle2 className="h-3 w-3 mr-1" />}
-                      {gpu.status}
-                    </span>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(gpu.status)}`}>
+                        {gpu.status === "Available" && <CheckCircle2 className="h-3 w-3 mr-1" />}
+                        {gpu.status}
+                      </span>
+                      {gpu.stockCount <= 5 && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-warning/20 text-warning-foreground">
+                          <AlertTriangle className="h-3 w-3 mr-1" />
+                          Only {gpu.stockCount} left
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   <div className="space-y-2 mb-6 text-sm">
@@ -394,6 +487,10 @@ export default function Home() {
                       <span className="text-muted-foreground shrink-0">Network</span>
                       <span className="font-medium text-right">{gpu.network}</span>
                     </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Deploy Type</span>
+                      <span className="font-medium capitalize">{gpu.deploymentType.join(" / ")}</span>
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap gap-1 mb-4">
@@ -408,13 +505,26 @@ export default function Home() {
                     <div className="flex items-baseline justify-between mb-4">
                       <div>
                         <span className="text-2xl sm:text-3xl font-bold text-success-foreground">
-                          ${billingCycle === "hourly" ? gpu.hourlyPrice.toFixed(2) : gpu.monthlyPrice}
+                          ${billingCycle === "hourly" ? gpu.hourlyPrice.toFixed(2) : billingCycle === "monthly" ? gpu.monthlyPrice : gpu.spotPrice.toFixed(2)}
                         </span>
                         <span className="text-sm text-muted-foreground">
-                          /{billingCycle === "hourly" ? "GPU/hr" : "mo"}
+                          /{billingCycle === "hourly" ? "GPU/hr" : billingCycle === "monthly" ? "mo" : "GPU/hr"}
                         </span>
+                        {billingCycle === "spot" && (
+                          <span className="ml-2 text-xs line-through text-muted-foreground">
+                            ${gpu.hourlyPrice.toFixed(2)}
+                          </span>
+                        )}
                       </div>
                     </div>
+                    {billingCycle === "spot" && (
+                      <div className="mb-3 p-2 rounded-lg bg-warning/10 border border-warning/20">
+                        <div className="flex items-center text-xs text-warning-foreground">
+                          <Timer className="h-3 w-3 mr-1" />
+                          Spot: May be reclaimed with 2-min notice
+                        </div>
+                      </div>
+                    )}
                     <button className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4">
                       Deploy Now
                       <ChevronRight className="h-4 w-4 ml-1" />

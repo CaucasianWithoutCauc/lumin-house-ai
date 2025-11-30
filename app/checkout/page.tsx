@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { 
   Zap, ArrowLeft, Check, Copy, Clock, AlertCircle, Loader2,
-  Bitcoin, Wallet, CreditCard, ChevronRight
+  Bitcoin, Wallet, CreditCard, ChevronRight, ExternalLink
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,6 +23,7 @@ const creditPackages = [
 // In production, use environment variables (process.env.NEXT_PUBLIC_*) 
 // and generate unique addresses per transaction via a payment gateway API.
 const cryptoOptions = [
+  { id: "wallet-connect", name: "Connect Wallet", symbol: "Web3", icon: "🦊", color: "text-orange-400", address: "", isWalletConnect: true },
   { id: "btc", name: "Bitcoin", symbol: "BTC", icon: "₿", color: "text-orange-500", address: process.env.NEXT_PUBLIC_BTC_ADDRESS || "bc1q...demo" },
   { id: "eth", name: "Ethereum", symbol: "ETH", icon: "Ξ", color: "text-blue-500", address: process.env.NEXT_PUBLIC_ETH_ADDRESS || "0x...demo" },
   { id: "usdt", name: "Tether", symbol: "USDT", icon: "₮", color: "text-green-500", address: process.env.NEXT_PUBLIC_USDT_ADDRESS || "0x...demo" },
@@ -47,6 +48,8 @@ export default function CheckoutPage() {
   const [paymentStatus, setPaymentStatus] = useState<"pending" | "confirming" | "completed">("pending");
   const [copied, setCopied] = useState(false);
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
+  const [walletConnected, setWalletConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState("");
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -90,6 +93,28 @@ export default function CheckoutPage() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
+  };
+
+  const connectWallet = async () => {
+    // Simulate wallet connection (in production, use ethers.js or wagmi)
+    setPaymentStatus("confirming");
+    setTimeout(() => {
+      setWalletConnected(true);
+      setWalletAddress("0x742d...8f3e");
+      setPaymentStatus("pending");
+    }, 1500);
+  };
+
+  const payWithWallet = async () => {
+    setPaymentStatus("confirming");
+    // Simulate Web3 transaction
+    setTimeout(() => {
+      setPaymentStatus("completed");
+      updateBalance(totalCredits);
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 2000);
+    }, 2000);
   };
 
   const simulatePayment = () => {
@@ -224,8 +249,40 @@ export default function CheckoutPage() {
           >
             <h2 className="text-2xl font-bold mb-6">Select Payment Method</h2>
             
+            {/* Recommended: Wallet Connect */}
+            <div className="mb-6">
+              <p className="text-sm text-muted-foreground mb-3">Recommended - Instant payment</p>
+              <button
+                onClick={() => setSelectedCrypto("wallet-connect")}
+                className={`w-full p-4 rounded-xl border text-left flex items-center justify-between transition-all ${
+                  selectedCrypto === "wallet-connect"
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50"
+                }`}
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-r from-orange-400 to-purple-500 flex items-center justify-center text-xl">
+                    🦊
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Connect Wallet</h3>
+                    <p className="text-sm text-muted-foreground">MetaMask, WalletConnect, Coinbase</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-1 rounded-full bg-success/20 text-success-foreground text-xs font-medium">
+                    Instant
+                  </span>
+                  {selectedCrypto === "wallet-connect" && (
+                    <Check className="h-5 w-5 text-primary" />
+                  )}
+                </div>
+              </button>
+            </div>
+
+            <p className="text-sm text-muted-foreground mb-3">Or pay with manual transfer</p>
             <div className="space-y-3">
-              {cryptoOptions.map((crypto) => (
+              {cryptoOptions.filter(c => c.id !== "wallet-connect").map((crypto) => (
                 <button
                   key={crypto.id}
                   onClick={() => setSelectedCrypto(crypto.id)}
@@ -254,15 +311,25 @@ export default function CheckoutPage() {
             <div className="mt-6 p-4 rounded-lg bg-warning/10 border border-warning/20 flex items-start space-x-3">
               <AlertCircle className="h-5 w-5 text-warning-foreground mt-0.5" />
               <div className="text-sm">
-                <p className="font-medium">Payment must be completed within 6 hours</p>
-                <p className="text-muted-foreground">After 6 hours, the payment will expire and you will need to create a new order.</p>
+                <p className="font-medium">
+                  {selectedCrypto === "wallet-connect" 
+                    ? "Connect your wallet for instant payment"
+                    : "Manual payment must be completed within 6 hours"
+                  }
+                </p>
+                <p className="text-muted-foreground">
+                  {selectedCrypto === "wallet-connect"
+                    ? "Transactions are confirmed instantly on-chain. No waiting required."
+                    : "After 6 hours, the payment will expire and you will need to create a new order."
+                  }
+                </p>
               </div>
             </div>
           </motion.div>
         )}
 
         {/* Step 3: Complete Payment */}
-        {step === 3 && selectedCryptoOption && (
+        {step === 3 && (
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -279,7 +346,106 @@ export default function CheckoutPage() {
                 </p>
                 <p className="text-sm text-muted-foreground">Redirecting to dashboard...</p>
               </div>
-            ) : (
+            ) : selectedCrypto === "wallet-connect" ? (
+              /* Web3 Wallet Connect Flow */
+              <>
+                <h2 className="text-2xl font-bold mb-6">Connect Your Wallet</h2>
+
+                <div className="p-6 rounded-xl border border-border bg-card mb-6">
+                  {!walletConnected ? (
+                    <div className="text-center py-8">
+                      <div className="h-16 w-16 rounded-full bg-gradient-to-r from-orange-400 to-purple-500 flex items-center justify-center text-3xl mx-auto mb-4">
+                        🦊
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">Connect Your Web3 Wallet</h3>
+                      <p className="text-muted-foreground mb-6">
+                        Connect MetaMask, WalletConnect, or any compatible wallet to pay instantly.
+                      </p>
+                      <button
+                        onClick={connectWallet}
+                        disabled={paymentStatus === "confirming"}
+                        className="inline-flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-purple-600 text-white font-medium hover:opacity-90 disabled:opacity-50"
+                      >
+                        {paymentStatus === "confirming" ? (
+                          <>
+                            <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                            Connecting...
+                          </>
+                        ) : (
+                          <>
+                            <Wallet className="h-5 w-5 mr-2" />
+                            Connect Wallet
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-success/20 flex items-center justify-center">
+                            <Check className="h-5 w-5 text-success-foreground" />
+                          </div>
+                          <div>
+                            <p className="font-medium">Wallet Connected</p>
+                            <p className="text-sm text-muted-foreground font-mono">{walletAddress}</p>
+                          </div>
+                        </div>
+                        <button className="text-sm text-muted-foreground hover:text-foreground">
+                          Disconnect
+                        </button>
+                      </div>
+
+                      <div className="p-4 rounded-lg bg-muted mb-6">
+                        <div className="flex justify-between mb-2">
+                          <span className="text-muted-foreground">Amount</span>
+                          <span className="font-medium">${finalAmount.toFixed(2)} USDT</span>
+                        </div>
+                        {bonus > 0 && (
+                          <div className="flex justify-between mb-2 text-success-foreground">
+                            <span>Bonus Credits</span>
+                            <span>+${bonus.toFixed(2)}</span>
+                          </div>
+                        )}
+                        <div className="flex justify-between pt-2 border-t border-border text-lg">
+                          <span className="font-medium">Total Credits</span>
+                          <span className="font-bold text-success-foreground">${totalCredits.toFixed(2)}</span>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={payWithWallet}
+                        disabled={paymentStatus === "confirming"}
+                        className="w-full flex items-center justify-center py-3 px-4 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 disabled:opacity-50"
+                      >
+                        {paymentStatus === "confirming" ? (
+                          <>
+                            <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                            Confirming Transaction...
+                          </>
+                        ) : (
+                          <>
+                            Pay ${finalAmount.toFixed(2)} USDT
+                            <ExternalLink className="h-4 w-4 ml-2" />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-4 rounded-lg bg-primary/10 border border-primary/20 flex items-start space-x-3">
+                  <Zap className="h-5 w-5 text-primary mt-0.5" />
+                  <div className="text-sm">
+                    <p className="font-medium">Instant Confirmation</p>
+                    <p className="text-muted-foreground">
+                      Web3 wallet payments are confirmed instantly. No waiting for blockchain confirmations.
+                    </p>
+                  </div>
+                </div>
+              </>
+            ) : selectedCryptoOption ? (
+              /* Manual Crypto Transfer Flow */
               <>
                 <h2 className="text-2xl font-bold mb-6">Complete Payment</h2>
 
@@ -359,7 +525,7 @@ export default function CheckoutPage() {
                   </p>
                 </div>
               </>
-            )}
+            ) : null}
           </motion.div>
         )}
 

@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { 
   Zap, Server, CreditCard, Settings, LogOut, Plus, Play, Square, Trash2,
   Clock, Cpu, HardDrive, Activity, DollarSign, ChevronRight, Bell, User,
-  BarChart3, Wallet, RefreshCw
+  BarChart3, Wallet, RefreshCw, Key, Terminal, BookOpen, Copy, Check,
+  ExternalLink, RotateCcw, FileCode2
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -19,6 +20,15 @@ interface Instance {
   region: string;
   hourlyRate: number;
   uptime: string;
+  createdAt: string;
+  sshHost?: string;
+  jupyterUrl?: string;
+}
+
+interface SSHKey {
+  id: string;
+  name: string;
+  fingerprint: string;
   createdAt: string;
 }
 
@@ -33,6 +43,8 @@ const mockInstances: Instance[] = [
     hourlyRate: 1.60,
     uptime: "12h 34m",
     createdAt: "2024-01-15",
+    sshHost: "ssh root@hk1.lumin.ai -p 22001",
+    jupyterUrl: "https://jupyter-inst1.lumin.ai",
   },
   {
     id: "inst_2",
@@ -43,6 +55,18 @@ const mockInstances: Instance[] = [
     hourlyRate: 14.72,
     uptime: "0h 0m",
     createdAt: "2024-01-10",
+    sshHost: "ssh root@sg1.lumin.ai -p 22002",
+    jupyterUrl: "https://jupyter-inst2.lumin.ai",
+  },
+];
+
+// Mock SSH keys
+const mockSSHKeys: SSHKey[] = [
+  {
+    id: "key_1",
+    name: "MacBook Pro",
+    fingerprint: "SHA256:abc123...xyz",
+    createdAt: "2024-01-01",
   },
 ];
 
@@ -50,7 +74,12 @@ export default function DashboardPage() {
   const { user, logout, isLoading } = useAuth();
   const router = useRouter();
   const [instances, setInstances] = useState<Instance[]>(mockInstances);
+  const [sshKeys, setSSHKeys] = useState<SSHKey[]>(mockSSHKeys);
   const [activeTab, setActiveTab] = useState("instances");
+  const [copiedText, setCopiedText] = useState<string | null>(null);
+  const [showAddKey, setShowAddKey] = useState(false);
+  const [newKeyName, setNewKeyName] = useState("");
+  const [newKeyContent, setNewKeyContent] = useState("");
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -94,6 +123,49 @@ export default function DashboardPage() {
     setInstances(instances.filter(inst => inst.id !== id));
   };
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedText(text);
+    setTimeout(() => setCopiedText(null), 2000);
+  };
+
+  const addSSHKey = () => {
+    if (newKeyName && newKeyContent) {
+      const newKey: SSHKey = {
+        id: `key_${Date.now()}`,
+        name: newKeyName,
+        fingerprint: `SHA256:${Math.random().toString(36).substr(2, 9)}...`,
+        createdAt: new Date().toISOString().split('T')[0],
+      };
+      setSSHKeys([...sshKeys, newKey]);
+      setNewKeyName("");
+      setNewKeyContent("");
+      setShowAddKey(false);
+    }
+  };
+
+  const deleteSSHKey = (id: string) => {
+    setSSHKeys(sshKeys.filter(key => key.id !== id));
+  };
+
+  const reinstallInstance = (id: string) => {
+    // Simulate reinstall
+    setInstances(instances.map(inst => {
+      if (inst.id === id) {
+        return { ...inst, status: "starting" as const };
+      }
+      return inst;
+    }));
+    setTimeout(() => {
+      setInstances(prev => prev.map(inst => {
+        if (inst.id === id) {
+          return { ...inst, status: "running" as const };
+        }
+        return inst;
+      }));
+    }, 3000);
+  };
+
   const runningInstances = instances.filter(i => i.status === "running").length;
   const totalHourlySpend = instances
     .filter(i => i.status === "running")
@@ -101,6 +173,7 @@ export default function DashboardPage() {
 
   const sidebarItems = [
     { id: "instances", label: "Instances", icon: Server },
+    { id: "ssh-keys", label: "SSH Keys", icon: Key },
     { id: "billing", label: "Billing", icon: CreditCard },
     { id: "usage", label: "Usage", icon: BarChart3 },
     { id: "settings", label: "Settings", icon: Settings },
@@ -292,7 +365,7 @@ export default function DashboardPage() {
                       animate={{ opacity: 1, y: 0 }}
                       className="p-4 rounded-xl border border-border bg-card"
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-4">
                           <div className={`h-3 w-3 rounded-full ${
                             instance.status === "running" ? "bg-success-foreground animate-pulse" :
@@ -328,6 +401,7 @@ export default function DashboardPage() {
                                 ? "bg-destructive/20 text-destructive hover:bg-destructive/30"
                                 : "bg-success/20 text-success-foreground hover:bg-success/30"
                             }`}
+                            title={instance.status === "running" ? "Stop" : "Start"}
                           >
                             {instance.status === "running" ? (
                               <Square className="h-4 w-4" />
@@ -338,14 +412,162 @@ export default function DashboardPage() {
                             )}
                           </button>
                           <button
+                            onClick={() => reinstallInstance(instance.id)}
+                            className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10"
+                            title="Reinstall OS"
+                          >
+                            <RotateCcw className="h-4 w-4" />
+                          </button>
+                          <button
                             onClick={() => deleteInstance(instance.id)}
                             className="p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                            title="Delete"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
                       </div>
+
+                      {/* Quick Actions */}
+                      {instance.status === "running" && (
+                        <div className="flex flex-wrap gap-2 pt-4 border-t border-border">
+                          {/* SSH Access */}
+                          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted">
+                            <Terminal className="h-4 w-4 text-muted-foreground" />
+                            <code className="text-xs font-mono">{instance.sshHost}</code>
+                            <button
+                              onClick={() => copyToClipboard(instance.sshHost || "")}
+                              className="p-1 rounded hover:bg-accent"
+                            >
+                              {copiedText === instance.sshHost ? (
+                                <Check className="h-3 w-3 text-success-foreground" />
+                              ) : (
+                                <Copy className="h-3 w-3" />
+                              )}
+                            </button>
+                          </div>
+
+                          {/* Jupyter Notebook */}
+                          <a
+                            href={instance.jupyterUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20"
+                          >
+                            <BookOpen className="h-4 w-4" />
+                            <span className="text-sm font-medium">Jupyter</span>
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
+
+                          {/* VS Code */}
+                          <button className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20">
+                            <FileCode2 className="h-4 w-4" />
+                            <span className="text-sm font-medium">VS Code</span>
+                          </button>
+                        </div>
+                      )}
                     </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === "ssh-keys" && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-lg font-semibold">SSH Keys</h2>
+                  <p className="text-sm text-muted-foreground">Manage SSH keys for accessing your instances</p>
+                </div>
+                <button
+                  onClick={() => setShowAddKey(true)}
+                  className="inline-flex items-center px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add SSH Key
+                </button>
+              </div>
+
+              {showAddKey && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-6 rounded-xl border border-primary bg-card"
+                >
+                  <h3 className="text-lg font-semibold mb-4">Add New SSH Key</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Key Name</label>
+                      <input
+                        type="text"
+                        value={newKeyName}
+                        onChange={(e) => setNewKeyName(e.target.value)}
+                        placeholder="e.g., MacBook Pro"
+                        className="w-full px-4 py-2 rounded-lg border border-input bg-background"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Public Key</label>
+                      <textarea
+                        value={newKeyContent}
+                        onChange={(e) => setNewKeyContent(e.target.value)}
+                        placeholder="ssh-rsa AAAA... or ssh-ed25519 AAAA..."
+                        rows={4}
+                        className="w-full px-4 py-2 rounded-lg border border-input bg-background font-mono text-sm"
+                      />
+                    </div>
+                    <div className="flex justify-end gap-3">
+                      <button
+                        onClick={() => setShowAddKey(false)}
+                        className="px-4 py-2 rounded-lg border border-input hover:bg-accent"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={addSSHKey}
+                        disabled={!newKeyName || !newKeyContent}
+                        className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                      >
+                        Add Key
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {sshKeys.length === 0 ? (
+                <div className="text-center py-12 rounded-xl border border-dashed border-border">
+                  <Key className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-medium mb-2">No SSH keys</h3>
+                  <p className="text-muted-foreground mb-4">Add an SSH key to access your instances</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {sshKeys.map((key) => (
+                    <div
+                      key={key.id}
+                      className="p-4 rounded-xl border border-border bg-card flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center">
+                          <Key className="h-5 w-5 text-muted-foreground" />
+                        </div>
+                        <div>
+                          <h3 className="font-medium">{key.name}</h3>
+                          <p className="text-sm text-muted-foreground font-mono">{key.fingerprint}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span className="text-sm text-muted-foreground">Added {key.createdAt}</span>
+                        <button
+                          onClick={() => deleteSSHKey(key.id)}
+                          className="p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}
