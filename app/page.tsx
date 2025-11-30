@@ -178,15 +178,53 @@ const computeInventory = [
   },
 ];
 
-// Regions data
+// Regions data with availability status for FOMO effect
 const regions = [
-  { id: "apac-hk", name: "Hong Kong", flag: "🇭🇰", latency: "12ms" },
-  { id: "apac-sg", name: "Singapore", flag: "🇸🇬", latency: "18ms" },
-  { id: "apac-jp", name: "Tokyo", flag: "🇯🇵", latency: "25ms" },
-  { id: "na-sfo", name: "San Francisco", flag: "🇺🇸", latency: "120ms" },
-  { id: "eu-fra", name: "Frankfurt", flag: "🇩🇪", latency: "180ms" },
-  { id: "eu-lon", name: "London", flag: "🇬🇧", latency: "195ms" },
+  { id: "apac-hk", name: "Hong Kong", flag: "🇭🇰", latency: "12ms", availability: "High", nodesAvailable: 24 },
+  { id: "apac-sg", name: "Singapore", flag: "🇸🇬", latency: "18ms", availability: "High", nodesAvailable: 18 },
+  { id: "apac-jp", name: "Tokyo", flag: "🇯🇵", latency: "25ms", availability: "Medium", nodesAvailable: 8 },
+  { id: "na-sfo", name: "San Francisco", flag: "🇺🇸", latency: "120ms", availability: "Limited", nodesAvailable: 3 },
+  { id: "eu-fra", name: "Frankfurt", flag: "🇩🇪", latency: "180ms", availability: "High", nodesAvailable: 15 },
+  { id: "eu-lon", name: "London", flag: "🇬🇧", latency: "195ms", availability: "Medium", nodesAvailable: 6 },
 ];
+
+// Hardware showcase images for each category
+const hardwareShowcase = {
+  gpu: {
+    title: "High-Performance GPU Clusters",
+    subtitle: "NVIDIA H100/H200/B200 & RTX 4090/5090",
+    description: "Enterprise-grade GPU servers with NVLink interconnect, optimized for AI/ML training and inference workloads.",
+    gradient: "from-purple-500/30 via-pink-500/20 to-transparent",
+  },
+  compute: {
+    title: "Cloud Compute Instances",
+    subtitle: "High-Frequency AMD EPYC & Intel Xeon",
+    description: "Scalable virtual machines with NVMe storage and dedicated bandwidth for general computing workloads.",
+    gradient: "from-blue-500/30 via-cyan-500/20 to-transparent",
+  },
+  "bare-metal": {
+    title: "Bare Metal Servers",
+    subtitle: "Dedicated Physical Hardware",
+    description: "Single-tenant servers with full hardware access, perfect for workloads requiring maximum isolation and performance.",
+    gradient: "from-orange-500/30 via-amber-500/20 to-transparent",
+  },
+  storage: {
+    title: "High-Speed Storage",
+    subtitle: "NVMe Block & S3-Compatible Object Storage",
+    description: "Persistent storage solutions with sub-millisecond latency and multi-region replication options.",
+    gradient: "from-green-500/30 via-emerald-500/20 to-transparent",
+  },
+};
+
+// GPU specs for visual performance bars
+const gpuSpecs = {
+  "rtx-4090-24gb": { vramGB: 24, maxVram: 180, bandwidth: 1008, maxBandwidth: 8000, tier: "Consumer" },
+  "rtx-4090-48gb": { vramGB: 48, maxVram: 180, bandwidth: 1008, maxBandwidth: 8000, tier: "Consumer" },
+  "rtx-5090-32gb": { vramGB: 32, maxVram: 180, bandwidth: 1792, maxBandwidth: 8000, tier: "Consumer" },
+  "h100-80gb": { vramGB: 80, maxVram: 180, bandwidth: 3350, maxBandwidth: 8000, tier: "Enterprise" },
+  "h200-141gb": { vramGB: 141, maxVram: 180, bandwidth: 4800, maxBandwidth: 8000, tier: "Enterprise" },
+  "b200-180gb": { vramGB: 180, maxVram: 180, bandwidth: 8000, maxBandwidth: 8000, tier: "Flagship" },
+};
 
 // Statistics with SLA guarantees
 const stats = [
@@ -226,6 +264,37 @@ const getStatusStyles = (status: string) => {
     "Out of Stock": "bg-destructive/20 text-destructive",
   };
   return styles[status as keyof typeof styles] || "bg-muted text-muted-foreground";
+};
+
+// Availability styling helper for regions
+const getAvailabilityStyles = (availability: string) => {
+  const styles = {
+    High: { bg: "bg-success/20", text: "text-success-foreground", dot: "bg-success-foreground", label: "High Availability" },
+    Medium: { bg: "bg-warning/20", text: "text-warning-foreground", dot: "bg-warning-foreground", label: "Medium Availability" },
+    Limited: { bg: "bg-destructive/20", text: "text-destructive", dot: "bg-destructive", label: "Limited Stock" },
+  };
+  return styles[availability as keyof typeof styles] || styles.High;
+};
+
+// Performance bar component
+const PerformanceBar = ({ value, max, label, color = "primary" }: { value: number; max: number; label: string; color?: string }) => {
+  const percentage = (value / max) * 100;
+  return (
+    <div className="space-y-1">
+      <div className="flex justify-between text-xs">
+        <span className="text-muted-foreground">{label}</span>
+        <span className="font-medium">{value}{label === "VRAM" ? "GB" : "GB/s"}</span>
+      </div>
+      <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+        <motion.div 
+          className={`h-full rounded-full ${color === "primary" ? "bg-primary" : "bg-gradient-to-r from-primary to-pink-500"}`}
+          initial={{ width: 0 }}
+          animate={{ width: `${percentage}%` }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default function Home() {
@@ -344,6 +413,113 @@ export default function Home() {
       <section className="container mx-auto px-4 py-8 sm:py-12">
         <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Choose Your Infrastructure</h2>
         
+        {/* Hardware Showcase - Dynamic Preview Window */}
+        <motion.div 
+          className="mb-8 rounded-2xl border border-border bg-gradient-to-r overflow-hidden relative"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className={`absolute inset-0 bg-gradient-to-r ${hardwareShowcase[activeCategory as keyof typeof hardwareShowcase].gradient} pointer-events-none`} />
+          <div className="relative p-6 sm:p-8 flex flex-col md:flex-row items-center gap-6">
+            {/* Hardware Visual */}
+            <div className="flex-1 flex justify-center">
+              <div className="relative w-48 h-48 sm:w-64 sm:h-64">
+                {/* Animated GPU/Server Visualization */}
+                <motion.div 
+                  className="absolute inset-0 rounded-xl border-2 border-primary/30 bg-card/50 backdrop-blur flex items-center justify-center overflow-hidden"
+                  animate={{ 
+                    boxShadow: ["0 0 20px rgba(139,92,246,0.3)", "0 0 40px rgba(139,92,246,0.5)", "0 0 20px rgba(139,92,246,0.3)"]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {/* Inner glow lines */}
+                  <div className="absolute inset-4 border border-primary/20 rounded-lg" />
+                  <div className="absolute inset-8 border border-primary/10 rounded-md" />
+                  
+                  {/* Category Icon */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeCategory}
+                      initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                      exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-center"
+                    >
+                      {activeCategory === "gpu" && (
+                        <Cpu className="h-16 w-16 sm:h-24 sm:w-24 text-primary mx-auto mb-2" />
+                      )}
+                      {activeCategory === "compute" && (
+                        <Server className="h-16 w-16 sm:h-24 sm:w-24 text-primary mx-auto mb-2" />
+                      )}
+                      {activeCategory === "bare-metal" && (
+                        <HardDrive className="h-16 w-16 sm:h-24 sm:w-24 text-primary mx-auto mb-2" />
+                      )}
+                      {activeCategory === "storage" && (
+                        <Database className="h-16 w-16 sm:h-24 sm:w-24 text-primary mx-auto mb-2" />
+                      )}
+                      <div className="text-xs text-primary font-medium animate-pulse">
+                        {activeCategory === "gpu" ? "8× GPU Array" : 
+                         activeCategory === "compute" ? "vCPU Cluster" :
+                         activeCategory === "bare-metal" ? "Dedicated Server" : "Storage Array"}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                  
+                  {/* Animated corner accents */}
+                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-primary/50" />
+                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-primary/50" />
+                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-primary/50" />
+                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-primary/50" />
+                </motion.div>
+                
+                {/* Floating particles */}
+                <motion.div 
+                  className="absolute -top-2 -right-2 w-3 h-3 rounded-full bg-primary/50"
+                  animate={{ y: [0, -10, 0], opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+                <motion.div 
+                  className="absolute -bottom-2 -left-2 w-2 h-2 rounded-full bg-pink-500/50"
+                  animate={{ y: [0, 10, 0], opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+                />
+              </div>
+            </div>
+            
+            {/* Hardware Info */}
+            <div className="flex-1 text-center md:text-left">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategory}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="text-xl sm:text-2xl font-bold mb-2">
+                    {hardwareShowcase[activeCategory as keyof typeof hardwareShowcase].title}
+                  </h3>
+                  <p className="text-primary font-medium mb-3">
+                    {hardwareShowcase[activeCategory as keyof typeof hardwareShowcase].subtitle}
+                  </p>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    {hardwareShowcase[activeCategory as keyof typeof hardwareShowcase].description}
+                  </p>
+                  {activeCategory === "gpu" && (
+                    <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                      <span className="px-2 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium">NVLink</span>
+                      <span className="px-2 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium">PCIe Gen5</span>
+                      <span className="px-2 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium">400GbE</span>
+                      <span className="px-2 py-1 rounded-full bg-warning/20 text-warning-foreground text-xs font-medium">Hot 🔥</span>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </motion.div>
+        
         {/* Tabs */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {categories.map((category) => {
@@ -403,28 +579,68 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Region Selector */}
+        {/* Region Selector with Availability Status */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           <span className="flex items-center text-sm text-muted-foreground mr-2">
             <MapPin className="h-4 w-4 mr-1" />
             Region:
           </span>
-          {regions.slice(0, 4).map((region) => (
-            <button
-              key={region.id}
-              onClick={() => setSelectedRegion(region.id)}
-              className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                selectedRegion === region.id
-                  ? "bg-primary/20 text-primary border border-primary"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80 border border-transparent"
-              }`}
-            >
-              <span className="mr-1.5">{region.flag}</span>
-              {region.name}
-              <span className="ml-1.5 text-[10px] opacity-70">{region.latency}</span>
-            </button>
-          ))}
+          {regions.slice(0, 4).map((region) => {
+            const availStyles = getAvailabilityStyles(region.availability);
+            return (
+              <button
+                key={region.id}
+                onClick={() => setSelectedRegion(region.id)}
+                className={`relative inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  selectedRegion === region.id
+                    ? "bg-primary/20 text-primary border border-primary"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80 border border-transparent"
+                }`}
+              >
+                {/* Availability indicator dot */}
+                <span className={`absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full ${availStyles.dot} ${region.availability === "High" ? "animate-pulse" : ""}`} />
+                <span className="mr-1.5">{region.flag}</span>
+                {region.name}
+                <span className="ml-1.5 text-[10px] opacity-70">{region.latency}</span>
+              </button>
+            );
+          })}
         </div>
+        
+        {/* Selected Region Status Card */}
+        {selectedRegion && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-center mb-8"
+          >
+            {(() => {
+              const region = regions.find(r => r.id === selectedRegion);
+              if (!region) return null;
+              const availStyles = getAvailabilityStyles(region.availability);
+              return (
+                <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-lg border ${availStyles.bg} border-border`}>
+                  <div className="flex items-center gap-2">
+                    <span className={`h-2 w-2 rounded-full ${availStyles.dot} ${region.availability === "High" ? "animate-pulse" : ""}`} />
+                    <span className={`text-sm font-medium ${availStyles.text}`}>{availStyles.label}</span>
+                  </div>
+                  <div className="w-px h-4 bg-border" />
+                  <span className="text-sm text-muted-foreground">
+                    {region.nodesAvailable} nodes available
+                  </span>
+                  {region.nodesAvailable <= 5 && (
+                    <>
+                      <div className="w-px h-4 bg-border" />
+                      <span className="text-xs text-warning-foreground font-medium animate-pulse">
+                        🔥 High demand
+                      </span>
+                    </>
+                  )}
+                </div>
+              );
+            })()}
+          </motion.div>
+        )}
 
         {/* GPU Pricing Cards */}
         <AnimatePresence mode="wait">
@@ -437,7 +653,9 @@ export default function Home() {
               transition={{ duration: 0.3 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
             >
-              {gpuInventory.map((gpu) => (
+              {gpuInventory.map((gpu) => {
+                const specs = gpuSpecs[gpu.id as keyof typeof gpuSpecs];
+                return (
                 <div
                   key={gpu.id}
                   className={`relative rounded-xl border ${gpu.popular ? 'border-primary' : 'border-border'} bg-card p-5 sm:p-6 hover:border-primary/50 transition-all`}
@@ -451,29 +669,62 @@ export default function Home() {
                     </div>
                   )}
                   
-                  <div className="flex items-start justify-between mb-4">
+                  {/* Tier Badge */}
+                  {specs && (
+                    <div className="absolute top-4 right-4">
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-medium ${
+                        specs.tier === "Flagship" ? "bg-gradient-to-r from-primary to-pink-500 text-white" :
+                        specs.tier === "Enterprise" ? "bg-primary/20 text-primary" :
+                        "bg-muted text-muted-foreground"
+                      }`}>
+                        {specs.tier}
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-start justify-between mb-4 pr-16">
                     <div>
                       <h3 className="font-semibold text-base sm:text-lg">{gpu.name}</h3>
                       <p className="text-sm text-muted-foreground">{gpu.vram} × {gpu.gpuCount} GPUs</p>
                     </div>
-                    <div className="flex flex-col items-end gap-1">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(gpu.status)}`}>
-                        {gpu.status === "Available" && <CheckCircle2 className="h-3 w-3 mr-1" />}
-                        {gpu.status}
-                      </span>
-                      {gpu.stockCount <= 5 && (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-warning/20 text-warning-foreground">
-                          <AlertTriangle className="h-3 w-3 mr-1" />
-                          Only {gpu.stockCount} left
-                        </span>
-                      )}
-                    </div>
                   </div>
+                  
+                  {/* Status Badges Row */}
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusStyles(gpu.status)}`}>
+                      {gpu.status === "Available" && <CheckCircle2 className="h-3 w-3 mr-1" />}
+                      {gpu.status}
+                    </span>
+                    {gpu.stockCount <= 5 && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-warning/20 text-warning-foreground">
+                        <AlertTriangle className="h-3 w-3 mr-1" />
+                        Only {gpu.stockCount} left
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Performance Bars */}
+                  {specs && (
+                    <div className="mb-4 p-3 rounded-lg bg-muted/50 space-y-2">
+                      <PerformanceBar 
+                        value={specs.vramGB} 
+                        max={specs.maxVram} 
+                        label="VRAM" 
+                        color={specs.tier === "Flagship" ? "gradient" : "primary"}
+                      />
+                      <PerformanceBar 
+                        value={specs.bandwidth} 
+                        max={specs.maxBandwidth} 
+                        label="Bandwidth" 
+                        color={specs.tier === "Flagship" ? "gradient" : "primary"}
+                      />
+                    </div>
+                  )}
 
-                  <div className="space-y-2 mb-6 text-sm">
+                  <div className="space-y-2 mb-4 text-sm">
                     <div className="flex justify-between gap-2">
                       <span className="text-muted-foreground shrink-0">CPU</span>
-                      <span className="font-medium text-right">{gpu.cpu}</span>
+                      <span className="font-medium text-right text-xs">{gpu.cpu}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Memory</span>
@@ -485,11 +736,7 @@ export default function Home() {
                     </div>
                     <div className="flex justify-between gap-2">
                       <span className="text-muted-foreground shrink-0">Network</span>
-                      <span className="font-medium text-right">{gpu.network}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Deploy Type</span>
-                      <span className="font-medium capitalize">{gpu.deploymentType.join(" / ")}</span>
+                      <span className="font-medium text-right text-xs">{gpu.network}</span>
                     </div>
                   </div>
 
@@ -531,7 +778,8 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </motion.div>
           )}
 

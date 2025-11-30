@@ -12,7 +12,17 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 
 const products = [
-  { name: "Cloud GPU", href: "/pricing", icon: Cpu, description: "NVIDIA H100, H200, B200, RTX 4090" },
+  { 
+    name: "Cloud GPU", 
+    href: "/pricing", 
+    icon: Cpu, 
+    description: "NVIDIA H100, H200, B200, RTX 4090",
+    subItems: [
+      { name: "H200 / H100", badge: "Enterprise", badgeColor: "bg-primary/20 text-primary" },
+      { name: "B200", badge: "New", badgeColor: "bg-gradient-to-r from-primary to-pink-500 text-white" },
+      { name: "RTX 5090 / 4090", badge: "Popular", badgeColor: "bg-success/20 text-success-foreground" },
+    ]
+  },
   { name: "AI Studio", href: "/ai-studio", icon: Layers, description: "Collaborative AI development platform" },
   { name: "Serverless GPU", href: "/serverless", icon: Cloud, description: "Auto-scaling GPU functions" },
   { name: "Bare Metal", href: "/pricing", icon: HardDrive, description: "Dedicated GPU servers" },
@@ -76,21 +86,41 @@ export function Navbar() {
               </button>
               
               {isProductsOpen && (
-                <div className="absolute top-full left-0 mt-1 w-72 rounded-lg border border-border bg-background shadow-lg py-2">
+                <div className="absolute top-full left-0 mt-1 w-80 rounded-lg border border-border bg-background shadow-lg py-2">
                   {products.map((product) => {
                     const Icon = product.icon;
                     return (
-                      <Link
-                        key={product.name}
-                        href={product.href}
-                        className="flex items-start px-4 py-3 hover:bg-accent transition-colors"
-                      >
-                        <Icon className="h-5 w-5 text-primary mr-3 mt-0.5" />
-                        <div>
-                          <div className="font-medium text-sm">{product.name}</div>
-                          <div className="text-xs text-muted-foreground">{product.description}</div>
-                        </div>
-                      </Link>
+                      <div key={product.name}>
+                        <Link
+                          href={product.href}
+                          className="flex items-start px-4 py-3 hover:bg-accent transition-colors"
+                        >
+                          <Icon className="h-5 w-5 text-primary mr-3 mt-0.5" />
+                          <div className="flex-1">
+                            <div className="font-medium text-sm">{product.name}</div>
+                            <div className="text-xs text-muted-foreground">{product.description}</div>
+                          </div>
+                        </Link>
+                        {/* GPU Sub-items with badges */}
+                        {product.subItems && (
+                          <div className="ml-12 mr-4 mb-2 space-y-1">
+                            {product.subItems.map((subItem) => (
+                              <Link
+                                key={subItem.name}
+                                href="/pricing"
+                                className="flex items-center justify-between px-3 py-1.5 rounded-md text-xs hover:bg-accent transition-colors"
+                              >
+                                <span className="text-muted-foreground hover:text-foreground">
+                                  {subItem.name}
+                                </span>
+                                <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${subItem.badgeColor}`}>
+                                  {subItem.badge}
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     );
                   })}
                 </div>
