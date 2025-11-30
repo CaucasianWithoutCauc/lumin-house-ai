@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/Navbar";
 import { useState } from "react";
+import Image from "next/image";
 import { 
   CheckCircle2, Zap, Globe2, ShieldCheck, Server, ArrowRight, 
   Cpu, HardDrive, Gauge, Cloud, Database, Monitor, 
@@ -48,6 +49,9 @@ const gpuInventory = [
     interconnect: "PCIe Gen 4 x16",
     tdp: "450W",
     formFactor: "4U Server Chassis",
+    // GPU Image
+    imageUrl: "https://images.nvidia.com/aem-dam/Solutions/geforce/ada/news/geforce-rtx-4090-gpu-reveal/geforce-rtx-4090-announce-article-og.jpg",
+    imageAlt: "NVIDIA GeForce RTX 4090 Graphics Card",
   },
   {
     id: "rtx-4090-48gb",
@@ -77,6 +81,9 @@ const gpuInventory = [
     interconnect: "PCIe Gen 4 x16",
     tdp: "500W",
     formFactor: "4U Server Chassis",
+    // GPU Image - different angle to distinguish from 24GB variant
+    imageUrl: "https://images.nvidia.com/aem-dam/Solutions/geforce/ada/news/geforce-rtx-4090-gpu-reveal/geforce-rtx-4090-top-down-view.jpg",
+    imageAlt: "NVIDIA GeForce RTX 4090 48GB Extended Memory Graphics Card",
   },
   {
     id: "rtx-5090-32gb",
@@ -106,6 +113,9 @@ const gpuInventory = [
     interconnect: "PCIe Gen 5 x16",
     tdp: "575W",
     formFactor: "4U Server Chassis",
+    // GPU Image
+    imageUrl: "https://images.nvidia.com/aem-dam/Solutions/geforce/blackwell/geforce-rtx-5090/geforce-rtx-5090-product-tile-og-1200x630.jpg",
+    imageAlt: "NVIDIA GeForce RTX 5090 Next-Gen Blackwell GPU",
   },
   {
     id: "h100-80gb",
@@ -135,6 +145,9 @@ const gpuInventory = [
     interconnect: "NVLink 4.0 (900 GB/s)",
     tdp: "700W",
     formFactor: "8-GPU DGX-style Cluster",
+    // GPU Image
+    imageUrl: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h100/nvidia-h100-sxm-702-p@2x.jpg",
+    imageAlt: "NVIDIA H100 Tensor Core GPU - The Gold Standard for AI",
   },
   {
     id: "h200-141gb",
@@ -164,6 +177,9 @@ const gpuInventory = [
     interconnect: "NVLink 4.0 (900 GB/s)",
     tdp: "700W",
     formFactor: "8-GPU DGX-style Cluster",
+    // GPU Image
+    imageUrl: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h200/nvidia-h200-nvl-702-p@2x.jpg",
+    imageAlt: "NVIDIA H200 Tensor Core GPU with 141GB HBM3e Memory",
   },
   {
     id: "b200-180gb",
@@ -193,6 +209,9 @@ const gpuInventory = [
     interconnect: "NVLink 5.0 (1800 GB/s)",
     tdp: "1000W",
     formFactor: "GB200 NVL72 SuperPod",
+    // GPU Image
+    imageUrl: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/blackwell/nvidia-blackwell-702-p@2x.jpg",
+    imageAlt: "NVIDIA B200 Blackwell GPU - The Ultimate AI Supercomputer",
   },
 ];
 
@@ -379,61 +398,49 @@ const GPUProductShowcase = ({ gpu, onClose }: { gpu: typeof gpuInventory[0] | nu
     >
       <div className="p-6 sm:p-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* GPU Visual */}
+          {/* GPU Visual - Real Image */}
           <div className="lg:w-1/3 flex flex-col items-center justify-center">
-            <div className="relative w-full max-w-[280px] aspect-square">
-              {/* Animated GPU visualization */}
+            <div className="relative w-full max-w-[320px]">
+              {/* GPU Image Container with glow effect */}
               <motion.div 
-                className="absolute inset-0 rounded-2xl border-2 border-primary/40 bg-gradient-to-br from-card to-muted overflow-hidden"
+                className="relative rounded-2xl border-2 border-primary/40 bg-gradient-to-br from-card to-muted overflow-hidden"
                 animate={{ 
                   boxShadow: ["0 0 30px rgba(139,92,246,0.3)", "0 0 60px rgba(139,92,246,0.5)", "0 0 30px rgba(139,92,246,0.3)"]
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                {/* GPU Circuit Board Pattern */}
-                <div className="absolute inset-0 opacity-20">
-                  <div className="absolute top-4 left-4 right-4 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="absolute top-8 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="absolute bottom-8 left-8 right-8 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-                  <div className="absolute top-4 bottom-4 left-4 w-px bg-gradient-to-b from-transparent via-primary to-transparent" />
-                  <div className="absolute top-4 bottom-4 right-4 w-px bg-gradient-to-b from-transparent via-primary to-transparent" />
+                {/* Actual GPU Image */}
+                <div className="relative aspect-[4/3] w-full bg-gradient-to-br from-card to-muted">
+                  <Image 
+                    src={gpu.imageUrl}
+                    alt={gpu.imageAlt}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 320px"
+                  />
+                  {/* Overlay gradient for better text visibility */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  
+                  {/* VRAM badge on image */}
+                  <motion.div 
+                    className="absolute top-3 right-3 px-2 py-1 rounded-lg bg-black/70 backdrop-blur-sm text-primary text-xs font-mono border border-primary/30"
+                    animate={{ opacity: [0.8, 1, 0.8] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    aria-label={`VRAM: ${gpu.vram}`}
+                  >
+                    {gpu.vram}
+                  </motion.div>
+                  
+                  {/* Architecture badge on image */}
+                  <motion.div 
+                    className="absolute bottom-3 left-3 px-2 py-1 rounded-lg bg-black/70 backdrop-blur-sm text-primary text-xs font-mono border border-primary/30"
+                    animate={{ opacity: [0.8, 1, 0.8] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                    aria-label={`Architecture: ${gpu.architecture}`}
+                  >
+                    {gpu.architecture}
+                  </motion.div>
                 </div>
-                
-                {/* Central GPU Icon */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative">
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                      className="absolute -inset-8 border border-primary/20 rounded-full"
-                    />
-                    <motion.div
-                      animate={{ rotate: -360 }}
-                      transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                      className="absolute -inset-12 border border-primary/10 rounded-full"
-                    />
-                    <Cpu className={`h-20 w-20 ${isEnterprise ? 'text-primary' : 'text-green-500'}`} />
-                  </div>
-                </div>
-                
-                {/* Floating data points */}
-                <motion.div 
-                  className="absolute top-6 right-6 px-2 py-1 rounded bg-primary/20 text-primary text-xs font-mono"
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  aria-label={`VRAM: ${gpu.vram}`}
-                >
-                  {gpu.vram}
-                </motion.div>
-                <motion.div 
-                  className="absolute bottom-6 left-6 px-2 py-1 rounded bg-primary/20 text-primary text-xs font-mono"
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                  aria-label={`Architecture: ${gpu.architecture}`}
-                >
-                  {gpu.architecture}
-                </motion.div>
                 
                 {/* Corner accents */}
                 <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-primary/50" />
@@ -443,7 +450,7 @@ const GPUProductShowcase = ({ gpu, onClose }: { gpu: typeof gpuInventory[0] | nu
               </motion.div>
               
               {/* Tier badge */}
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                   specs?.tier === "Flagship" ? "bg-gradient-to-r from-primary to-pink-500 text-white" :
                   specs?.tier === "Enterprise" ? "bg-primary text-primary-foreground" :
