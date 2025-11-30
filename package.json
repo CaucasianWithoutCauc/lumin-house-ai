@@ -1,1 +1,29 @@
-{\n  "name": "lumin-house-ai",\n  "version": "1.0.0",\n  "private": true,\n  "scripts": {\n    "dev": "next dev",\n    "build": "next build",\n    "start": "next start"\n  },\n  "dependencies": {\n    "next": "latest",\n    "react": "latest",\n    "react-dom": "latest",\n    "tailwindcss": "latest",\n    "postcss": "latest",\n    "autoprefixer": "latest"\n  },\n  "devDependencies": {\n    "typescript": "latest",\n    "eslint": "latest",\n    "eslint-config-next": "latest"\n  }\n}
+{
+  "name": "lumin-house-ai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "^14",
+    "tailwindcss": "^3.4",
+    "autoprefixer": "^10. 4",
+    "postcss": "^8.4",
+    "lucide-react": "^0.263",
+    "framer-motion": "^10. 16"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "^14"
+  }
+}
