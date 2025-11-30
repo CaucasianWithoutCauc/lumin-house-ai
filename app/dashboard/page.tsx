@@ -7,7 +7,7 @@ import {
   Zap, Server, CreditCard, Settings, LogOut, Plus, Play, Square, Trash2,
   Clock, Cpu, HardDrive, Activity, DollarSign, ChevronRight, Bell, User,
   BarChart3, Wallet, RefreshCw, Key, Terminal, BookOpen, Copy, Check,
-  ExternalLink, RotateCcw, FileCode2
+  ExternalLink, RotateCcw, FileCode2, HelpCircle
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -174,9 +174,11 @@ export default function DashboardPage() {
   const sidebarItems = [
     { id: "instances", label: "Instances", icon: Server },
     { id: "ssh-keys", label: "SSH Keys", icon: Key },
-    { id: "billing", label: "Billing", icon: CreditCard },
-    { id: "usage", label: "Usage", icon: BarChart3 },
-    { id: "settings", label: "Settings", icon: Settings },
+    { id: "monitoring", label: "Monitoring", icon: Activity, href: "/monitoring" },
+    { id: "billing", label: "Billing", icon: CreditCard, href: "/billing-history" },
+    { id: "api-keys", label: "API Keys", icon: Key, href: "/api-keys" },
+    { id: "support", label: "Support", icon: HelpCircle, href: "/support" },
+    { id: "settings", label: "Settings", icon: Settings, href: "/settings" },
   ];
 
   return (
@@ -193,6 +195,18 @@ export default function DashboardPage() {
         <nav className="flex-1 p-4 space-y-1">
           {sidebarItems.map((item) => {
             const Icon = item.icon;
+            if (item.href) {
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors text-muted-foreground hover:bg-accent hover:text-foreground"
+                >
+                  <Icon className="h-5 w-5" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            }
             return (
               <button
                 key={item.id}
