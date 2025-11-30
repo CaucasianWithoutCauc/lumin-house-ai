@@ -211,6 +211,10 @@ export function Navbar() {
   const [activeProductMenu, setActiveProductMenu] = useState<string | null>(null);
   const [selectedGpuProduct, setSelectedGpuProduct] = useState<typeof gpuProducts[0] | null>(gpuProducts[0]);
   const [selectedBareMetalProduct, setSelectedBareMetalProduct] = useState<typeof bareMetalProducts[0] | null>(bareMetalProducts[0]);
+  // Mobile menu states
+  const [mobileExpandedProduct, setMobileExpandedProduct] = useState<string | null>(null);
+  const [mobileSelectedGpu, setMobileSelectedGpu] = useState<typeof gpuProducts[0] | null>(null);
+  const [mobileSelectedBareMetal, setMobileSelectedBareMetal] = useState<typeof bareMetalProducts[0] | null>(null);
   const { user, logout } = useAuth();
   const router = useRouter();
 
@@ -659,13 +663,249 @@ export function Navbar() {
 
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <div className="md:hidden border-t border-border/40 bg-background">
+        <div className="md:hidden border-t border-border/40 bg-background max-h-[calc(100vh-4rem)] overflow-y-auto">
           <div className="container px-4 py-4 space-y-4">
-            {/* Mobile Products Section */}
+            {/* Mobile Products Section with Expandable GPU/Bare Metal */}
             <div className="space-y-2">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Products</p>
               {products.map((product) => {
                 const Icon = product.icon;
+                const isExpandable = product.hasMegaMenu;
+                const isExpanded = mobileExpandedProduct === product.megaMenuType;
+                
+                if (isExpandable) {
+                  return (
+                    <div key={product.name} className="space-y-2">
+                      <button
+                        onClick={() => {
+                          if (isExpanded) {
+                            setMobileExpandedProduct(null);
+                            setMobileSelectedGpu(null);
+                            setMobileSelectedBareMetal(null);
+                          } else {
+                            setMobileExpandedProduct(product.megaMenuType || null);
+                          }
+                        }}
+                        className="flex items-center justify-between w-full py-2 text-foreground/80 hover:text-foreground"
+                      >
+                        <div className="flex items-center">
+                          <Icon className="h-5 w-5 text-primary mr-3" />
+                          <div className="text-left">
+                            <div className="font-medium text-sm">{product.name}</div>
+                            <div className="text-xs text-muted-foreground">{product.description}</div>
+                          </div>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                      </button>
+                      
+                      {/* Expanded GPU Selector */}
+                      {isExpanded && product.megaMenuType === "gpu" && (
+                        <div className="ml-4 space-y-3 pb-3 border-l-2 border-primary/30 pl-4">
+                          <p className="text-xs font-semibold text-muted-foreground uppercase">Select GPU</p>
+                          <div className="grid grid-cols-2 gap-2">
+                            {gpuProducts.map((gpu) => (
+                              <button
+                                key={gpu.id}
+                                onClick={() => setMobileSelectedGpu(mobileSelectedGpu?.id === gpu.id ? null : gpu)}
+                                className={`text-left p-2 rounded-lg border transition-all ${
+                                  mobileSelectedGpu?.id === gpu.id
+                                    ? 'bg-primary/10 border-primary/50'
+                                    : 'bg-muted/30 border-border hover:border-primary/30'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between mb-1">
+                                  <span className="font-medium text-xs">{gpu.name}</span>
+                                  <span className={`px-1 py-0.5 rounded text-[8px] font-medium ${gpu.badgeColor}`}>
+                                    {gpu.badge}
+                                  </span>
+                                </div>
+                                <div className="text-[10px] text-muted-foreground">{gpu.vram}</div>
+                              </button>
+                            ))}
+                          </div>
+                          
+                          {/* Selected GPU Detail Card */}
+                          {mobileSelectedGpu && (
+                            <div className="bg-gradient-to-br from-primary/5 to-purple-500/5 rounded-lg border border-primary/20 p-3 space-y-3">
+                              {/* GPU Image */}
+                              <div className="relative h-32 rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center">
+                                <svg viewBox="0 0 200 120" className="w-full h-full p-3">
+                                  <rect x="20" y="20" width="160" height="80" rx="8" fill="url(#mobileGpuGradient)" stroke="url(#mobileBorderGradient)" strokeWidth="2"/>
+                                  <circle cx="60" cy="60" r="25" fill="none" stroke="rgba(139,92,246,0.5)" strokeWidth="2"/>
+                                  <circle cx="60" cy="60" r="18" fill="none" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <circle cx="60" cy="60" r="5" fill="rgba(139,92,246,0.8)"/>
+                                  <circle cx="140" cy="60" r="25" fill="none" stroke="rgba(139,92,246,0.5)" strokeWidth="2"/>
+                                  <circle cx="140" cy="60" r="18" fill="none" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <circle cx="140" cy="60" r="5" fill="rgba(139,92,246,0.8)"/>
+                                  <line x1="85" y1="30" x2="85" y2="90" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <line x1="95" y1="30" x2="95" y2="90" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <line x1="105" y1="30" x2="105" y2="90" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <line x1="115" y1="30" x2="115" y2="90" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <rect x="165" y="35" width="12" height="20" rx="2" fill="rgba(139,92,246,0.4)"/>
+                                  <rect x="165" y="65" width="12" height="20" rx="2" fill="rgba(139,92,246,0.4)"/>
+                                  <ellipse cx="100" cy="60" rx="70" ry="30" fill="url(#mobileGlowGradient)" opacity="0.3"/>
+                                  <defs>
+                                    <linearGradient id="mobileGpuGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" stopColor="rgba(30,30,40,1)"/>
+                                      <stop offset="100%" stopColor="rgba(20,20,30,1)"/>
+                                    </linearGradient>
+                                    <linearGradient id="mobileBorderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" stopColor="rgba(139,92,246,0.6)"/>
+                                      <stop offset="100%" stopColor="rgba(236,72,153,0.6)"/>
+                                    </linearGradient>
+                                    <radialGradient id="mobileGlowGradient" cx="50%" cy="50%" r="50%">
+                                      <stop offset="0%" stopColor="rgba(139,92,246,0.8)"/>
+                                      <stop offset="100%" stopColor="rgba(139,92,246,0)"/>
+                                    </radialGradient>
+                                  </defs>
+                                </svg>
+                                <div className="absolute top-2 left-2">
+                                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${mobileSelectedGpu.badgeColor}`}>
+                                    {mobileSelectedGpu.badge}
+                                  </span>
+                                </div>
+                                <div className="absolute bottom-2 right-2">
+                                  <span className="px-1.5 py-0.5 rounded bg-black/60 text-white text-[10px] font-medium">
+                                    {mobileSelectedGpu.vram}
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              {/* GPU Info */}
+                              <div>
+                                <h4 className="font-bold text-sm">{mobileSelectedGpu.name}</h4>
+                                <p className="text-xs text-muted-foreground mt-1">{mobileSelectedGpu.description}</p>
+                              </div>
+                              
+                              {/* Features */}
+                              <div className="flex flex-wrap gap-1">
+                                {mobileSelectedGpu.features.map((feature, idx) => (
+                                  <span key={idx} className="px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px]">
+                                    {feature}
+                                  </span>
+                                ))}
+                              </div>
+                              
+                              {/* Price and CTA */}
+                              <div className="flex items-center justify-between pt-2 border-t border-border/50">
+                                <span className="text-sm font-bold text-primary">{mobileSelectedGpu.price}</span>
+                                <Link
+                                  href="/pricing"
+                                  onClick={() => setIsMenuOpen(false)}
+                                  className="inline-flex items-center px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium"
+                                >
+                                  Deploy
+                                  <ChevronRight className="h-3 w-3 ml-1" />
+                                </Link>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Expanded Bare Metal Selector */}
+                      {isExpanded && product.megaMenuType === "bareMetal" && (
+                        <div className="ml-4 space-y-3 pb-3 border-l-2 border-primary/30 pl-4">
+                          <p className="text-xs font-semibold text-muted-foreground uppercase">Select Configuration</p>
+                          <div className="space-y-2">
+                            {bareMetalProducts.map((server) => (
+                              <button
+                                key={server.id}
+                                onClick={() => setMobileSelectedBareMetal(mobileSelectedBareMetal?.id === server.id ? null : server)}
+                                className={`w-full text-left p-2 rounded-lg border transition-all ${
+                                  mobileSelectedBareMetal?.id === server.id
+                                    ? 'bg-primary/10 border-primary/50'
+                                    : 'bg-muted/30 border-border hover:border-primary/30'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between mb-1">
+                                  <span className="font-medium text-xs">{server.name}</span>
+                                  <span className={`px-1 py-0.5 rounded text-[8px] font-medium ${server.badgeColor}`}>
+                                    {server.badge}
+                                  </span>
+                                </div>
+                                <div className="text-[10px] text-muted-foreground">{server.specs}</div>
+                              </button>
+                            ))}
+                          </div>
+                          
+                          {/* Selected Server Detail Card */}
+                          {mobileSelectedBareMetal && (
+                            <div className="bg-gradient-to-br from-primary/5 to-purple-500/5 rounded-lg border border-primary/20 p-3 space-y-3">
+                              {/* Server Image */}
+                              <div className="relative h-32 rounded-lg overflow-hidden bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center">
+                                <svg viewBox="0 0 200 120" className="w-full h-full p-3">
+                                  <rect x="30" y="15" width="140" height="90" rx="4" fill="url(#mobileServerGradient)" stroke="url(#mobileServerBorder)" strokeWidth="2"/>
+                                  <rect x="40" y="22" width="120" height="18" rx="2" fill="rgba(30,30,40,0.8)" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <rect x="40" y="44" width="120" height="18" rx="2" fill="rgba(30,30,40,0.8)" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <rect x="40" y="66" width="120" height="18" rx="2" fill="rgba(30,30,40,0.8)" stroke="rgba(139,92,246,0.3)" strokeWidth="1"/>
+                                  <circle cx="50" cy="31" r="3" fill="#22c55e"/>
+                                  <circle cx="60" cy="31" r="3" fill="#22c55e"/>
+                                  <circle cx="50" cy="53" r="3" fill="#22c55e"/>
+                                  <circle cx="60" cy="53" r="3" fill="rgba(139,92,246,0.8)"/>
+                                  <circle cx="50" cy="75" r="3" fill="#22c55e"/>
+                                  <circle cx="60" cy="75" r="3" fill="#22c55e"/>
+                                  <rect x="75" y="25" width="75" height="12" rx="1" fill="rgba(50,50,60,0.5)"/>
+                                  <rect x="75" y="47" width="75" height="12" rx="1" fill="rgba(50,50,60,0.5)"/>
+                                  <rect x="75" y="69" width="75" height="12" rx="1" fill="rgba(50,50,60,0.5)"/>
+                                  <ellipse cx="100" cy="60" rx="60" ry="35" fill="url(#mobileServerGlow)" opacity="0.2"/>
+                                  <defs>
+                                    <linearGradient id="mobileServerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" stopColor="rgba(40,40,50,1)"/>
+                                      <stop offset="100%" stopColor="rgba(25,25,35,1)"/>
+                                    </linearGradient>
+                                    <linearGradient id="mobileServerBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+                                      <stop offset="0%" stopColor="rgba(139,92,246,0.5)"/>
+                                      <stop offset="100%" stopColor="rgba(139,92,246,0.2)"/>
+                                    </linearGradient>
+                                    <radialGradient id="mobileServerGlow" cx="50%" cy="50%" r="50%">
+                                      <stop offset="0%" stopColor="rgba(139,92,246,1)"/>
+                                      <stop offset="100%" stopColor="rgba(139,92,246,0)"/>
+                                    </radialGradient>
+                                  </defs>
+                                </svg>
+                                <div className="absolute top-2 left-2">
+                                  <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${mobileSelectedBareMetal.badgeColor}`}>
+                                    {mobileSelectedBareMetal.badge}
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              {/* Server Info */}
+                              <div>
+                                <h4 className="font-bold text-sm">{mobileSelectedBareMetal.name}</h4>
+                                <p className="text-xs text-muted-foreground mt-1">{mobileSelectedBareMetal.description}</p>
+                              </div>
+                              
+                              {/* Features */}
+                              <div className="flex flex-wrap gap-1">
+                                {mobileSelectedBareMetal.features.map((feature, idx) => (
+                                  <span key={idx} className="px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px]">
+                                    {feature}
+                                  </span>
+                                ))}
+                              </div>
+                              
+                              {/* Price and CTA */}
+                              <div className="flex items-center justify-between pt-2 border-t border-border/50">
+                                <span className="text-sm font-bold text-primary">{mobileSelectedBareMetal.price}</span>
+                                <Link
+                                  href="/pricing"
+                                  onClick={() => setIsMenuOpen(false)}
+                                  className="inline-flex items-center px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium"
+                                >
+                                  Configure
+                                  <ChevronRight className="h-3 w-3 ml-1" />
+                                </Link>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+                
                 return (
                   <Link
                     key={product.name}
