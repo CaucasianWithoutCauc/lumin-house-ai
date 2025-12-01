@@ -1511,169 +1511,154 @@ export default function Home() {
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
       
-      {/* KINETIC HERO SECTION - Clean Modern Typography */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-black">
-        {/* Background image with dark overlay */}
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=90&auto=format&fit=crop"
-            alt="Modern data center"
-            fill
-            className="object-cover opacity-30"
-            priority
-            quality={90}
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
-        </div>
+      {/* HERO SECTION - Revolut/N26 Style: Clean, Light, Professional */}
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white">
+        {/* Subtle gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 via-white to-pink-50/20" />
         
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20">
-          {/* Badge */}
+        {/* Optional background pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }} />
+        
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20 max-w-7xl">
+          {/* Badge - Minimal style */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center px-3 sm:px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs sm:text-sm mb-8 sm:mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center px-4 py-2 rounded-full border border-gray-200 bg-white text-sm mb-8"
           >
-            <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-purple-400 mr-2" />
-            <span className="text-purple-300 font-medium">New:</span>
-            <span className="ml-1 text-white/70">RTX 5090 & B200 SuperPods now available</span>
+            <Zap className="h-4 w-4 text-purple-600 mr-2" />
+            <span className="font-medium text-gray-900">New:</span>
+            <span className="ml-1 text-gray-600">RTX 5090 & B200 SuperPods now available</span>
           </motion.div>
           
-          {/* KINETIC HEADLINE - Balanced sizing */}
-          <div className="space-y-1 sm:space-y-2 mb-8 sm:mb-10" role="heading" aria-level={1} aria-label="Focus on your AI models">
-            <div className="overflow-hidden">
-              <motion.div
-                initial={{ y: "100%", scale: 1.1 }}
-                animate={{ y: 0, scale: 1 }}
-                transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.1 }}
-              >
-                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9] text-white" aria-hidden="true">
-                  FOCUS ON
-                </span>
-              </motion.div>
-            </div>
-            <div className="overflow-hidden">
-              <motion.div
-                initial={{ y: "100%", scale: 1.1 }}
-                animate={{ y: 0, scale: 1 }}
-                transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.2 }}
-              >
-                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9]" aria-hidden="true">
-                  <StretchText className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-                    YOUR AI
-                  </StretchText>
-                </span>
-              </motion.div>
-            </div>
-            <div className="overflow-hidden">
-              <motion.div
-                initial={{ y: "100%", scale: 1.1 }}
-                animate={{ y: 0, scale: 1 }}
-                transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.3 }}
-              >
-                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9] text-white" aria-hidden="true">
-                  MODELS
-                </span>
-              </motion.div>
-            </div>
-          </div>
-          
-          {/* Subheadline with character animation */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="max-w-2xl mb-10 sm:mb-12"
+          {/* CLEAN HEADLINE - Fintech style */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="space-y-4 mb-8"
           >
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/60 leading-relaxed">
-              <CharReveal delay={0.9}>
-                Deploy GPU clusters in 60 seconds. Train faster. Pay less.
-              </CharReveal>
-            </p>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-gray-900 leading-[1.1]">
+              Focus on{" "}
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                your AI
+              </span>
+              {" "}models
+            </h1>
           </motion.div>
+          
+          {/* Subheadline - Clean and simple */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-xl sm:text-2xl text-gray-600 max-w-2xl mb-10 leading-relaxed"
+          >
+            Deploy GPU clusters in 60 seconds. Train faster. Pay less.
+          </motion.p>
           
           {/* Single Strong CTA - Revolut/N26 style */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.2 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10"
+            transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-4 mb-12"
           >
             <motion.button 
-              whileHover={{ scale: 1.05, y: -3 }}
+              whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="group inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-white h-14 sm:h-16 px-8 sm:px-12 shadow-2xl shadow-purple-500/25"
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              className="inline-flex items-center justify-center rounded-full text-lg font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white h-14 sm:h-16 px-10 sm:px-12 shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-shadow"
             >
               Deploy Now — Get $100 Free
-              <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 h-5 w-5" />
             </motion.button>
             <motion.button 
-              whileHover={{ scale: 1.03, y: -2 }}
+              whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center rounded-full text-base sm:text-lg font-medium bg-white/10 backdrop-blur-sm text-white border border-white/20 h-14 sm:h-16 px-8 sm:px-12"
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              className="inline-flex items-center justify-center rounded-full text-lg font-medium bg-white text-gray-900 border-2 border-gray-200 h-14 sm:h-16 px-10 sm:px-12 hover:border-gray-300 transition-colors"
             >
-              <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <Play className="mr-2 h-5 w-5" />
               Watch Demo
             </motion.button>
           </motion.div>
           
-          {/* Trust Badges - Fintech-style compliance indicators */}
+          {/* Trust Badges - Clean minimal cards */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3 }}
-            className="flex flex-wrap gap-2 sm:gap-3 mb-8 sm:mb-10"
+            transition={{ delay: 0.7 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12 max-w-4xl"
           >
             {trustBadges.map((badge) => {
               const Icon = badge.icon;
               return (
                 <div 
                   key={badge.label}
-                  className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm"
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border border-gray-200 hover:border-purple-200 hover:shadow-sm transition-all"
                 >
-                  <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-400" />
-                  <span className="text-xs sm:text-sm font-medium text-white/80">{badge.label}</span>
+                  <div className="h-10 w-10 rounded-full bg-purple-50 flex items-center justify-center">
+                    <Icon className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-900 text-center">{badge.label}</span>
                 </div>
               );
             })}
           </motion.div>
           
-          {/* Social proof */}
+          {/* Social proof - minimal */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="flex flex-wrap items-center gap-4 sm:gap-6 text-white/40"
+            transition={{ delay: 0.9 }}
+            className="flex items-center gap-6 text-gray-500 text-sm"
           >
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="flex -space-x-2 sm:-space-x-3">
-                {["SC", "MJ", "EP", "AK"].map((initials, i) => (
-                  <div key={i} className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center text-xs sm:text-sm font-bold text-white">
-                    {initials}
-                  </div>
-                ))}
-              </div>
-              <span className="text-sm sm:text-base"><strong className="text-white">2,500+</strong> teams trust us</span>
+            <div className="flex items-center gap-2">
+              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              <span className="font-medium text-gray-900">4.9</span>
+              <span>from 2,400+ reviews</span>
             </div>
-            <div className="h-6 w-px bg-white/20 hidden sm:block" />
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400 fill-yellow-400" />
-              ))}
-              <span className="ml-2 text-sm sm:text-base"><strong className="text-white">4.9/5</strong> rating</span>
+            <div className="hidden sm:block h-4 w-px bg-gray-300" />
+            <div className="hidden sm:flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              <span>Trusted by 10,000+ AI teams</span>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* MARQUEE TEXT DIVIDER - Very subtle background text for visual texture */}
-      <section className="py-4 sm:py-6 bg-muted/30 border-y border-border overflow-hidden">
-        <MarqueeText 
-          text="GPU CLOUD • AI INFRASTRUCTURE • FAST DEPLOY • ENTERPRISE SCALE •" 
-          /* Intentionally low opacity - creates subtle watermark effect */
-          className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground/5"
-        />
+      {/* STATS SECTION - Clean card-based design */}
+      <section className="py-16 sm:py-20 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {[
+              { label: "GPU Uptime", value: "99.99%", icon: Gauge },
+              { label: "Deploy Time", value: "<60s", icon: Zap },
+              { label: "AI Teams", value: "10K+", icon: Users },
+              { label: "Global DCs", value: "24/7", icon: Globe2 },
+            ].map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <div 
+                  key={stat.label}
+                  className="p-6 rounded-2xl bg-white border border-gray-200 hover:border-purple-200 hover:shadow-md transition-all"
+                >
+                  <div className="h-12 w-12 rounded-full bg-purple-50 flex items-center justify-center mb-4">
+                    <Icon className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <div className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-gray-600">{stat.label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </section>
 
       {/* Stats Section - Clean Design with kinetic elements */}
