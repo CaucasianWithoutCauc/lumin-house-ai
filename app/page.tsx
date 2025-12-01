@@ -543,37 +543,37 @@ const heroSlides = [
   {
     title: "Deploy GPU Clusters in 60 Seconds",
     subtitle: "No more waiting weeks for cloud quotas",
-    gradient: "from-slate-800/60 to-slate-900/60",
-    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/hk5-hong-kong/hk5-hong-kong-exterior-slider-1.jpg",
-    imageAlt: "Equinix HK5 Hong Kong data center facility exterior",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "Modern data center with server racks",
   },
   {
     title: "Powered by NVIDIA H100 & B200",
     subtitle: "Latest-generation GPUs for enterprise AI workloads",
-    gradient: "from-slate-800/60 to-slate-900/60",
-    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/nvidia-dgx-superpod/nvidia-dgx-superpod-702-p@2x.jpg",
-    imageAlt: "NVIDIA DGX SuperPod data center installation",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1591799265444-d66432b91588?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "High-performance computing server hardware",
   },
   {
     title: "99.99% Uptime Guaranteed",
     subtitle: "Tier-3+ certified data centers with redundant infrastructure",
-    gradient: "from-slate-800/60 to-slate-900/60",
-    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/sg3-singapore/sg3-singapore-interior-servers.jpg",
-    imageAlt: "Equinix Singapore data center server room interior",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "Data center infrastructure with blue lighting",
   },
   {
     title: "Global Edge Locations",
     subtitle: "32+ data centers across APAC, NA, and EU",
-    gradient: "from-slate-800/60 to-slate-900/60",
-    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/ty11-tokyo/ty11-tokyo-exterior.jpg",
-    imageAlt: "Equinix TY11 Tokyo International Business Exchange data center",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "Server room with network cables",
   },
   {
     title: "Save 40% vs AWS & GCP",
     subtitle: "Enterprise performance at startup-friendly prices",
-    gradient: "from-slate-800/60 to-slate-900/60",
-    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h100/nvidia-h100-sxm-702-p@2x.jpg",
-    imageAlt: "NVIDIA H100 SXM Tensor Core GPU module",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "GPU computing hardware closeup",
   },
 ];
 
@@ -582,44 +582,44 @@ const infrastructureImages = [
   {
     id: "dc-1",
     title: "Hong Kong Data Center",
-    description: "Equinix HK5 - Tier-3+ certified facility with 99.99% uptime",
-    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/hk5-hong-kong/hk5-hong-kong-interior-slider-1.jpg",
-    imageAlt: "Equinix HK5 Hong Kong data center interior server racks",
+    description: "Tier-3+ certified facility with 99.99% uptime",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Data center interior with server racks",
   },
   {
     id: "dc-2",
-    title: "NVIDIA DGX H100 Cluster",
+    title: "NVIDIA GPU Cluster",
     description: "8x NVIDIA H100 SXM5 per node with NVLink interconnect",
-    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/dgx-h100/nvidia-dgx-h100-og-702-p@2x.jpg",
-    imageAlt: "NVIDIA DGX H100 AI supercomputing system",
+    image: "https://images.unsplash.com/photo-1591799265444-d66432b91588?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "High-performance GPU computing hardware",
   },
   {
     id: "dc-3",
     title: "Singapore Data Center",
-    description: "Equinix SG3 - APAC hub with <15ms latency to major markets",
-    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/sg3-singapore/sg3-singapore-exterior.jpg",
-    imageAlt: "Equinix SG3 Singapore data center exterior",
+    description: "APAC hub with <15ms latency to major markets",
+    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Modern data center with blue lighting",
   },
   {
     id: "dc-4",
-    title: "NVIDIA B200 Blackwell GPU",
-    description: "Next-gen Blackwell architecture with 180GB HBM3e memory",
-    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/blackwell/nvidia-blackwell-702-p@2x.jpg",
-    imageAlt: "NVIDIA Blackwell B200 GPU architecture",
+    title: "Enterprise GPU Hardware",
+    description: "Next-gen architecture with 180GB HBM3e memory",
+    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "GPU computing hardware",
   },
   {
     id: "dc-5",
     title: "Tokyo Data Center",
-    description: "Equinix TY11 - Japan's premier AI infrastructure hub",
-    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/ty11-tokyo/ty11-tokyo-interior.jpg",
-    imageAlt: "Equinix TY11 Tokyo data center interior",
+    description: "Japan's premier AI infrastructure hub",
+    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Server room infrastructure",
   },
   {
     id: "dc-6",
-    title: "NVIDIA H100 SXM Module",
+    title: "High-Performance Computing",
     description: "80GB HBM3 memory with 3.35TB/s bandwidth for LLM training",
-    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h100/nvidia-h100-sxm-702-p@2x.jpg",
-    imageAlt: "NVIDIA H100 SXM Tensor Core GPU module",
+    image: "https://images.unsplash.com/photo-1560732488-6b0df240254a?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Computer server hardware closeup",
   },
 ];
 
@@ -1081,31 +1081,31 @@ const HeroImageCarousel = () => {
   }, []);
   
   return (
-    <section className="py-12 sm:py-20 overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-8 sm:mb-12">
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-border bg-card text-sm font-medium mb-4">
-            <Building2 className="h-4 w-4 mr-2 text-primary" />
+    <section className="py-12 sm:py-16 lg:py-20 overflow-hidden bg-muted/20">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center px-3 sm:px-4 py-1.5 rounded-full border border-border bg-card text-xs sm:text-sm font-medium mb-4">
+            <Building2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 text-primary" />
             World-Class Infrastructure
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Built for Scale
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">
+            <KineticText>Built for Scale</KineticText>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
             Enterprise-grade data centers powered by the latest NVIDIA GPUs
           </p>
         </div>
         
-        {/* Main Carousel */}
-        <div className="relative max-w-5xl mx-auto">
-          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl">
+        {/* Main Carousel - Larger images */}
+        <div className="relative max-w-6xl mx-auto">
+          <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentSlide}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.6 }}
                 className="absolute inset-0"
               >
                 <Image
@@ -1113,20 +1113,21 @@ const HeroImageCarousel = () => {
                   alt={heroSlides[currentSlide].imageAlt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 1200px"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1400px"
                   priority
+                  quality={85}
                 />
                 {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t ${heroSlides[currentSlide].gradient} opacity-60`} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className={`absolute inset-0 bg-gradient-to-t ${heroSlides[currentSlide].gradient}`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 
                 {/* Text overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-10">
                   <motion.h3
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="text-2xl sm:text-4xl font-bold text-white mb-2"
+                    className="text-xl sm:text-2xl lg:text-4xl font-bold text-white mb-1 sm:mb-2"
                   >
                     {heroSlides[currentSlide].title}
                   </motion.h3>
@@ -1134,7 +1135,7 @@ const HeroImageCarousel = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="text-lg sm:text-xl text-white/90"
+                    className="text-sm sm:text-base lg:text-xl text-white/90"
                   >
                     {heroSlides[currentSlide].subtitle}
                   </motion.p>
@@ -1142,32 +1143,32 @@ const HeroImageCarousel = () => {
               </motion.div>
             </AnimatePresence>
             
-            {/* Navigation arrows */}
+            {/* Navigation arrows - Hidden on very small screens */}
             <button 
               onClick={() => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="h-6 w-6" />
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
             <button 
               onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
               aria-label="Next slide"
             >
-              <ChevronRight className="h-6 w-6" />
+              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
           </div>
           
           {/* Slide indicators */}
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2 mt-4 sm:mt-6">
             {heroSlides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   index === currentSlide 
-                    ? "w-8 bg-primary" 
+                    ? "w-6 sm:w-8 bg-primary" 
                     : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
@@ -1180,14 +1181,14 @@ const HeroImageCarousel = () => {
   );
 };
 
-// Infrastructure Gallery Carousel - Clean professional design
+// Infrastructure Gallery Carousel - Clean professional design with larger images
 const InfrastructureGallery = () => {
   const [currentImage, setCurrentImage] = useState(0);
   
   return (
-    <section className="py-16 sm:py-24 bg-muted/30 overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+    <section className="py-12 sm:py-16 lg:py-20 bg-background overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-10">
           <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-border bg-card text-sm font-medium mb-4">
             <Building2 className="h-4 w-4 mr-2 text-primary" />
             Our Infrastructure
@@ -1196,42 +1197,43 @@ const InfrastructureGallery = () => {
             Tour Our Data Centers
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Tier-3+ certified Equinix facilities with enterprise-grade NVIDIA GPUs
+            Tier-3+ certified facilities with enterprise-grade NVIDIA GPUs
           </p>
         </div>
         
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
+        {/* Gallery Grid - Larger images */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
           {/* Main featured image */}
-          <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg border border-border">
+          <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border border-border">
             <Image
               src={infrastructureImages[currentImage].image}
               alt={infrastructureImages[currentImage].imageAlt}
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 600px"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 700px"
+              quality={85}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2">
                 {infrastructureImages[currentImage].title}
               </h3>
-              <p className="text-white/80">
+              <p className="text-sm sm:text-base text-white/80">
                 {infrastructureImages[currentImage].description}
               </p>
             </div>
           </div>
           
           {/* Thumbnail grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {infrastructureImages.map((img, index) => (
               <button
                 key={img.id}
                 onClick={() => setCurrentImage(index)}
-                className={`relative aspect-[4/3] rounded-lg overflow-hidden transition-all border ${
+                className={`relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden transition-all border-2 ${
                   index === currentImage 
-                    ? "border-primary ring-2 ring-primary/20" 
-                    : "border-border opacity-70 hover:opacity-100"
+                    ? "border-primary ring-2 ring-primary/30" 
+                    : "border-transparent opacity-70 hover:opacity-100"
                 }`}
               >
                 <Image
@@ -1239,11 +1241,12 @@ const InfrastructureGallery = () => {
                   alt={img.imageAlt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 300px"
+                  sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 200px"
+                  quality={75}
                 />
-                <div className="absolute inset-0 bg-black/30" />
-                <div className="absolute bottom-2 left-2 right-2">
-                  <p className="text-xs sm:text-sm font-medium text-white truncate">
+                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
+                <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2 right-1 sm:right-2">
+                  <p className="text-[10px] sm:text-xs font-medium text-white truncate">
                     {img.title}
                   </p>
                 </div>
@@ -1287,15 +1290,15 @@ const TestimonialsCarousel = () => {
   };
   
   return (
-    <section className="py-16 sm:py-24 bg-muted/30 overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card text-sm font-medium mb-4">
-            <Users className="h-4 w-4 text-primary" />
+    <section className="py-12 sm:py-16 lg:py-20 bg-muted/30 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full border border-border bg-card text-xs sm:text-sm font-medium mb-4">
+            <Users className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             Customer Stories
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Loved by ML Engineers
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">
+            <KineticText>Loved by ML Engineers</KineticText>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Join 2,500+ teams who trust us with their AI infrastructure
@@ -1437,46 +1440,47 @@ export default function Home() {
   const [selectedGpu, setSelectedGpu] = useState<typeof gpuInventory[0] | null>(null);
 
   return (
-    <div className="min-h-screen bg-black overflow-x-hidden">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
       
-      {/* KINETIC HERO SECTION - Neo-Brutalist Typography */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-black">
+      {/* KINETIC HERO SECTION - Clean Modern Typography */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-black">
         {/* Background image with dark overlay */}
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=90&auto=format&fit=crop"
             alt="Modern data center"
             fill
-            className="object-cover opacity-20"
+            className="object-cover opacity-30"
             priority
             quality={90}
+            sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
         </div>
         
-        <div className="relative container mx-auto px-6 sm:px-8 lg:px-12 py-24">
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm mb-12"
+            className="inline-flex items-center px-3 sm:px-4 py-2 rounded-full bg-white/10 border border-white/20 text-xs sm:text-sm mb-8 sm:mb-10"
           >
-            <Zap className="h-4 w-4 text-purple-400 mr-2" />
+            <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-purple-400 mr-2" />
             <span className="text-purple-300 font-medium">New:</span>
-            <span className="ml-1 text-white/60">RTX 5090 & B200 SuperPods now available</span>
+            <span className="ml-1 text-white/70">RTX 5090 & B200 SuperPods now available</span>
           </motion.div>
           
-          {/* ULTRA LARGE KINETIC HEADLINE - Accessible with aria-label */}
-          <div className="space-y-2 mb-12" role="heading" aria-level={1} aria-label="Focus on your AI models">
+          {/* KINETIC HEADLINE - Balanced sizing */}
+          <div className="space-y-1 sm:space-y-2 mb-8 sm:mb-10" role="heading" aria-level={1} aria-label="Focus on your AI models">
             <div className="overflow-hidden">
               <motion.div
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
               >
-                <span className="block text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85] text-white" aria-hidden="true">
+                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9] text-white" aria-hidden="true">
                   FOCUS ON
                 </span>
               </motion.div>
@@ -1487,7 +1491,7 @@ export default function Home() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
               >
-                <span className="block text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85]" aria-hidden="true">
+                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9]" aria-hidden="true">
                   <StretchText className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
                     YOUR AI
                   </StretchText>
@@ -1500,7 +1504,7 @@ export default function Home() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
               >
-                <span className="block text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85] text-white" aria-hidden="true">
+                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9] text-white" aria-hidden="true">
                   MODELS
                 </span>
               </motion.div>
@@ -1512,9 +1516,9 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="max-w-3xl mb-16"
+            className="max-w-2xl mb-10 sm:mb-12"
           >
-            <p className="text-xl sm:text-2xl lg:text-3xl text-white/50 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/60 leading-relaxed">
               <CharReveal delay={0.9}>
                 Deploy GPU clusters in 60 seconds. Train faster. Pay less.
               </CharReveal>
@@ -1526,15 +1530,15 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}
-            className="flex flex-col sm:flex-row gap-4 mb-16"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-10 sm:mb-12"
           >
-            <button className="group inline-flex items-center justify-center rounded-full text-lg font-bold bg-white text-black hover:bg-purple-100 h-16 px-12 transition-all shadow-2xl">
+            <button className="group inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-white text-black hover:bg-purple-100 h-12 sm:h-14 px-6 sm:px-10 transition-all shadow-2xl">
               Get $100 Free Credits
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="inline-flex items-center justify-center rounded-full text-lg font-bold bg-transparent text-white border-2 border-white/30 hover:border-white hover:bg-white/5 h-16 px-12 transition-all">
+            <button className="inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-transparent text-white border-2 border-white/30 hover:border-white hover:bg-white/5 h-12 sm:h-14 px-6 sm:px-10 transition-all">
               Watch Demo
-              <Play className="ml-2 h-5 w-5" />
+              <Play className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
             </button>
           </motion.div>
           
@@ -1543,67 +1547,70 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
-            className="flex flex-wrap items-center gap-8 text-white/40"
+            className="flex flex-wrap items-center gap-4 sm:gap-6 text-white/40"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex -space-x-2 sm:-space-x-3">
                 {["SC", "MJ", "EP", "AK"].map((initials, i) => (
-                  <div key={i} className="h-12 w-12 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center text-sm font-bold text-white">
+                  <div key={i} className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center text-xs sm:text-sm font-bold text-white">
                     {initials}
                   </div>
                 ))}
               </div>
-              <span className="text-lg"><strong className="text-white">2,500+</strong> teams trust us</span>
+              <span className="text-sm sm:text-base"><strong className="text-white">2,500+</strong> teams trust us</span>
             </div>
-            <div className="h-8 w-px bg-white/20 hidden sm:block" />
+            <div className="h-6 w-px bg-white/20 hidden sm:block" />
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-6 w-6 text-yellow-400 fill-yellow-400" />
+                <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400 fill-yellow-400" />
               ))}
-              <span className="ml-2 text-lg"><strong className="text-white">4.9/5</strong> rating</span>
+              <span className="ml-2 text-sm sm:text-base"><strong className="text-white">4.9/5</strong> rating</span>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* MARQUEE TEXT DIVIDER - Very subtle background text for visual texture */}
-      <section className="py-6 bg-black border-y border-white/5 overflow-hidden">
+      <section className="py-4 sm:py-6 bg-muted/30 border-y border-border overflow-hidden">
         <MarqueeText 
           text="GPU CLOUD • AI INFRASTRUCTURE • FAST DEPLOY • ENTERPRISE SCALE •" 
-          /* Intentionally very low opacity (3%) - creates subtle watermark effect common in Neo-Brutalist design */
-          className="text-5xl sm:text-6xl lg:text-7xl font-black text-white/[0.03]"
+          /* Intentionally low opacity - creates subtle watermark effect */
+          className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground/5"
         />
       </section>
 
-      {/* Stats Section - Kinetic Style */}
-      <section className="py-24 sm:py-32 bg-black">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
-          <ParallaxTitle className="text-center mb-20">
-            <h2 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight mb-4">
-              <StretchText>INFRASTRUCTURE</StretchText>
+      {/* Stats Section - Clean Design with kinetic elements */}
+      <section className="py-16 sm:py-24 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+          <ParallaxTitle className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
+              <span className="text-foreground">World-Class </span>
+              <StretchText className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                Infrastructure
+              </StretchText>
             </h2>
-            <p className="text-xl text-white/40">Built for the future of AI</p>
+            <p className="text-base sm:text-lg text-muted-foreground">Built for the future of AI</p>
           </ParallaxTitle>
           
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center group"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="text-center p-4 sm:p-6 rounded-2xl border border-border bg-card hover:border-primary/30 transition-all group"
               >
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-white/5 border border-white/10 mb-6 group-hover:bg-purple-500/20 group-hover:border-purple-500/30 transition-all">
-                  {stat.icon && <stat.icon className="h-10 w-10 text-white/40 group-hover:text-purple-400 transition-colors" />}
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
+                  {stat.icon && <stat.icon className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />}
                 </div>
-                <div className="text-5xl sm:text-6xl lg:text-7xl font-black mb-3">
-                  <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2">
+                  <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                     {stat.value}
                   </span>
                 </div>
-                <div className="text-lg text-white/40 font-medium tracking-wide uppercase">{stat.label}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -1614,9 +1621,9 @@ export default function Home() {
       <HeroImageCarousel />
 
       {/* Infrastructure Trust Section - Clean professional design */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="p-6 rounded-xl border border-border bg-card">
-          <div className="flex flex-col md:flex-row items-center gap-6">
+      <section className="container mx-auto px-4 py-8 sm:py-12">
+        <div className="p-4 sm:p-6 rounded-xl border border-border bg-card">
+          <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-6">
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
                 <Building2 className="h-5 w-5 text-primary" />
