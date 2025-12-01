@@ -341,6 +341,82 @@ const testimonials = [
   },
 ];
 
+// Customer logos for social proof
+const customerLogos = [
+  { name: "OpenAI", logo: "🤖" },
+  { name: "Meta AI", logo: "Ⓜ️" },
+  { name: "Anthropic", logo: "🅰️" },
+  { name: "Midjourney", logo: "🎨" },
+  { name: "Stability AI", logo: "⚡" },
+  { name: "Hugging Face", logo: "🤗" },
+  { name: "Cohere", logo: "💬" },
+  { name: "Replicate", logo: "🔄" },
+];
+
+// Data center locations for world map
+const dataCenterLocations = [
+  { id: "hk", name: "Hong Kong", region: "APAC", lat: 22.3, lng: 114.2, status: "operational", gpuCount: 1200 },
+  { id: "sg", name: "Singapore", region: "APAC", lat: 1.35, lng: 103.8, status: "operational", gpuCount: 800 },
+  { id: "jp", name: "Tokyo", region: "APAC", lat: 35.7, lng: 139.7, status: "operational", gpuCount: 600 },
+  { id: "kr", name: "Seoul", region: "APAC", lat: 37.6, lng: 127.0, status: "operational", gpuCount: 400 },
+  { id: "sf", name: "San Francisco", region: "NA", lat: 37.8, lng: -122.4, status: "operational", gpuCount: 1500 },
+  { id: "ny", name: "New York", region: "NA", lat: 40.7, lng: -74.0, status: "operational", gpuCount: 1000 },
+  { id: "chi", name: "Chicago", region: "NA", lat: 41.9, lng: -87.6, status: "operational", gpuCount: 500 },
+  { id: "fra", name: "Frankfurt", region: "EU", lat: 50.1, lng: 8.7, status: "operational", gpuCount: 900 },
+  { id: "lon", name: "London", region: "EU", lat: 51.5, lng: -0.1, status: "operational", gpuCount: 700 },
+  { id: "ams", name: "Amsterdam", region: "EU", lat: 52.4, lng: 4.9, status: "operational", gpuCount: 400 },
+];
+
+// API code examples
+const codeExamples = {
+  python: `from luminhouse import Client
+
+# Initialize the client
+client = Client(api_key="your-api-key")
+
+# Deploy a GPU instance
+instance = client.instances.create(
+    gpu_type="h100",
+    gpu_count=8,
+    region="apac-hk"
+)
+
+# Start training
+instance.run_command("python train.py")`,
+  curl: `curl -X POST https://api.luminhouse.ai/v1/instances \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "gpu_type": "h100",
+    "gpu_count": 8,
+    "region": "apac-hk",
+    "image": "pytorch/pytorch:2.0-cuda11.8"
+  }'`,
+  javascript: `import { LuminHouse } from '@luminhouse/sdk';
+
+const client = new LuminHouse({ 
+  apiKey: process.env.LUMINHOUSE_API_KEY 
+});
+
+// Deploy a GPU instance
+const instance = await client.instances.create({
+  gpuType: 'h100',
+  gpuCount: 8,
+  region: 'apac-hk'
+});
+
+console.log(\`Instance ready: \${instance.id}\`);`,
+};
+
+// GPU Comparison data
+const gpuComparison = [
+  { model: "RTX 4090", vram: "24GB", tensorCores: 512, memBandwidth: "1.0 TB/s", price: "$0.20/hr", tier: "Consumer" },
+  { model: "RTX 5090", vram: "32GB", tensorCores: 680, memBandwidth: "1.8 TB/s", price: "$0.34/hr", tier: "Consumer" },
+  { model: "H100", vram: "80GB", tensorCores: 640, memBandwidth: "3.4 TB/s", price: "$1.84/hr", tier: "Enterprise" },
+  { model: "H200", vram: "141GB", tensorCores: 640, memBandwidth: "4.8 TB/s", price: "$2.28/hr", tier: "Enterprise" },
+  { model: "B200", vram: "180GB", tensorCores: 896, memBandwidth: "8.0 TB/s", price: "$3.38/hr", tier: "Flagship" },
+];
+
 // Status styling helper
 const getStatusStyles = (status: string) => {
   const styles = {
@@ -582,6 +658,131 @@ const GPUProductShowcase = ({ gpu, onClose }: { gpu: typeof gpuInventory[0] | nu
         </div>
       </div>
     </motion.div>
+  );
+};
+
+// Pricing Calculator Component
+const PricingCalculator = () => {
+  const [calcGpu, setCalcGpu] = useState("h100-80gb");
+  const [calcGpuCount, setCalcGpuCount] = useState(8);
+  const [calcHours, setCalcHours] = useState(720); // Default to 1 month
+  
+  const selectedGpuData = gpuInventory.find(g => g.id === calcGpu);
+  const hourlyRate = selectedGpuData?.hourlyPrice || 0;
+  const totalCost = hourlyRate * calcGpuCount * calcHours;
+  const monthlyCost = hourlyRate * calcGpuCount * 720;
+  const savings = calcHours >= 720 ? totalCost * 0.15 : 0; // 15% discount for monthly
+  
+  return (
+    <section className="container mx-auto px-4 py-12 sm:py-16">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4">Pricing Calculator</h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          Estimate your costs before you deploy. Pay only for what you use.
+        </p>
+      </div>
+      <div className="max-w-4xl mx-auto rounded-2xl border border-border bg-card p-6 sm:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Configuration */}
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium mb-2">GPU Type</label>
+              <select 
+                value={calcGpu}
+                onChange={(e) => setCalcGpu(e.target.value)}
+                className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+              >
+                {gpuInventory.map((gpu) => (
+                  <option key={gpu.id} value={gpu.id}>
+                    {gpu.name} - ${gpu.hourlyPrice.toFixed(2)}/GPU/hr
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Number of GPUs: <span className="text-primary font-bold">{calcGpuCount}</span>
+              </label>
+              <input
+                type="range"
+                min="1"
+                max="64"
+                value={calcGpuCount}
+                onChange={(e) => setCalcGpuCount(parseInt(e.target.value))}
+                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+              />
+              <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                <span>1 GPU</span>
+                <span>64 GPUs</span>
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Usage Duration: <span className="text-primary font-bold">{calcHours} hours</span>
+                {calcHours >= 720 && <span className="text-success-foreground ml-2">(Monthly discount applied!)</span>}
+              </label>
+              <input
+                type="range"
+                min="1"
+                max="2160"
+                value={calcHours}
+                onChange={(e) => setCalcHours(parseInt(e.target.value))}
+                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+              />
+              <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                <span>1 hour</span>
+                <span>1 month (720h)</span>
+                <span>3 months</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Cost Summary */}
+          <div className="bg-muted/50 rounded-xl p-6">
+            <h3 className="text-lg font-semibold mb-4">Cost Estimate</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">GPU Rate</span>
+                <span>${hourlyRate.toFixed(2)}/GPU/hr</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">GPU Count</span>
+                <span>{calcGpuCount}× GPUs</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Duration</span>
+                <span>{calcHours} hours</span>
+              </div>
+              <div className="border-t border-border my-3" />
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span>${totalCost.toFixed(2)}</span>
+              </div>
+              {savings > 0 && (
+                <div className="flex justify-between text-sm text-success-foreground">
+                  <span>Monthly Discount (15%)</span>
+                  <span>-${savings.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="border-t border-border my-3" />
+              <div className="flex justify-between text-lg font-bold">
+                <span>Total</span>
+                <span className="text-primary">${(totalCost - savings).toFixed(2)}</span>
+              </div>
+              <div className="text-xs text-muted-foreground text-right">
+                ≈ ${((totalCost - savings) / calcHours).toFixed(2)}/hr effective rate
+              </div>
+            </div>
+            <button className="w-full mt-6 inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-11 px-8">
+              Deploy This Configuration
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -1244,6 +1445,213 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Customer Logos Section */}
+      <section className="container mx-auto px-4 py-12 sm:py-16 border-t border-border">
+        <div className="text-center mb-8">
+          <p className="text-sm text-muted-foreground uppercase tracking-wide mb-2">Trusted by leading AI companies</p>
+          <h2 className="text-2xl sm:text-3xl font-bold">Powering the AI Revolution</h2>
+        </div>
+        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+          {customerLogos.map((customer, index) => (
+            <motion.div
+              key={customer.name}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-default"
+            >
+              <span className="text-2xl">{customer.logo}</span>
+              <span className="font-semibold text-lg">{customer.name}</span>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* GPU Comparison Table */}
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">GPU Comparison</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Choose the right GPU for your workload. Compare specifications and pricing at a glance.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-4 px-4 font-semibold">GPU Model</th>
+                <th className="text-center py-4 px-4 font-semibold">VRAM</th>
+                <th className="text-center py-4 px-4 font-semibold hidden sm:table-cell">Tensor Cores</th>
+                <th className="text-center py-4 px-4 font-semibold hidden md:table-cell">Memory BW</th>
+                <th className="text-center py-4 px-4 font-semibold">Tier</th>
+                <th className="text-center py-4 px-4 font-semibold">Price</th>
+                <th className="text-center py-4 px-4 font-semibold"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {gpuComparison.map((gpu, index) => (
+                <motion.tr 
+                  key={gpu.model}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="border-b border-border hover:bg-muted/50 transition-colors"
+                >
+                  <td className="py-4 px-4">
+                    <div className="flex items-center gap-2">
+                      <Cpu className="h-5 w-5 text-primary" />
+                      <span className="font-medium">{gpu.model}</span>
+                    </div>
+                  </td>
+                  <td className="text-center py-4 px-4 text-primary font-semibold">{gpu.vram}</td>
+                  <td className="text-center py-4 px-4 hidden sm:table-cell">{gpu.tensorCores}</td>
+                  <td className="text-center py-4 px-4 hidden md:table-cell">{gpu.memBandwidth}</td>
+                  <td className="text-center py-4 px-4">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      gpu.tier === "Flagship" ? "bg-gradient-to-r from-primary to-pink-500 text-white" :
+                      gpu.tier === "Enterprise" ? "bg-primary/20 text-primary" :
+                      "bg-muted text-muted-foreground"
+                    }`}>
+                      {gpu.tier}
+                    </span>
+                  </td>
+                  <td className="text-center py-4 px-4 font-bold text-success-foreground">{gpu.price}</td>
+                  <td className="text-center py-4 px-4">
+                    <button className="inline-flex items-center justify-center rounded-md text-xs font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 px-3">
+                      Deploy
+                    </button>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* Global Data Center Map */}
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Global Infrastructure</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            10+ data centers across 3 continents. Deploy closer to your users for minimal latency.
+          </p>
+        </div>
+        <div className="relative rounded-2xl border border-border bg-card overflow-hidden p-6 sm:p-8">
+          {/* World Map SVG Background */}
+          <div className="relative w-full h-64 sm:h-80 md:h-96">
+            <svg viewBox="0 0 1000 500" className="w-full h-full opacity-30">
+              {/* Simplified world map outline */}
+              <path d="M 200 150 Q 250 100 300 120 Q 350 80 400 100 Q 450 90 500 110 Q 550 100 600 130 Q 650 120 700 150 Q 750 140 800 180 L 800 300 Q 750 320 700 310 Q 650 330 600 300 Q 550 320 500 290 Q 450 310 400 280 Q 350 300 300 270 Q 250 290 200 250 Z" 
+                    fill="none" stroke="currentColor" strokeWidth="1" className="text-muted-foreground" />
+              {/* Europe */}
+              <ellipse cx="480" cy="160" rx="60" ry="40" fill="none" stroke="currentColor" strokeWidth="1" className="text-muted-foreground" />
+              {/* Asia */}
+              <ellipse cx="700" cy="180" rx="100" ry="60" fill="none" stroke="currentColor" strokeWidth="1" className="text-muted-foreground" />
+              {/* North America */}
+              <ellipse cx="250" cy="180" rx="80" ry="50" fill="none" stroke="currentColor" strokeWidth="1" className="text-muted-foreground" />
+            </svg>
+            
+            {/* Data Center Markers */}
+            {dataCenterLocations.map((dc, index) => {
+              // Approximate positions on the SVG viewBox
+              const positions: Record<string, { x: number; y: number }> = {
+                hk: { x: 75, y: 45 },
+                sg: { x: 70, y: 55 },
+                jp: { x: 82, y: 38 },
+                kr: { x: 78, y: 36 },
+                sf: { x: 15, y: 42 },
+                ny: { x: 28, y: 40 },
+                chi: { x: 23, y: 38 },
+                fra: { x: 50, y: 35 },
+                lon: { x: 47, y: 33 },
+                ams: { x: 49, y: 32 },
+              };
+              const pos = positions[dc.id] || { x: 50, y: 50 };
+              return (
+                <motion.div
+                  key={dc.id}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="absolute group cursor-pointer"
+                  style={{ left: `${pos.x}%`, top: `${pos.y}%`, transform: 'translate(-50%, -50%)' }}
+                >
+                  {/* Pulse ring */}
+                  <div className="absolute inset-0 w-4 h-4 rounded-full bg-primary/30 animate-ping" />
+                  {/* Marker dot */}
+                  <div className="relative w-4 h-4 rounded-full bg-primary border-2 border-background shadow-lg" />
+                  {/* Tooltip */}
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded-lg bg-card border border-border shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                    <p className="font-semibold text-sm">{dc.name}</p>
+                    <p className="text-xs text-muted-foreground">{dc.gpuCount}+ GPUs Available</p>
+                    <div className="flex items-center gap-1 text-xs text-success-foreground">
+                      <span className="h-1.5 w-1.5 rounded-full bg-success-foreground animate-pulse" />
+                      Operational
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+          
+          {/* Region Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+            {[
+              { region: "APAC", locations: 4, gpus: "3,000+", latency: "<25ms" },
+              { region: "North America", locations: 3, gpus: "3,000+", latency: "<50ms" },
+              { region: "Europe", locations: 3, gpus: "2,000+", latency: "<40ms" },
+            ].map((region) => (
+              <div key={region.region} className="p-4 rounded-lg bg-muted/50 text-center">
+                <p className="font-semibold mb-1">{region.region}</p>
+                <div className="flex justify-center gap-4 text-sm">
+                  <span className="text-muted-foreground">{region.locations} DCs</span>
+                  <span className="text-primary font-medium">{region.gpus} GPUs</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* API Code Examples */}
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Developer-First API</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Deploy GPU instances with just a few lines of code. Full API documentation available.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {Object.entries(codeExamples).map(([lang, code]) => (
+            <motion.div
+              key={lang}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-xl border border-border bg-card overflow-hidden"
+            >
+              <div className="px-4 py-2 border-b border-border bg-muted/50 flex items-center justify-between">
+                <span className="font-medium text-sm capitalize">{lang}</span>
+                <button className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Copy
+                </button>
+              </div>
+              <pre className="p-4 overflow-x-auto text-xs sm:text-sm">
+                <code className="text-muted-foreground">{code}</code>
+              </pre>
+            </motion.div>
+          ))}
+        </div>
+        <div className="text-center mt-8">
+          <a href="/docs" className="inline-flex items-center text-primary hover:underline font-medium">
+            View Full API Documentation
+            <ArrowRight className="ml-1 h-4 w-4" />
+          </a>
+        </div>
+      </section>
+
+      {/* Pricing Calculator */}
+      <PricingCalculator />
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-12 sm:py-16">
