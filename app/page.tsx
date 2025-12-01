@@ -796,50 +796,127 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-8 sm:py-12 md:py-16 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm mb-4 sm:mb-6">
-            <Zap className="h-4 w-4 mr-2" />
-            New: RTX 5090 & NVIDIA B200 clusters now available
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent leading-tight">
-            Enterprise GPU Cloud
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
-            Access high-performance NVIDIA GPUs for AI/ML workloads. 
-            Deploy in seconds, scale without limits.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 sm:px-0">
-            <button className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-11 px-6 sm:px-8 w-full sm:w-auto">
-              Start Free Trial
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </button>
-            <button className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-11 px-6 sm:px-8 w-full sm:w-auto">
-              View Documentation
-            </button>
-          </div>
-        </motion.div>
+      {/* Hero Section - Revolut-inspired with emotional copy and visual hierarchy */}
+      <section className="relative overflow-hidden">
+        {/* Gradient background overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="container mx-auto px-4 py-12 sm:py-16 md:py-24 text-center relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Announcement badge */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center px-4 py-2 rounded-full border border-primary/30 bg-gradient-to-r from-primary/10 to-pink-500/10 text-primary text-sm mb-6 sm:mb-8 backdrop-blur-sm"
+            >
+              <motion.span 
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="mr-2"
+              >
+                ⚡
+              </motion.span>
+              <span className="font-medium">New:</span>
+              <span className="ml-1">RTX 5090 & B200 SuperPods now available</span>
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </motion.div>
+            
+            {/* Main headline - Larger, more impactful */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 leading-[1.1] tracking-tight">
+              <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent">Focus on your </span>
+              <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">AI models</span>
+              <br className="hidden sm:block" />
+              <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent">We handle the </span>
+              <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">infrastructure</span>
+            </h1>
+            
+            {/* Subheadline - Lifestyle/benefit focused */}
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 sm:mb-10 max-w-3xl mx-auto px-4 leading-relaxed">
+              Deploy GPU clusters in 60 seconds. Train faster. Pay less.
+              <br className="hidden md:block" />
+              <span className="text-foreground/80">The AI infrastructure your team deserves.</span>
+            </p>
+            
+            {/* CTA Buttons - Larger, more prominent */}
+            <div className="flex flex-col sm:flex-row justify-center gap-4 px-4 sm:px-0 mb-8">
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 h-14 px-8 w-full sm:w-auto transition-all"
+              >
+                Get $100 Free Credits
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-border bg-background/50 backdrop-blur-sm shadow-sm hover:bg-accent hover:text-accent-foreground h-14 px-8 w-full sm:w-auto transition-all"
+              >
+                Watch 2-min Demo
+                <span className="ml-2">▶</span>
+              </motion.button>
+            </div>
+            
+            {/* Social proof mini-banner */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-muted-foreground"
+            >
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {["SC", "MJ", "EP", "AK"].map((initials, i) => (
+                    <div key={i} className="h-8 w-8 rounded-full bg-gradient-to-br from-primary/20 to-pink-500/20 border-2 border-background flex items-center justify-center text-xs font-medium">
+                      {initials}
+                    </div>
+                  ))}
+                </div>
+                <span><strong className="text-foreground">2,500+</strong> teams trust us</span>
+              </div>
+              <div className="hidden sm:block h-4 w-px bg-border" />
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                ))}
+                <span className="ml-1"><strong className="text-foreground">4.9/5</strong> rating</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      {/* Stats Section - Revolut-style with animated counters and larger numbers */}
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-center p-4 rounded-lg border border-border bg-card"
+              whileHover={{ scale: 1.02, y: -4 }}
+              className="text-center p-6 sm:p-8 rounded-2xl border border-border bg-gradient-to-br from-card to-card/50 hover:border-primary/30 transition-all shadow-lg shadow-black/5"
             >
-              {stat.icon && <stat.icon className="h-6 w-6 text-primary mx-auto mb-2" />}
-              <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">{stat.value}</div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-4">
+                {stat.icon && <stat.icon className="h-6 w-6 text-primary" />}
+              </div>
+              <motion.div 
+                className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent mb-2"
+                initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+              >
+                {stat.value}
+              </motion.div>
+              <div className="text-sm sm:text-base text-muted-foreground font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </div>
@@ -1367,104 +1444,230 @@ export default function Home() {
         </AnimatePresence>
       </section>
 
-      {/* Features Section */}
-      <section className="container mx-auto px-4 py-12 sm:py-16">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-center">Why Choose Lumin House AI</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          <motion.div
+      {/* Features Section - Revolut-style with better visual hierarchy */}
+      <section className="container mx-auto px-4 py-16 sm:py-20">
+        <div className="text-center mb-12">
+          <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="p-5 sm:p-6 rounded-lg border border-border bg-card"
+            className="text-3xl sm:text-4xl font-bold mb-4"
           >
-            <Zap className="h-8 w-8 sm:h-10 sm:w-10 text-primary mb-3 sm:mb-4" />
-            <h3 className="text-base sm:text-lg font-semibold mb-2">Instant Deploy</h3>
-            <p className="text-sm text-muted-foreground">Spin up GPU instances in under 60 seconds with pre-configured ML environments.</p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="p-5 sm:p-6 rounded-lg border border-border bg-card"
+            Why Teams Choose Lumin House AI
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
-            <Globe2 className="h-8 w-8 sm:h-10 sm:w-10 text-primary mb-3 sm:mb-4" />
-            <h3 className="text-base sm:text-lg font-semibold mb-2">Global Network</h3>
-            <p className="text-sm text-muted-foreground">32+ data centers across APAC, NA, and EU for optimal latency.</p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="p-5 sm:p-6 rounded-lg border border-border bg-card"
-          >
-            <ShieldCheck className="h-8 w-8 sm:h-10 sm:w-10 text-primary mb-3 sm:mb-4" />
-            <h3 className="text-base sm:text-lg font-semibold mb-2">Enterprise Security</h3>
-            <p className="text-sm text-muted-foreground">SOC 2 Type II certified with dedicated VPCs and end-to-end encryption.</p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="p-5 sm:p-6 rounded-lg border border-border bg-card"
-          >
-            <Gauge className="h-8 w-8 sm:h-10 sm:w-10 text-primary mb-3 sm:mb-4" />
-            <h3 className="text-base sm:text-lg font-semibold mb-2">Pay As You Go</h3>
-            <p className="text-sm text-muted-foreground">Per-second billing with no long-term commitments. Only pay for what you use.</p>
-          </motion.div>
+            Everything you need to train, deploy, and scale AI models
+          </motion.p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { 
+              icon: Zap, 
+              title: "60-Second Deploy", 
+              description: "Spin up GPU instances instantly with pre-configured PyTorch, TensorFlow, and JAX environments.",
+              highlight: "No setup required"
+            },
+            { 
+              icon: Globe2, 
+              title: "Global Edge Network", 
+              description: "32+ data centers across APAC, NA, and EU. Deploy closer to your users.",
+              highlight: "< 25ms latency"
+            },
+            { 
+              icon: ShieldCheck, 
+              title: "Enterprise Security", 
+              description: "SOC 2 Type II certified. Dedicated VPCs, SSO, and end-to-end encryption.",
+              highlight: "HIPAA Ready"
+            },
+            { 
+              icon: Gauge, 
+              title: "Pay Per Second", 
+              description: "No long-term commitments. Only pay for compute you actually use.",
+              highlight: "Save 40% vs AWS"
+            },
+          ].map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              className="group p-6 sm:p-8 rounded-2xl border border-border bg-gradient-to-br from-card to-card/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-default"
+            >
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-pink-500/20 mb-5 group-hover:scale-110 transition-transform">
+                <feature.icon className="h-7 w-7 text-primary" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-semibold mb-3">{feature.title}</h3>
+              <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">{feature.description}</p>
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-success/10 text-success-foreground text-xs font-medium">
+                <CheckCircle2 className="h-3 w-3 mr-1" />
+                {feature.highlight}
+              </span>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="container mx-auto px-4 py-12 sm:py-16">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-center">Trusted by ML Engineers</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={index}
+      {/* Testimonials Section - Revolut-style with larger quotes and photos */}
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-muted/30 to-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="p-6 rounded-lg border border-border bg-card"
+              className="text-3xl sm:text-4xl font-bold mb-4"
             >
-              <div className="flex items-center mb-4">
+              Loved by ML Engineers
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="text-lg text-muted-foreground"
+            >
+              See what our customers are saying
+            </motion.p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                whileHover={{ y: -4 }}
+                className="relative p-6 sm:p-8 rounded-2xl border border-border bg-card hover:border-primary/30 hover:shadow-lg transition-all"
+              >
+                {/* Quote mark */}
+                <div className="absolute top-4 right-4 text-6xl text-primary/10 font-serif leading-none">&ldquo;</div>
+                
+                {/* Stars */}
+                <div className="flex items-center gap-0.5 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                  ))}
+                </div>
+                
+                {/* Quote */}
+                <p className="text-base sm:text-lg text-foreground mb-6 leading-relaxed relative z-10">&ldquo;{testimonial.quote}&rdquo;</p>
+                
+                {/* Author */}
+                <div className="flex items-center">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary/30 to-pink-500/30 flex items-center justify-center text-primary font-bold text-lg mr-4 ring-2 ring-background">
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <div className="font-semibold">{testimonial.author}</div>
+                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Trustpilot-style rating banner */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="mt-12 flex flex-wrap items-center justify-center gap-8 text-center"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold">4.9</span>
+              <div className="flex">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                  <Star key={i} className="h-5 w-5 text-yellow-500 fill-yellow-500" />
                 ))}
               </div>
-              <p className="text-muted-foreground mb-4 italic">{testimonial.quote}</p>
-              <div className="flex items-center">
-                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm mr-3">
-                  {testimonial.avatar}
-                </div>
-                <div>
-                  <div className="font-medium text-sm">{testimonial.author}</div>
-                  <div className="text-xs text-muted-foreground">{testimonial.role}</div>
-                </div>
+              <span className="text-muted-foreground ml-2">based on 847 reviews</span>
+            </div>
+            <div className="hidden sm:block h-6 w-px bg-border" />
+            <div className="flex items-center gap-4">
+              <span className="text-muted-foreground">Featured on</span>
+              <div className="flex items-center gap-3 text-foreground font-medium">
+                <span>🚀 Product Hunt</span>
+                <span>📰 TechCrunch</span>
+                <span>🔬 Hacker News</span>
               </div>
-            </motion.div>
-          ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Customer Logos Section */}
-      <section className="container mx-auto px-4 py-12 sm:py-16 border-t border-border">
-        <div className="text-center mb-8">
-          <p className="text-sm text-muted-foreground uppercase tracking-wide mb-2">Trusted by leading AI companies</p>
-          <h2 className="text-2xl sm:text-3xl font-bold">Powering the AI Revolution</h2>
-        </div>
-        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-          {customerLogos.map((customer, index) => (
-            <motion.div
-              key={customer.name}
+      {/* Customer Logos Section - Revolut-style with animated marquee */}
+      <section className="py-16 sm:py-20 border-t border-border/50 overflow-hidden bg-gradient-to-b from-background to-muted/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest mb-3"
+            >
+              Trusted by 2,500+ AI teams worldwide
+            </motion.p>
+            <motion.h2 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-default"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold"
             >
-              <span className="text-2xl">{customer.logo}</span>
-              <span className="font-semibold text-lg">{customer.name}</span>
+              Powering the AI Revolution
+            </motion.h2>
+          </div>
+          
+          {/* Animated logo marquee */}
+          <div className="relative">
+            {/* Gradient overlays for smooth fade */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+            
+            <motion.div 
+              className="flex items-center gap-12 md:gap-16"
+              animate={{ x: [0, -1000] }}
+              transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            >
+              {/* Double the logos for seamless loop */}
+              {[...customerLogos, ...customerLogos].map((customer, index) => (
+                <div
+                  key={`${customer.name}-${index}`}
+                  className="flex items-center gap-3 shrink-0 px-4 py-3 rounded-xl hover:bg-muted/50 transition-colors cursor-default group"
+                >
+                  <span className="text-3xl sm:text-4xl opacity-60 group-hover:opacity-100 transition-opacity">{customer.logo}</span>
+                  <span className="font-semibold text-lg sm:text-xl text-muted-foreground group-hover:text-foreground transition-colors whitespace-nowrap">{customer.name}</span>
+                </div>
+              ))}
             </motion.div>
-          ))}
+          </div>
+          
+          {/* Live stats bar */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+          >
+            {[
+              { value: "8,420+", label: "GPUs Active Now", trend: "+127 today" },
+              { value: "156M", label: "GPU Hours Served", trend: "+2.3M this week" },
+              { value: "99.99%", label: "Uptime This Quarter", trend: "0 incidents" },
+              { value: "$47M", label: "Saved vs AWS/GCP", trend: "40% avg savings" },
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4 + index * 0.1 }}
+                className="text-center p-4 rounded-xl bg-card/50 border border-border/50"
+              >
+                <div className="text-xl sm:text-2xl font-bold text-foreground mb-1">{stat.value}</div>
+                <div className="text-xs text-muted-foreground mb-1">{stat.label}</div>
+                <div className="text-[10px] text-success-foreground font-medium">{stat.trend}</div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
