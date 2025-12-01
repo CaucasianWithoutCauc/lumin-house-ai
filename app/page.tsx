@@ -1,7 +1,7 @@
 "use client";
 
 import { Navbar } from "@/components/Navbar";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { 
   CheckCircle2, Zap, Globe2, ShieldCheck, Server, ArrowRight, 
@@ -9,7 +9,240 @@ import {
   ChevronRight, Star, Users, Clock, MapPin, AlertTriangle,
   Wallet, Building2, Award, Timer, Play, ChevronLeft, Sparkles, X
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion";
+
+// ==========================================
+// KINETIC TYPOGRAPHY COMPONENTS
+// ==========================================
+
+// Kinetic Text - Word-by-word reveal animation with overshoot
+const KineticText = ({ 
+  children, 
+  className = "",
+  delay = 0,
+  stagger = 0.08,
+}: {
+  children: string;
+  className?: string;
+  delay?: number;
+  stagger?: number;
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const words = children.split(" ");
+  
+  return (
+    <span ref={ref} className={className}>
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          initial={{ y: 80, opacity: 0, scale: 0.9 }}
+          animate={isInView ? { y: 0, opacity: 1, scale: 1 } : { y: 80, opacity: 0, scale: 0.9 }}
+          transition={{
+            type: "spring",
+            stiffness: 100,
+            damping: 12,
+            delay: delay + i * stagger,
+          }}
+          className="inline-block mr-[0.25em]"
+        >
+          {word}
+        </motion.span>
+      ))}
+    </span>
+  );
+};
+
+// Marquee Text - Horizontal scroll animation
+const MarqueeText = ({ 
+  text, 
+  speed = 25,
+  className = "",
+  reverse = false
+}: {
+  text: string;
+  speed?: number;
+  className?: string;
+  reverse?: boolean;
+}) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  
+  const x = useTransform(
+    scrollYProgress, 
+    [0, 1], 
+    reverse ? [`-${speed}%`, `${speed}%`] : [`${speed}%`, `-${speed}%`]
+  );
+  
+  return (
+    <div ref={ref} className="overflow-hidden whitespace-nowrap">
+      <motion.div style={{ x }} className={className}>
+        {[...Array(4)].map((_, i) => (
+          <span key={i} className="inline-block mx-8">
+            {text}
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
+// Stretch Text - Text that subtly stretches on scroll
+const StretchText = ({ 
+  children, 
+  className = "" 
+}: { 
+  children: string; 
+  className?: string;
+}) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  
+  const scaleX = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.02, 1]);
+  
+  return (
+    <motion.span
+      ref={ref}
+      style={{ scaleX, display: "inline-block", transformOrigin: "left" }}
+      className={className}
+    >
+      {children}
+    </motion.span>
+  );
+};
+
+// Character Reveal - Letter by letter animation
+const CharReveal = ({ 
+  children, 
+  className = "",
+  delay = 0
+}: { 
+  children: string; 
+  className?: string;
+  delay?: number;
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-30px" });
+  const chars = children.split("");
+  
+  return (
+    <span ref={ref} className={className}>
+      {chars.map((char, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{
+            duration: 0.4,
+            delay: delay + i * 0.02,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+          className="inline-block"
+        >
+          {/* Use non-breaking space for spaces to preserve character animation spacing */}
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </span>
+  );
+};
+
+// Parallax Title - Section title with parallax effect
+const ParallaxTitle = ({ 
+  children, 
+  className = "" 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+}) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "center center"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], [60, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.5, 1]);
+  
+  return (
+    <motion.div
+      ref={ref}
+      style={{ y, opacity }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// ScrollReveal - Advanced scroll-triggered reveal with scale and blur
+const ScrollReveal = ({ 
+  children, 
+  className = "",
+  delay = 0 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+  delay?: number;
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
+      transition={{ 
+        type: "spring", 
+        stiffness: 100, 
+        damping: 15,
+        delay: delay 
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// ScaleOnScroll - Element that scales based on scroll progress
+const ScaleOnScroll = ({ 
+  children, 
+  className = "" 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+}) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.95]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.3, 1, 1, 0.5]);
+  
+  return (
+    <motion.div
+      ref={ref}
+      style={{ scale, opacity }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// ==========================================
+// END KINETIC TYPOGRAPHY COMPONENTS
+// ==========================================
 
 // Product category tabs
 const categories = [
@@ -319,6 +552,14 @@ const stats = [
   { value: "24/7", label: "Support", icon: Clock },
 ];
 
+// Trust badges for credibility - Fintech-style
+const trustBadges = [
+  { label: "SOC 2 Type II", icon: ShieldCheck },
+  { label: "99.99% SLA", icon: Award },
+  { label: "Tier-3+ DCs", icon: Server },
+  { label: "GDPR Ready", icon: Globe2 },
+];
+
 // Testimonials - Extended for carousel
 const testimonials = [
   {
@@ -370,30 +611,37 @@ const heroSlides = [
   {
     title: "Deploy GPU Clusters in 60 Seconds",
     subtitle: "No more waiting weeks for cloud quotas",
-    gradient: "from-purple-500 to-pink-500",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop",
-    imageAlt: "Modern data center server room with blue lighting",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "Modern data center with server racks",
   },
   {
-    title: "Save 40% vs AWS & GCP",
-    subtitle: "Enterprise performance at startup prices",
-    gradient: "from-blue-500 to-cyan-500",
-    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h100/nvidia-h100-sxm-702-p@2x.jpg",
-    imageAlt: "NVIDIA H100 Tensor Core GPU for AI training",
+    title: "Powered by NVIDIA H100 & B200",
+    subtitle: "Latest-generation GPUs for enterprise AI workloads",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1591799265444-d66432b91588?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "High-performance computing server hardware",
   },
   {
     title: "99.99% Uptime Guaranteed",
-    subtitle: "Enterprise SLA backed by $10K credit",
-    gradient: "from-green-500 to-emerald-500",
-    image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1200&auto=format&fit=crop",
-    imageAlt: "High-performance GPU computing cluster",
+    subtitle: "Tier-3+ certified data centers with redundant infrastructure",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "Data center infrastructure with blue lighting",
   },
   {
     title: "Global Edge Locations",
     subtitle: "32+ data centers across APAC, NA, and EU",
-    gradient: "from-orange-500 to-amber-500",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop",
-    imageAlt: "Global network connectivity map",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "Server room with network cables",
+  },
+  {
+    title: "Save 40% vs AWS & GCP",
+    subtitle: "Enterprise performance at startup-friendly prices",
+    gradient: "from-purple-900/60 to-slate-900/80",
+    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1600&q=80&auto=format&fit=crop",
+    imageAlt: "GPU computing hardware closeup",
   },
 ];
 
@@ -402,37 +650,44 @@ const infrastructureImages = [
   {
     id: "dc-1",
     title: "Hong Kong Data Center",
-    description: "Tier-3 certified facility with 99.99% uptime",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop",
-    imageAlt: "Hong Kong data center server racks",
+    description: "Tier-3+ certified facility with 99.99% uptime",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Data center interior with server racks",
   },
   {
     id: "dc-2",
-    title: "GPU Server Rack",
-    description: "8x NVIDIA H100 SXM5 per node with NVLink",
-    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=800&auto=format&fit=crop",
-    imageAlt: "High-density GPU server rack",
+    title: "NVIDIA GPU Cluster",
+    description: "8x NVIDIA H100 SXM5 per node with NVLink interconnect",
+    image: "https://images.unsplash.com/photo-1591799265444-d66432b91588?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "High-performance GPU computing hardware",
   },
   {
     id: "dc-3",
-    title: "Network Operations Center",
-    description: "24/7 monitoring with automated failover",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop",
-    imageAlt: "Network operations center with monitoring screens",
+    title: "Singapore Data Center",
+    description: "APAC hub with <15ms latency to major markets",
+    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Modern data center with blue lighting",
   },
   {
     id: "dc-4",
-    title: "Cooling Infrastructure",
-    description: "Advanced liquid cooling for optimal GPU performance",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop",
-    imageAlt: "Data center cooling systems",
+    title: "Enterprise GPU Hardware",
+    description: "Next-gen architecture with 180GB HBM3e memory",
+    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "GPU computing hardware",
   },
   {
     id: "dc-5",
-    title: "Singapore Data Center",
-    description: "APAC hub with <15ms latency to major markets",
-    image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&auto=format&fit=crop",
-    imageAlt: "Singapore data center facility",
+    title: "Tokyo Data Center",
+    description: "Japan's premier AI infrastructure hub",
+    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Server room infrastructure",
+  },
+  {
+    id: "dc-6",
+    title: "High-Performance Computing",
+    description: "80GB HBM3 memory with 3.35TB/s bandwidth for LLM training",
+    image: "https://images.unsplash.com/photo-1560732488-6b0df240254a?w=1200&q=80&auto=format&fit=crop",
+    imageAlt: "Computer server hardware closeup",
   },
 ];
 
@@ -881,57 +1136,44 @@ const PricingCalculator = () => {
   );
 };
 
-// Hero Image Carousel Component - Revolut-style with real photos
+// Hero Image Carousel Component - Clean professional design
 const HeroImageCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  // Auto-advance every 5 seconds
+  // Auto-advance every 6 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
   
   return (
-    <section className="py-12 sm:py-20 overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-8 sm:mb-12">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
-          >
-            <Sparkles className="h-4 w-4 mr-2" />
+    <section className="py-12 sm:py-16 lg:py-20 overflow-hidden bg-muted/20">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center px-3 sm:px-4 py-1.5 rounded-full border border-border bg-card text-xs sm:text-sm font-medium mb-4">
+            <Building2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2 text-primary" />
             World-Class Infrastructure
-          </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
-          >
-            Built for Scale
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
-          >
+          </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">
+            <KineticText>Built for Scale</KineticText>
+          </h2>
+          <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
             Enterprise-grade data centers powered by the latest NVIDIA GPUs
-          </motion.p>
+          </p>
         </div>
         
-        {/* Main Carousel */}
-        <div className="relative max-w-5xl mx-auto">
-          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl">
+        {/* Main Carousel - Larger images */}
+        <div className="relative max-w-6xl mx-auto">
+          <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentSlide}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.6 }}
                 className="absolute inset-0"
               >
                 <Image
@@ -939,20 +1181,21 @@ const HeroImageCarousel = () => {
                   alt={heroSlides[currentSlide].imageAlt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 1200px"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1400px"
                   priority
+                  quality={85}
                 />
                 {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t ${heroSlides[currentSlide].gradient} opacity-60`} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className={`absolute inset-0 bg-gradient-to-t ${heroSlides[currentSlide].gradient}`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 
                 {/* Text overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 lg:p-10">
                   <motion.h3
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="text-2xl sm:text-4xl font-bold text-white mb-2"
+                    className="text-xl sm:text-2xl lg:text-4xl font-bold text-white mb-1 sm:mb-2"
                   >
                     {heroSlides[currentSlide].title}
                   </motion.h3>
@@ -960,7 +1203,7 @@ const HeroImageCarousel = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="text-lg sm:text-xl text-white/90"
+                    className="text-sm sm:text-base lg:text-xl text-white/90"
                   >
                     {heroSlides[currentSlide].subtitle}
                   </motion.p>
@@ -968,32 +1211,32 @@ const HeroImageCarousel = () => {
               </motion.div>
             </AnimatePresence>
             
-            {/* Navigation arrows */}
+            {/* Navigation arrows - Hidden on very small screens */}
             <button 
               onClick={() => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="h-6 w-6" />
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
             <button 
               onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
               aria-label="Next slide"
             >
-              <ChevronRight className="h-6 w-6" />
+              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
           </div>
           
           {/* Slide indicators */}
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2 mt-4 sm:mt-6">
             {heroSlides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   index === currentSlide 
-                    ? "w-8 bg-primary" 
+                    ? "w-6 sm:w-8 bg-primary" 
                     : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
@@ -1006,78 +1249,59 @@ const HeroImageCarousel = () => {
   );
 };
 
-// Infrastructure Gallery Carousel - Revolut-style scrolling gallery
+// Infrastructure Gallery Carousel - Clean professional design with larger images
 const InfrastructureGallery = () => {
   const [currentImage, setCurrentImage] = useState(0);
   
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-b from-muted/30 to-background overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
-          >
-            <Building2 className="h-4 w-4 mr-2" />
+    <section className="py-12 sm:py-16 lg:py-20 bg-background overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-border bg-card text-sm font-medium mb-4">
+            <Building2 className="h-4 w-4 mr-2 text-primary" />
             Our Infrastructure
-          </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl font-bold mb-4"
-          >
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Tour Our Data Centers
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
-          >
-            Tier-3 certified facilities with the highest security and reliability standards
-          </motion.p>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Tier-3+ certified facilities with enterprise-grade NVIDIA GPUs
+          </p>
         </div>
         
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
+        {/* Gallery Grid - Larger images */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
           {/* Main featured image */}
-          <motion.div 
-            key={currentImage}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl"
-          >
+          <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border border-border">
             <Image
               src={infrastructureImages[currentImage].image}
               alt={infrastructureImages[currentImage].imageAlt}
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 600px"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 700px"
+              quality={85}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6">
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2">
                 {infrastructureImages[currentImage].title}
               </h3>
-              <p className="text-white/80">
+              <p className="text-sm sm:text-base text-white/80">
                 {infrastructureImages[currentImage].description}
               </p>
             </div>
-          </motion.div>
+          </div>
           
           {/* Thumbnail grid */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {infrastructureImages.map((img, index) => (
-              <motion.button
+              <button
                 key={img.id}
                 onClick={() => setCurrentImage(index)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`relative aspect-[4/3] rounded-xl overflow-hidden transition-all ${
+                className={`group relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden transition-all border-2 ${
                   index === currentImage 
-                    ? "ring-2 ring-primary ring-offset-2 ring-offset-background" 
-                    : "opacity-70 hover:opacity-100"
+                    ? "border-primary ring-2 ring-primary/30" 
+                    : "border-transparent opacity-70 hover:opacity-100"
                 }`}
               >
                 <Image
@@ -1085,15 +1309,16 @@ const InfrastructureGallery = () => {
                   alt={img.imageAlt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 50vw, 300px"
+                  sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 200px"
+                  quality={75}
                 />
-                <div className="absolute inset-0 bg-black/30" />
-                <div className="absolute bottom-2 left-2 right-2">
-                  <p className="text-xs sm:text-sm font-medium text-white truncate">
+                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
+                <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2 right-1 sm:right-2">
+                  <p className="text-[10px] sm:text-xs font-medium text-white truncate">
                     {img.title}
                   </p>
                 </div>
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
@@ -1102,7 +1327,7 @@ const InfrastructureGallery = () => {
   );
 };
 
-// Testimonials Carousel Component - Revolut-style with auto-scroll
+// Testimonials Carousel Component - Clean professional design
 const TestimonialsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -1133,32 +1358,19 @@ const TestimonialsCarousel = () => {
   };
   
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-b from-muted/30 to-background overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12 sm:mb-16">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
-          >
-            <Sparkles className="h-4 w-4" />
+    <section className="py-12 sm:py-16 lg:py-20 bg-muted/30 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full border border-border bg-card text-xs sm:text-sm font-medium mb-4">
+            <Users className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             Customer Stories
-          </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
-          >
-            Loved by ML Engineers
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto"
-          >
+          </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">
+            <KineticText>Loved by ML Engineers</KineticText>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Join 2,500+ teams who trust us with their AI infrastructure
-          </motion.p>
+          </p>
         </div>
         
         {/* Carousel Container */}
@@ -1296,142 +1508,240 @@ export default function Home() {
   const [selectedGpu, setSelectedGpu] = useState<typeof gpuInventory[0] | null>(null);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black overflow-x-hidden scroll-smooth snap-y snap-mandatory">
       <Navbar />
       
-      {/* Hero Section - Revolut-inspired with emotional copy and visual hierarchy */}
-      <section className="relative overflow-hidden">
-        {/* Gradient background overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* HERO SECTION - Pure Black with Kinetic Entrance & Floating Glows */}
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-black snap-start">
+        {/* Floating purple/blue glows - Parallax effect */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.15, scale: 1 }}
+          transition={{ duration: 2, delay: 0.5 }}
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full blur-[120px] pointer-events-none"
+          style={{ willChange: "opacity, transform" }}
+        />
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.1, scale: 1 }}
+          transition={{ duration: 2, delay: 0.8 }}
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600 rounded-full blur-[120px] pointer-events-none"
+          style={{ willChange: "opacity, transform" }}
+        />
         
-        <div className="container mx-auto px-4 py-12 sm:py-16 md:py-24 text-center relative">
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-12 py-20 max-w-7xl z-10">
+          {/* Badge - Staggered entrance (0-0.2s) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0 }}
+            className="inline-flex items-center px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-sm mb-12"
           >
-            {/* Announcement badge */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center px-4 py-2 rounded-full border border-primary/30 bg-gradient-to-r from-primary/10 to-pink-500/10 text-primary text-sm mb-6 sm:mb-8 backdrop-blur-sm"
-            >
+            <Sparkles className="h-4 w-4 text-purple-400 mr-2" />
+            <span className="font-medium text-white">New:</span>
+            <span className="ml-1 text-white/70">RTX 5090 & B200 SuperPods now available</span>
+          </motion.div>
+          
+          {/* KINETIC HEADLINE - Flowing gradient animation (0.6s-1.0s) */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 80,
+              damping: 15,
+              delay: 0.2 
+            }}
+            className="space-y-6 mb-12"
+          >
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight text-white leading-[1.05]">
+              Focus on{" "}
               <motion.span 
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="mr-2"
+                className="inline-block bg-gradient-to-r from-white via-purple-400 to-white bg-clip-text text-transparent"
+                style={{
+                  backgroundSize: "200% auto",
+                  willChange: "background-position",
+                }}
+                animate={{
+                  backgroundPosition: ["0% center", "200% center"],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
               >
-                <Zap className="h-4 w-4" />
+                your AI
               </motion.span>
-              <span className="font-medium">New:</span>
-              <span className="ml-1">RTX 5090 & B200 SuperPods now available</span>
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </motion.div>
-            
-            {/* Main headline - Larger, more impactful */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 leading-[1.1] tracking-tight">
-              <span className="text-foreground">Focus on your </span>
-              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">AI models</span>
-              <br className="hidden sm:block" />
-              <span className="text-foreground">We handle the </span>
-              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">infrastructure</span>
+              {" "}models
             </h1>
-            
-            {/* Subheadline - Lifestyle/benefit focused */}
-            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 sm:mb-10 max-w-3xl mx-auto px-4 leading-relaxed">
-              Deploy GPU clusters in 60 seconds. Train faster. Pay less.
-              <br className="hidden md:block" />
-              <span className="text-foreground/80">The AI infrastructure your team deserves.</span>
-            </p>
-            
-            {/* CTA Buttons - Larger, more prominent */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 px-4 sm:px-0 mb-8">
-              <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 h-14 px-8 w-full sm:w-auto transition-all"
-              >
-                Get $100 Free Credits
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-border bg-background/50 backdrop-blur-sm shadow-sm hover:bg-accent hover:text-accent-foreground h-14 px-8 w-full sm:w-auto transition-all"
-              >
-                Watch 2-min Demo
-                <Play className="ml-2 h-4 w-4" />
-              </motion.button>
-            </div>
-            
-            {/* Social proof mini-banner */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-muted-foreground"
+          </motion.div>
+          
+          {/* Subheadline - Breathing space with max-width (1.0s) */}
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 80,
+              damping: 15,
+              delay: 0.6 
+            }}
+            className="text-xl sm:text-2xl md:text-3xl text-white/70 max-w-[40ch] mb-14 leading-relaxed"
+          >
+            Deploy GPU clusters in 60 seconds. Train faster. Pay less.
+          </motion.p>
+          
+          {/* Single Strong CTA with spring animation (1.2s) */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0 }}
+            className="flex flex-col sm:flex-row gap-4 mb-16"
+          >
+            <motion.button 
+              whileHover={{ scale: 1.05, y: -4 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className="inline-flex items-center justify-center rounded-full text-lg font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white h-16 px-12 shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/70 transition-shadow"
             >
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {["SC", "MJ", "EP", "AK"].map((initials, i) => (
-                    <div key={i} className="h-8 w-8 rounded-full bg-gradient-to-br from-primary/20 to-pink-500/20 border-2 border-background flex items-center justify-center text-xs font-medium">
-                      {initials}
-                    </div>
-                  ))}
-                </div>
-                <span><strong className="text-foreground">2,500+</strong> teams trust us</span>
-              </div>
-              <div className="hidden sm:block h-4 w-px bg-border" />
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                ))}
-                <span className="ml-1"><strong className="text-foreground">4.9/5</strong> rating</span>
-              </div>
-            </motion.div>
+              Deploy Now — Get $100 Free
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </motion.button>
+            <motion.button 
+              whileHover={{ scale: 1.05, y: -4 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className="inline-flex items-center justify-center rounded-full text-lg font-medium bg-white/5 text-white border-2 border-white/10 h-16 px-12 hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-sm"
+            >
+              <Play className="mr-2 h-5 w-5" />
+              Watch Demo
+            </motion.button>
+          </motion.div>
+          
+          {/* Trust Badges - Minimal white cards on black (1.4s) */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12 max-w-4xl"
+          >
+            {trustBadges.map((badge, i) => {
+              const Icon = badge.icon;
+              return (
+                <motion.div 
+                  key={badge.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.2 + i * 0.1 }}
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-purple-500/30 transition-all backdrop-blur-sm"
+                >
+                  <div className="h-10 w-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <Icon className="h-5 w-5 text-purple-400" />
+                  </div>
+                  <span className="text-sm font-medium text-white text-center">{badge.label}</span>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+          
+          {/* Social proof - minimal */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.6 }}
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-white/60 text-sm"
+          >
+            <div className="flex items-center gap-2">
+              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+              <span className="font-medium text-white">4.9</span>
+              <span>from 2,400+ reviews</span>
+            </div>
+            <div className="hidden sm:block h-4 w-px bg-white/20" />
+            <div className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              <span>Trusted by 10,000+ AI teams</span>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section - Revolut-style with animated counters and larger numbers */}
-      <section className="container mx-auto px-4 py-12 sm:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.02, y: -4 }}
-              className="text-center p-6 sm:p-8 rounded-2xl border border-border bg-gradient-to-br from-card to-card/50 hover:border-primary/30 transition-all shadow-lg shadow-black/5"
-            >
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-4">
-                {stat.icon && <stat.icon className="h-6 w-6 text-primary" />}
-              </div>
-              <motion.div 
-                className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent mb-2"
-                initial={{ scale: 0.5 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-              >
-                {stat.value}
-              </motion.div>
-              <div className="text-sm sm:text-base text-muted-foreground font-medium">{stat.label}</div>
-            </motion.div>
-          ))}
+      {/* STATS SECTION - WHITE background (Zebra pattern) */}
+      <section className="py-20 sm:py-28 bg-white snap-start">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+            {[
+              { label: "GPU Uptime", value: "99.99%", icon: Gauge },
+              { label: "Deploy Time", value: "<60s", icon: Zap },
+              { label: "AI Teams", value: "10K+", icon: Users },
+              { label: "Global DCs", value: "24/7", icon: Globe2 },
+            ].map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <ScrollReveal key={stat.label} delay={i * 0.1}>
+                  <motion.div 
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="p-6 sm:p-8 rounded-2xl bg-white border-2 border-gray-100 hover:border-purple-200 hover:shadow-xl transition-all"
+                  >
+                    <div className="h-14 w-14 rounded-2xl bg-purple-50 flex items-center justify-center mb-6">
+                      <Icon className="h-7 w-7 text-purple-600" />
+                    </div>
+                    <div className="text-4xl sm:text-5xl font-bold text-gray-900 mb-3">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm font-medium text-gray-600">{stat.label}</div>
+                  </motion.div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* Hero Image Carousel - Revolut-style with real datacenter & GPU photos */}
+      {/* Infrastructure/Features Section - BLACK background (Zebra pattern) */}
+      <section className="py-20 sm:py-28 bg-black snap-start">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
+          <div className="text-center mb-16">
+            <KineticText className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+              World-Class Infrastructure
+            </KineticText>
+            <p className="text-lg sm:text-xl text-white/60 max-w-[50ch] mx-auto">
+              Built for the future of AI with enterprise-grade hardware and global edge locations
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {stats.map((stat, index) => (
+              <ScrollReveal key={stat.label} delay={index * 0.1}>
+                <motion.div
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="text-center p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all backdrop-blur-sm group"
+                >
+                  <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-purple-500/20 mb-6 group-hover:bg-purple-500/30 transition-colors">
+                    {stat.icon && <stat.icon className="h-7 w-7 sm:h-8 sm:w-8 text-purple-400" />}
+                  </div>
+                  <div className="text-3xl sm:text-4xl lg:text-5xl font-black mb-3">
+                    <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      {stat.value}
+                    </span>
+                  </div>
+                  <div className="text-sm font-medium text-white/60">{stat.label}</div>
+                </motion.div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hero Image Carousel - Real datacenter & GPU photos */}
       <HeroImageCarousel />
 
-      {/* Infrastructure Trust Section */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="p-6 rounded-xl border border-border bg-gradient-to-r from-card to-muted/30">
-          <div className="flex flex-col md:flex-row items-center gap-6">
+      {/* Infrastructure Trust Section - Clean professional design */}
+      <section className="container mx-auto px-4 py-8 sm:py-12">
+        <div className="p-4 sm:p-6 rounded-xl border border-border bg-card">
+          <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-6">
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
                 <Building2 className="h-5 w-5 text-primary" />
@@ -1952,23 +2262,14 @@ export default function Home() {
 
       {/* Features Section - Revolut-style with better visual hierarchy */}
       <section className="container mx-auto px-4 py-16 sm:py-20">
-        <div className="text-center mb-12">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl font-bold mb-4"
-          >
-            Why Teams Choose Lumin House AI
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
-          >
+        <ParallaxTitle className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+            <KineticText>Why Teams Choose Lumin House AI</KineticText>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Everything you need to train, deploy, and scale AI models
-          </motion.p>
-        </div>
+          </p>
+        </ParallaxTitle>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { 
@@ -1996,24 +2297,22 @@ export default function Home() {
               highlight: "Save 40% vs AWS"
             },
           ].map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              className="group p-6 sm:p-8 rounded-2xl border border-border bg-gradient-to-br from-card to-card/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-default"
-            >
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-pink-500/20 mb-5 group-hover:scale-110 transition-transform">
-                <feature.icon className="h-7 w-7 text-primary" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-3">{feature.title}</h3>
-              <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">{feature.description}</p>
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-success/10 text-success-foreground text-xs font-medium">
-                <CheckCircle2 className="h-3 w-3 mr-1" />
-                {feature.highlight}
-              </span>
-            </motion.div>
+            <ScrollReveal key={feature.title} delay={index * 0.1}>
+              <motion.div
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                className="group p-6 sm:p-8 rounded-2xl border border-border bg-gradient-to-br from-card to-card/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-default h-full"
+              >
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-pink-500/20 mb-5 group-hover:scale-110 transition-transform">
+                  <feature.icon className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold mb-3">{feature.title}</h3>
+                <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">{feature.description}</p>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-success/10 text-success-foreground text-xs font-medium">
+                  <CheckCircle2 className="h-3 w-3 mr-1" />
+                  {feature.highlight}
+                </span>
+              </motion.div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -2752,58 +3051,44 @@ export default function Home() {
 
       {/* CTA Section - Revolut-style with strong visual impact */}
       <section className="container mx-auto px-4 py-16 sm:py-20">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-purple-600 to-pink-600 p-8 sm:p-12 md:p-16 text-center"
-        >
-          {/* Background decoration */}
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-          
-          <div className="relative z-10">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
-            >
-              Ready to 10x your<br className="hidden sm:block" /> AI training speed?
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto"
-            >
-              Join 2,500+ teams who have already made the switch. Get <span className="font-bold text-white">$100 in free credits</span> to start.
-            </motion.p>
+        <ScaleOnScroll>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-purple-600 to-pink-600 p-8 sm:p-12 md:p-16 text-center">
+            {/* Background decoration */}
+            <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
             
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row justify-center gap-4"
-            >
-              <button className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-white text-primary shadow-xl hover:bg-white/90 h-14 px-10 transition-all hover:scale-105">
-                Start Free Trial
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-              <button className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-white/30 text-white hover:bg-white/10 h-14 px-10 transition-all">
-                Talk to Sales
-              </button>
-            </motion.div>
-            
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mt-6 text-sm text-white/60"
-            >
-              No credit card required • Deploy in 60 seconds • Cancel anytime
-            </motion.p>
+            <div className="relative z-10">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                Ready to 10x your<br className="hidden sm:block" /> AI training speed?
+              </h2>
+              <p className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+                Join 2,500+ teams who have already made the switch. Get <span className="font-bold text-white">$100 in free credits</span> to start.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <motion.button 
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-white text-primary shadow-xl h-14 px-10 transition-colors"
+                >
+                  Start Free Trial
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </motion.button>
+                <motion.button 
+                  whileHover={{ scale: 1.03, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-white/30 text-white h-14 px-10 transition-colors"
+                >
+                  Talk to Sales
+                </motion.button>
+              </div>
+              
+              <p className="mt-6 text-sm text-white/60">
+                No credit card required • Deploy in 60 seconds • Cancel anytime
+              </p>
+            </div>
           </div>
-        </motion.div>
+        </ScaleOnScroll>
       </section>
 
       {/* Footer */}
