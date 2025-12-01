@@ -1541,7 +1541,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="space-y-4 mb-8"
           >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-gray-900 leading-[1.1]">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
               Focus on{" "}
               <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 your AI
@@ -1555,7 +1555,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-xl sm:text-2xl text-gray-600 max-w-2xl mb-10 leading-relaxed"
+            className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-10 leading-relaxed"
           >
             Deploy GPU clusters in 60 seconds. Train faster. Pay less.
           </motion.p>
@@ -1580,7 +1580,7 @@ export default function Home() {
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="inline-flex items-center justify-center rounded-full text-lg font-medium bg-white text-gray-900 border-2 border-gray-200 h-14 sm:h-16 px-10 sm:px-12 hover:border-gray-300 transition-colors"
+              className="inline-flex items-center justify-center rounded-full text-lg font-medium bg-white text-foreground border-2 border-gray-200 h-14 sm:h-16 px-10 sm:px-12 hover:border-gray-300 transition-colors"
             >
               <Play className="mr-2 h-5 w-5" />
               Watch Demo
@@ -1604,7 +1604,7 @@ export default function Home() {
                   <div className="h-10 w-10 rounded-full bg-purple-50 flex items-center justify-center">
                     <Icon className="h-5 w-5 text-purple-600" />
                   </div>
-                  <span className="text-sm font-medium text-gray-900 text-center">{badge.label}</span>
+                  <span className="text-sm font-medium text-foreground text-center">{badge.label}</span>
                 </div>
               );
             })}
@@ -1615,11 +1615,11 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9 }}
-            className="flex items-center gap-6 text-gray-500 text-sm"
+            className="flex items-center gap-6 text-muted-foreground text-sm"
           >
             <div className="flex items-center gap-2">
               <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-              <span className="font-medium text-gray-900">4.9</span>
+              <span className="font-medium text-foreground">4.9</span>
               <span>from 2,400+ reviews</span>
             </div>
             <div className="hidden sm:block h-4 w-px bg-gray-300" />
@@ -1650,10 +1650,10 @@ export default function Home() {
                   <div className="h-12 w-12 rounded-full bg-purple-50 flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-purple-600" />
                   </div>
-                  <div className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                  <div className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-gray-600">{stat.label}</div>
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </div>
               );
             })}
