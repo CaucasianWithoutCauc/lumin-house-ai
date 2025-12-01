@@ -15,7 +15,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 // KINETIC TYPOGRAPHY COMPONENTS
 // ==========================================
 
-// Kinetic Text - Word-by-word reveal animation
+// Kinetic Text - Word-by-word reveal animation with overshoot
 const KineticText = ({ 
   children, 
   className = "",
@@ -36,12 +36,13 @@ const KineticText = ({
       {words.map((word, i) => (
         <motion.span
           key={i}
-          initial={{ y: 80, opacity: 0 }}
-          animate={isInView ? { y: 0, opacity: 1 } : { y: 80, opacity: 0 }}
+          initial={{ y: 80, opacity: 0, scale: 0.9 }}
+          animate={isInView ? { y: 0, opacity: 1, scale: 1 } : { y: 80, opacity: 0, scale: 0.9 }}
           transition={{
-            duration: 0.6,
+            type: "spring" as const,
+            stiffness: 100,
+            damping: 12,
             delay: delay + i * stagger,
-            ease: [0.25, 0.46, 0.45, 0.94],
           }}
           className="inline-block mr-[0.25em]"
         >
@@ -490,6 +491,14 @@ const stats = [
   { value: "32+", label: "Data Centers", icon: Building2 },
   { value: "<60s", label: "Deploy Time", icon: Timer },
   { value: "24/7", label: "Support", icon: Clock },
+];
+
+// Trust badges for credibility - Fintech-style
+const trustBadges = [
+  { label: "SOC 2 Type II", icon: ShieldCheck },
+  { label: "99.99% SLA", icon: Award },
+  { label: "Tier-3+ DCs", icon: Server },
+  { label: "GDPR Ready", icon: Globe2 },
 ];
 
 // Testimonials - Extended for carousel
@@ -1476,9 +1485,9 @@ export default function Home() {
           <div className="space-y-1 sm:space-y-2 mb-8 sm:mb-10" role="heading" aria-level={1} aria-label="Focus on your AI models">
             <div className="overflow-hidden">
               <motion.div
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
+                initial={{ y: "100%", scale: 1.1 }}
+                animate={{ y: 0, scale: 1 }}
+                transition={{ type: "spring" as const, stiffness: 100, damping: 12, delay: 0.1 }}
               >
                 <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9] text-white" aria-hidden="true">
                   FOCUS ON
@@ -1487,9 +1496,9 @@ export default function Home() {
             </div>
             <div className="overflow-hidden">
               <motion.div
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
+                initial={{ y: "100%", scale: 1.1 }}
+                animate={{ y: 0, scale: 1 }}
+                transition={{ type: "spring" as const, stiffness: 100, damping: 12, delay: 0.2 }}
               >
                 <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9]" aria-hidden="true">
                   <StretchText className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
@@ -1500,9 +1509,9 @@ export default function Home() {
             </div>
             <div className="overflow-hidden">
               <motion.div
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
+                initial={{ y: "100%", scale: 1.1 }}
+                animate={{ y: 0, scale: 1 }}
+                transition={{ type: "spring" as const, stiffness: 100, damping: 12, delay: 0.3 }}
               >
                 <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9] text-white" aria-hidden="true">
                   MODELS
@@ -1525,28 +1534,57 @@ export default function Home() {
             </p>
           </motion.div>
           
-          {/* CTA Buttons */}
+          {/* CTA Buttons with hover displacement */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-10 sm:mb-12"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10"
           >
-            <button className="group inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-white text-black hover:bg-purple-100 h-12 sm:h-14 px-6 sm:px-10 transition-all shadow-2xl">
+            <motion.button 
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="group inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-white text-black hover:bg-purple-100 h-12 sm:h-14 px-6 sm:px-10 transition-colors shadow-2xl"
+            >
               Get $100 Free Credits
               <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-transparent text-white border-2 border-white/30 hover:border-white hover:bg-white/5 h-12 sm:h-14 px-6 sm:px-10 transition-all">
+            </motion.button>
+            <motion.button 
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-transparent text-white border-2 border-white/30 hover:border-white hover:bg-white/5 h-12 sm:h-14 px-6 sm:px-10 transition-colors"
+            >
               Watch Demo
               <Play className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
+            </motion.button>
+          </motion.div>
+          
+          {/* Trust Badges - Fintech-style compliance indicators */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.3 }}
+            className="flex flex-wrap gap-2 sm:gap-3 mb-8 sm:mb-10"
+          >
+            {trustBadges.map((badge) => {
+              const Icon = badge.icon;
+              return (
+                <div 
+                  key={badge.label}
+                  className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm"
+                >
+                  <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-400" />
+                  <span className="text-xs sm:text-sm font-medium text-white/80">{badge.label}</span>
+                </div>
+              );
+            })}
           </motion.div>
           
           {/* Social proof */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.4 }}
+            transition={{ delay: 1.5 }}
             className="flex flex-wrap items-center gap-4 sm:gap-6 text-white/40"
           >
             <div className="flex items-center gap-2 sm:gap-3">
