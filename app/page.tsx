@@ -39,7 +39,7 @@ const KineticText = ({
           initial={{ y: 80, opacity: 0, scale: 0.9 }}
           animate={isInView ? { y: 0, opacity: 1, scale: 1 } : { y: 80, opacity: 0, scale: 0.9 }}
           transition={{
-            type: "spring" as const,
+            type: "spring",
             stiffness: 100,
             damping: 12,
             delay: delay + i * stagger,
@@ -1487,7 +1487,7 @@ export default function Home() {
               <motion.div
                 initial={{ y: "100%", scale: 1.1 }}
                 animate={{ y: 0, scale: 1 }}
-                transition={{ type: "spring" as const, stiffness: 100, damping: 12, delay: 0.1 }}
+                transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.1 }}
               >
                 <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9] text-white" aria-hidden="true">
                   FOCUS ON
@@ -1498,7 +1498,7 @@ export default function Home() {
               <motion.div
                 initial={{ y: "100%", scale: 1.1 }}
                 animate={{ y: 0, scale: 1 }}
-                transition={{ type: "spring" as const, stiffness: 100, damping: 12, delay: 0.2 }}
+                transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.2 }}
               >
                 <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9]" aria-hidden="true">
                   <StretchText className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
@@ -1511,7 +1511,7 @@ export default function Home() {
               <motion.div
                 initial={{ y: "100%", scale: 1.1 }}
                 animate={{ y: 0, scale: 1 }}
-                transition={{ type: "spring" as const, stiffness: 100, damping: 12, delay: 0.3 }}
+                transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.3 }}
               >
                 <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.9] text-white" aria-hidden="true">
                   MODELS
@@ -1542,17 +1542,17 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10"
           >
             <motion.button 
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={{ scale: 1.05, y: -2, backgroundColor: "rgba(243, 232, 255, 1)" }}
               whileTap={{ scale: 0.98 }}
-              className="group inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-white text-black hover:bg-purple-100 h-12 sm:h-14 px-6 sm:px-10 transition-colors shadow-2xl"
+              className="group inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-white text-black h-12 sm:h-14 px-6 sm:px-10 shadow-2xl"
             >
               Get $100 Free Credits
               <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <motion.button 
-              whileHover={{ scale: 1.03, y: -2 }}
+              whileHover={{ scale: 1.03, y: -2, borderColor: "rgba(255, 255, 255, 1)", backgroundColor: "rgba(255, 255, 255, 0.05)" }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-transparent text-white border-2 border-white/30 hover:border-white hover:bg-white/5 h-12 sm:h-14 px-6 sm:px-10 transition-colors"
+              className="inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-transparent text-white border-2 border-white/30 h-12 sm:h-14 px-6 sm:px-10"
             >
               Watch Demo
               <Play className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
