@@ -9,7 +9,7 @@ import {
   ChevronRight, Star, Users, Clock, MapPin, AlertTriangle,
   Wallet, Building2, Award, Timer, Play, ChevronLeft, Sparkles, X
 } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion";
 
 // ==========================================
 // KINETIC TYPOGRAPHY COMPONENTS
@@ -144,6 +144,7 @@ const CharReveal = ({
           }}
           className="inline-block"
         >
+          {/* Use non-breaking space for spaces to preserve character animation spacing */}
           {char === " " ? "\u00A0" : char}
         </motion.span>
       ))}
@@ -1467,17 +1468,17 @@ export default function Home() {
             <span className="ml-1 text-white/60">RTX 5090 & B200 SuperPods now available</span>
           </motion.div>
           
-          {/* ULTRA LARGE KINETIC HEADLINE */}
-          <div className="space-y-2 mb-12">
+          {/* ULTRA LARGE KINETIC HEADLINE - Accessible with aria-label */}
+          <div className="space-y-2 mb-12" role="heading" aria-level={1} aria-label="Focus on your AI models">
             <div className="overflow-hidden">
               <motion.div
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
               >
-                <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85] text-white">
+                <span className="block text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85] text-white" aria-hidden="true">
                   FOCUS ON
-                </h1>
+                </span>
               </motion.div>
             </div>
             <div className="overflow-hidden">
@@ -1486,11 +1487,11 @@ export default function Home() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
               >
-                <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85]">
+                <span className="block text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85]" aria-hidden="true">
                   <StretchText className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
                     YOUR AI
                   </StretchText>
-                </h1>
+                </span>
               </motion.div>
             </div>
             <div className="overflow-hidden">
@@ -1499,9 +1500,9 @@ export default function Home() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
               >
-                <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85] text-white">
+                <span className="block text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black tracking-tighter leading-[0.85] text-white" aria-hidden="true">
                   MODELS
-                </h1>
+                </span>
               </motion.div>
             </div>
           </div>
@@ -1565,10 +1566,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MARQUEE TEXT DIVIDER */}
+      {/* MARQUEE TEXT DIVIDER - Very subtle background text for visual texture */}
       <section className="py-6 bg-black border-y border-white/5 overflow-hidden">
         <MarqueeText 
           text="GPU CLOUD • AI INFRASTRUCTURE • FAST DEPLOY • ENTERPRISE SCALE •" 
+          /* Intentionally very low opacity (3%) - creates subtle watermark effect common in Neo-Brutalist design */
           className="text-5xl sm:text-6xl lg:text-7xl font-black text-white/[0.03]"
         />
       </section>
