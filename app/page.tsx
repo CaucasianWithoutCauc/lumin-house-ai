@@ -365,22 +365,74 @@ const testimonials = [
   },
 ];
 
-// Hero slides for carousel
+// Hero slides for carousel with real datacenter & GPU images
 const heroSlides = [
   {
     title: "Deploy GPU Clusters in 60 Seconds",
     subtitle: "No more waiting weeks for cloud quotas",
     gradient: "from-purple-500 to-pink-500",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop",
+    imageAlt: "Modern data center server room with blue lighting",
   },
   {
     title: "Save 40% vs AWS & GCP",
     subtitle: "Enterprise performance at startup prices",
     gradient: "from-blue-500 to-cyan-500",
+    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h100/nvidia-h100-sxm-702-p@2x.jpg",
+    imageAlt: "NVIDIA H100 Tensor Core GPU for AI training",
   },
   {
     title: "99.99% Uptime Guaranteed",
     subtitle: "Enterprise SLA backed by $10K credit",
     gradient: "from-green-500 to-emerald-500",
+    image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1200&auto=format&fit=crop",
+    imageAlt: "High-performance GPU computing cluster",
+  },
+  {
+    title: "Global Edge Locations",
+    subtitle: "32+ data centers across APAC, NA, and EU",
+    gradient: "from-orange-500 to-amber-500",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop",
+    imageAlt: "Global network connectivity map",
+  },
+];
+
+// Infrastructure showcase images for carousel
+const infrastructureImages = [
+  {
+    id: "dc-1",
+    title: "Hong Kong Data Center",
+    description: "Tier-3 certified facility with 99.99% uptime",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop",
+    imageAlt: "Hong Kong data center server racks",
+  },
+  {
+    id: "dc-2",
+    title: "GPU Server Rack",
+    description: "8x NVIDIA H100 SXM5 per node with NVLink",
+    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=800&auto=format&fit=crop",
+    imageAlt: "High-density GPU server rack",
+  },
+  {
+    id: "dc-3",
+    title: "Network Operations Center",
+    description: "24/7 monitoring with automated failover",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop",
+    imageAlt: "Network operations center with monitoring screens",
+  },
+  {
+    id: "dc-4",
+    title: "Cooling Infrastructure",
+    description: "Advanced liquid cooling for optimal GPU performance",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop",
+    imageAlt: "Data center cooling systems",
+  },
+  {
+    id: "dc-5",
+    title: "Singapore Data Center",
+    description: "APAC hub with <15ms latency to major markets",
+    image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&auto=format&fit=crop",
+    imageAlt: "Singapore data center facility",
   },
 ];
 
@@ -829,6 +881,227 @@ const PricingCalculator = () => {
   );
 };
 
+// Hero Image Carousel Component - Revolut-style with real photos
+const HeroImageCarousel = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  // Auto-advance every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+  
+  return (
+    <section className="py-12 sm:py-20 overflow-hidden">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+          >
+            <Sparkles className="h-4 w-4 mr-2" />
+            World-Class Infrastructure
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
+          >
+            Built for Scale
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+          >
+            Enterprise-grade data centers powered by the latest NVIDIA GPUs
+          </motion.p>
+        </div>
+        
+        {/* Main Carousel */}
+        <div className="relative max-w-5xl mx-auto">
+          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={heroSlides[currentSlide].image}
+                  alt={heroSlides[currentSlide].imageAlt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 1200px"
+                  priority
+                />
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-t ${heroSlides[currentSlide].gradient} opacity-60`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                
+                {/* Text overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
+                  <motion.h3
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-2xl sm:text-4xl font-bold text-white mb-2"
+                  >
+                    {heroSlides[currentSlide].title}
+                  </motion.h3>
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-lg sm:text-xl text-white/90"
+                  >
+                    {heroSlides[currentSlide].subtitle}
+                  </motion.p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+            
+            {/* Navigation arrows */}
+            <button 
+              onClick={() => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
+              className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button 
+              onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </div>
+          
+          {/* Slide indicators */}
+          <div className="flex justify-center gap-2 mt-6">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentSlide 
+                    ? "w-8 bg-primary" 
+                    : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Infrastructure Gallery Carousel - Revolut-style scrolling gallery
+const InfrastructureGallery = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  
+  return (
+    <section className="py-16 sm:py-24 bg-gradient-to-b from-muted/30 to-background overflow-hidden">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+          >
+            <Building2 className="h-4 w-4 mr-2" />
+            Our Infrastructure
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-4xl font-bold mb-4"
+          >
+            Tour Our Data Centers
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+          >
+            Tier-3 certified facilities with the highest security and reliability standards
+          </motion.p>
+        </div>
+        
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
+          {/* Main featured image */}
+          <motion.div 
+            key={currentImage}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl"
+          >
+            <Image
+              src={infrastructureImages[currentImage].image}
+              alt={infrastructureImages[currentImage].imageAlt}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 600px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                {infrastructureImages[currentImage].title}
+              </h3>
+              <p className="text-white/80">
+                {infrastructureImages[currentImage].description}
+              </p>
+            </div>
+          </motion.div>
+          
+          {/* Thumbnail grid */}
+          <div className="grid grid-cols-2 gap-4">
+            {infrastructureImages.map((img, index) => (
+              <motion.button
+                key={img.id}
+                onClick={() => setCurrentImage(index)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`relative aspect-[4/3] rounded-xl overflow-hidden transition-all ${
+                  index === currentImage 
+                    ? "ring-2 ring-primary ring-offset-2 ring-offset-background" 
+                    : "opacity-70 hover:opacity-100"
+                }`}
+              >
+                <Image
+                  src={img.image}
+                  alt={img.imageAlt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 300px"
+                />
+                <div className="absolute inset-0 bg-black/30" />
+                <div className="absolute bottom-2 left-2 right-2">
+                  <p className="text-xs sm:text-sm font-medium text-white truncate">
+                    {img.title}
+                  </p>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // Testimonials Carousel Component - Revolut-style with auto-scroll
 const TestimonialsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -1060,11 +1333,11 @@ export default function Home() {
             
             {/* Main headline - Larger, more impactful */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 leading-[1.1] tracking-tight">
-              <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent">Focus on your </span>
-              <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">AI models</span>
+              <span className="text-foreground">Focus on your </span>
+              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">AI models</span>
               <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent">We handle the </span>
-              <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">infrastructure</span>
+              <span className="text-foreground">We handle the </span>
+              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">infrastructure</span>
             </h1>
             
             {/* Subheadline - Lifestyle/benefit focused */}
@@ -1151,6 +1424,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Hero Image Carousel - Revolut-style with real datacenter & GPU photos */}
+      <HeroImageCarousel />
 
       {/* Infrastructure Trust Section */}
       <section className="container mx-auto px-4 py-8">
@@ -1744,6 +2020,9 @@ export default function Home() {
 
       {/* Testimonials Section - Revolut-style carousel with auto-scroll */}
       <TestimonialsCarousel />
+
+      {/* Infrastructure Gallery - Real datacenter photos */}
+      <InfrastructureGallery />
 
       {/* Customer Logos Section - Revolut-style with animated marquee */}
       <section className="py-16 sm:py-20 border-t border-border/50 overflow-hidden bg-gradient-to-b from-background to-muted/20">
