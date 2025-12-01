@@ -370,30 +370,37 @@ const heroSlides = [
   {
     title: "Deploy GPU Clusters in 60 Seconds",
     subtitle: "No more waiting weeks for cloud quotas",
-    gradient: "from-purple-500 to-pink-500",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop",
-    imageAlt: "Modern data center server room with blue lighting",
+    gradient: "from-slate-800/60 to-slate-900/60",
+    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/hk5-hong-kong/hk5-hong-kong-exterior-slider-1.jpg",
+    imageAlt: "Equinix HK5 Hong Kong data center facility exterior",
   },
   {
-    title: "Save 40% vs AWS & GCP",
-    subtitle: "Enterprise performance at startup prices",
-    gradient: "from-blue-500 to-cyan-500",
-    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h100/nvidia-h100-sxm-702-p@2x.jpg",
-    imageAlt: "NVIDIA H100 Tensor Core GPU for AI training",
+    title: "Powered by NVIDIA H100 & B200",
+    subtitle: "Latest-generation GPUs for enterprise AI workloads",
+    gradient: "from-slate-800/60 to-slate-900/60",
+    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/nvidia-dgx-superpod/nvidia-dgx-superpod-702-p@2x.jpg",
+    imageAlt: "NVIDIA DGX SuperPod data center installation",
   },
   {
     title: "99.99% Uptime Guaranteed",
-    subtitle: "Enterprise SLA backed by $10K credit",
-    gradient: "from-green-500 to-emerald-500",
-    image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1200&auto=format&fit=crop",
-    imageAlt: "High-performance GPU computing cluster",
+    subtitle: "Tier-3+ certified data centers with redundant infrastructure",
+    gradient: "from-slate-800/60 to-slate-900/60",
+    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/sg3-singapore/sg3-singapore-interior-servers.jpg",
+    imageAlt: "Equinix Singapore data center server room interior",
   },
   {
     title: "Global Edge Locations",
     subtitle: "32+ data centers across APAC, NA, and EU",
-    gradient: "from-orange-500 to-amber-500",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&auto=format&fit=crop",
-    imageAlt: "Global network connectivity map",
+    gradient: "from-slate-800/60 to-slate-900/60",
+    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/ty11-tokyo/ty11-tokyo-exterior.jpg",
+    imageAlt: "Equinix TY11 Tokyo International Business Exchange data center",
+  },
+  {
+    title: "Save 40% vs AWS & GCP",
+    subtitle: "Enterprise performance at startup-friendly prices",
+    gradient: "from-slate-800/60 to-slate-900/60",
+    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h100/nvidia-h100-sxm-702-p@2x.jpg",
+    imageAlt: "NVIDIA H100 SXM Tensor Core GPU module",
   },
 ];
 
@@ -402,37 +409,44 @@ const infrastructureImages = [
   {
     id: "dc-1",
     title: "Hong Kong Data Center",
-    description: "Tier-3 certified facility with 99.99% uptime",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop",
-    imageAlt: "Hong Kong data center server racks",
+    description: "Equinix HK5 - Tier-3+ certified facility with 99.99% uptime",
+    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/hk5-hong-kong/hk5-hong-kong-interior-slider-1.jpg",
+    imageAlt: "Equinix HK5 Hong Kong data center interior server racks",
   },
   {
     id: "dc-2",
-    title: "GPU Server Rack",
-    description: "8x NVIDIA H100 SXM5 per node with NVLink",
-    image: "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=800&auto=format&fit=crop",
-    imageAlt: "High-density GPU server rack",
+    title: "NVIDIA DGX H100 Cluster",
+    description: "8x NVIDIA H100 SXM5 per node with NVLink interconnect",
+    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/dgx-h100/nvidia-dgx-h100-og-702-p@2x.jpg",
+    imageAlt: "NVIDIA DGX H100 AI supercomputing system",
   },
   {
     id: "dc-3",
-    title: "Network Operations Center",
-    description: "24/7 monitoring with automated failover",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop",
-    imageAlt: "Network operations center with monitoring screens",
+    title: "Singapore Data Center",
+    description: "Equinix SG3 - APAC hub with <15ms latency to major markets",
+    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/sg3-singapore/sg3-singapore-exterior.jpg",
+    imageAlt: "Equinix SG3 Singapore data center exterior",
   },
   {
     id: "dc-4",
-    title: "Cooling Infrastructure",
-    description: "Advanced liquid cooling for optimal GPU performance",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop",
-    imageAlt: "Data center cooling systems",
+    title: "NVIDIA B200 Blackwell GPU",
+    description: "Next-gen Blackwell architecture with 180GB HBM3e memory",
+    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/blackwell/nvidia-blackwell-702-p@2x.jpg",
+    imageAlt: "NVIDIA Blackwell B200 GPU architecture",
   },
   {
     id: "dc-5",
-    title: "Singapore Data Center",
-    description: "APAC hub with <15ms latency to major markets",
-    image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&auto=format&fit=crop",
-    imageAlt: "Singapore data center facility",
+    title: "Tokyo Data Center",
+    description: "Equinix TY11 - Japan's premier AI infrastructure hub",
+    image: "https://www.equinix.com/content/dam/eqxcorp/global/images/global-content-images/data-centers/ty11-tokyo/ty11-tokyo-interior.jpg",
+    imageAlt: "Equinix TY11 Tokyo data center interior",
+  },
+  {
+    id: "dc-6",
+    title: "NVIDIA H100 SXM Module",
+    description: "80GB HBM3 memory with 3.35TB/s bandwidth for LLM training",
+    image: "https://images.nvidia.com/aem-dam/Solutions/Data-Center/h100/nvidia-h100-sxm-702-p@2x.jpg",
+    imageAlt: "NVIDIA H100 SXM Tensor Core GPU module",
   },
 ];
 
@@ -881,15 +895,15 @@ const PricingCalculator = () => {
   );
 };
 
-// Hero Image Carousel Component - Revolut-style with real photos
+// Hero Image Carousel Component - Clean professional design
 const HeroImageCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  // Auto-advance every 5 seconds
+  // Auto-advance every 6 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
   
@@ -897,29 +911,16 @@ const HeroImageCarousel = () => {
     <section className="py-12 sm:py-20 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8 sm:mb-12">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
-          >
-            <Sparkles className="h-4 w-4 mr-2" />
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-border bg-card text-sm font-medium mb-4">
+            <Building2 className="h-4 w-4 mr-2 text-primary" />
             World-Class Infrastructure
-          </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
-          >
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Built for Scale
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
-          >
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Enterprise-grade data centers powered by the latest NVIDIA GPUs
-          </motion.p>
+          </p>
         </div>
         
         {/* Main Carousel */}
@@ -1006,48 +1007,30 @@ const HeroImageCarousel = () => {
   );
 };
 
-// Infrastructure Gallery Carousel - Revolut-style scrolling gallery
+// Infrastructure Gallery Carousel - Clean professional design
 const InfrastructureGallery = () => {
   const [currentImage, setCurrentImage] = useState(0);
   
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-b from-muted/30 to-background overflow-hidden">
+    <section className="py-16 sm:py-24 bg-muted/30 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
-          >
-            <Building2 className="h-4 w-4 mr-2" />
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-border bg-card text-sm font-medium mb-4">
+            <Building2 className="h-4 w-4 mr-2 text-primary" />
             Our Infrastructure
-          </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl font-bold mb-4"
-          >
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Tour Our Data Centers
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
-          >
-            Tier-3 certified facilities with the highest security and reliability standards
-          </motion.p>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Tier-3+ certified Equinix facilities with enterprise-grade NVIDIA GPUs
+          </p>
         </div>
         
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
           {/* Main featured image */}
-          <motion.div 
-            key={currentImage}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl"
-          >
+          <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg border border-border">
             <Image
               src={infrastructureImages[currentImage].image}
               alt={infrastructureImages[currentImage].imageAlt}
@@ -1064,20 +1047,18 @@ const InfrastructureGallery = () => {
                 {infrastructureImages[currentImage].description}
               </p>
             </div>
-          </motion.div>
+          </div>
           
           {/* Thumbnail grid */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {infrastructureImages.map((img, index) => (
-              <motion.button
+              <button
                 key={img.id}
                 onClick={() => setCurrentImage(index)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`relative aspect-[4/3] rounded-xl overflow-hidden transition-all ${
+                className={`relative aspect-[4/3] rounded-lg overflow-hidden transition-all border ${
                   index === currentImage 
-                    ? "ring-2 ring-primary ring-offset-2 ring-offset-background" 
-                    : "opacity-70 hover:opacity-100"
+                    ? "border-primary ring-2 ring-primary/20" 
+                    : "border-border opacity-70 hover:opacity-100"
                 }`}
               >
                 <Image
@@ -1093,7 +1074,7 @@ const InfrastructureGallery = () => {
                     {img.title}
                   </p>
                 </div>
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
@@ -1102,7 +1083,7 @@ const InfrastructureGallery = () => {
   );
 };
 
-// Testimonials Carousel Component - Revolut-style with auto-scroll
+// Testimonials Carousel Component - Clean professional design
 const TestimonialsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -1133,32 +1114,19 @@ const TestimonialsCarousel = () => {
   };
   
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-b from-muted/30 to-background overflow-hidden">
+    <section className="py-16 sm:py-24 bg-muted/30 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 sm:mb-16">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
-          >
-            <Sparkles className="h-4 w-4" />
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card text-sm font-medium mb-4">
+            <Users className="h-4 w-4 text-primary" />
             Customer Stories
-          </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
-          >
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Loved by ML Engineers
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto"
-          >
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Join 2,500+ teams who trust us with their AI infrastructure
-          </motion.p>
+          </p>
         </div>
         
         {/* Carousel Container */}
@@ -1299,45 +1267,32 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section - Revolut-inspired with emotional copy and visual hierarchy */}
+      {/* Hero Section - Clean, professional AI cloud design */}
       <section className="relative overflow-hidden">
-        {/* Gradient background overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Subtle gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-muted/30 via-transparent to-transparent pointer-events-none" />
         
         <div className="container mx-auto px-4 py-12 sm:py-16 md:py-24 text-center relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            {/* Announcement badge */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center px-4 py-2 rounded-full border border-primary/30 bg-gradient-to-r from-primary/10 to-pink-500/10 text-primary text-sm mb-6 sm:mb-8 backdrop-blur-sm"
-            >
-              <motion.span 
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="mr-2"
-              >
-                <Zap className="h-4 w-4" />
-              </motion.span>
+            {/* Announcement badge - Clean style */}
+            <div className="inline-flex items-center px-4 py-2 rounded-full border border-border bg-card text-sm mb-6 sm:mb-8">
+              <Zap className="h-4 w-4 text-primary mr-2" />
               <span className="font-medium">New:</span>
-              <span className="ml-1">RTX 5090 & B200 SuperPods now available</span>
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </motion.div>
+              <span className="ml-1 text-muted-foreground">RTX 5090 & B200 SuperPods now available</span>
+              <ChevronRight className="h-4 w-4 ml-1 text-muted-foreground" />
+            </div>
             
-            {/* Main headline - Larger, more impactful */}
+            {/* Main headline - Clean, professional */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 leading-[1.1] tracking-tight">
               <span className="text-foreground">Focus on your </span>
-              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">AI models</span>
+              <span className="text-primary">AI models</span>
               <br className="hidden sm:block" />
               <span className="text-foreground">We handle the </span>
-              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">infrastructure</span>
+              <span className="text-primary">infrastructure</span>
             </h1>
             
             {/* Subheadline - Lifestyle/benefit focused */}
@@ -1347,37 +1302,24 @@ export default function Home() {
               <span className="text-foreground/80">The AI infrastructure your team deserves.</span>
             </p>
             
-            {/* CTA Buttons - Larger, more prominent */}
+            {/* CTA Buttons - Clean, professional */}
             <div className="flex flex-col sm:flex-row justify-center gap-4 px-4 sm:px-0 mb-8">
-              <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 h-14 px-8 w-full sm:w-auto transition-all"
-              >
+              <button className="inline-flex items-center justify-center rounded-lg text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 w-full sm:w-auto transition-colors">
                 Get $100 Free Credits
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-border bg-background/50 backdrop-blur-sm shadow-sm hover:bg-accent hover:text-accent-foreground h-14 px-8 w-full sm:w-auto transition-all"
-              >
-                Watch 2-min Demo
+              </button>
+              <button className="inline-flex items-center justify-center rounded-lg text-base font-medium border border-border bg-background hover:bg-muted h-12 px-8 w-full sm:w-auto transition-colors">
+                Watch Demo
                 <Play className="ml-2 h-4 w-4" />
-              </motion.button>
+              </button>
             </div>
             
-            {/* Social proof mini-banner */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-muted-foreground"
-            >
+            {/* Social proof - Clean style */}
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <div className="flex -space-x-2">
                   {["SC", "MJ", "EP", "AK"].map((initials, i) => (
-                    <div key={i} className="h-8 w-8 rounded-full bg-gradient-to-br from-primary/20 to-pink-500/20 border-2 border-background flex items-center justify-center text-xs font-medium">
+                    <div key={i} className="h-8 w-8 rounded-full bg-muted border-2 border-background flex items-center justify-center text-xs font-medium text-muted-foreground">
                       {initials}
                     </div>
                   ))}
@@ -1391,46 +1333,37 @@ export default function Home() {
                 ))}
                 <span className="ml-1"><strong className="text-foreground">4.9/5</strong> rating</span>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section - Revolut-style with animated counters and larger numbers */}
+      {/* Stats Section - Clean, professional */}
       <section className="container mx-auto px-4 py-12 sm:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {stats.map((stat, index) => (
-            <motion.div
+            <div
               key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.02, y: -4 }}
-              className="text-center p-6 sm:p-8 rounded-2xl border border-border bg-gradient-to-br from-card to-card/50 hover:border-primary/30 transition-all shadow-lg shadow-black/5"
+              className="text-center p-6 sm:p-8 rounded-xl border border-border bg-card hover:border-primary/30 transition-colors"
             >
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-4">
                 {stat.icon && <stat.icon className="h-6 w-6 text-primary" />}
               </div>
-              <motion.div 
-                className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent mb-2"
-                initial={{ scale: 0.5 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-              >
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-2">
                 {stat.value}
-              </motion.div>
+              </div>
               <div className="text-sm sm:text-base text-muted-foreground font-medium">{stat.label}</div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Hero Image Carousel - Revolut-style with real datacenter & GPU photos */}
+      {/* Hero Image Carousel - Real datacenter & GPU photos */}
       <HeroImageCarousel />
 
-      {/* Infrastructure Trust Section */}
+      {/* Infrastructure Trust Section - Clean professional design */}
       <section className="container mx-auto px-4 py-8">
-        <div className="p-6 rounded-xl border border-border bg-gradient-to-r from-card to-muted/30">
+        <div className="p-6 rounded-xl border border-border bg-card">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
