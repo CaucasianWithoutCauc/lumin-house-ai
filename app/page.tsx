@@ -181,6 +181,65 @@ const ParallaxTitle = ({
   );
 };
 
+// ScrollReveal - Advanced scroll-triggered reveal with scale and blur
+const ScrollReveal = ({ 
+  children, 
+  className = "",
+  delay = 0 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+  delay?: number;
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : undefined}
+      transition={{ 
+        type: "spring", 
+        stiffness: 100, 
+        damping: 15,
+        delay: delay 
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// ScaleOnScroll - Element that scales based on scroll progress
+const ScaleOnScroll = ({ 
+  children, 
+  className = "" 
+}: { 
+  children: React.ReactNode; 
+  className?: string;
+}) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.95]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.3, 1, 1, 0.5]);
+  
+  return (
+    <motion.div
+      ref={ref}
+      style={{ scale, opacity }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 // ==========================================
 // END KINETIC TYPOGRAPHY COMPONENTS
 // ==========================================
@@ -1534,7 +1593,7 @@ export default function Home() {
             </p>
           </motion.div>
           
-          {/* CTA Buttons with hover displacement */}
+          {/* Single Strong CTA - Revolut/N26 style */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1542,20 +1601,20 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10"
           >
             <motion.button 
-              whileHover={{ scale: 1.05, y: -2, backgroundColor: "rgba(243, 232, 255, 1)" }}
+              whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.98 }}
-              className="group inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-white text-black h-12 sm:h-14 px-6 sm:px-10 shadow-2xl"
+              className="group inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-white h-14 sm:h-16 px-8 sm:px-12 shadow-2xl shadow-purple-500/25"
             >
-              Get $100 Free Credits
-              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
+              Deploy Now — Get $100 Free
+              <ArrowRight className="ml-2 h-5 w-5 sm:h-6 sm:w-6 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <motion.button 
-              whileHover={{ scale: 1.03, y: -2, borderColor: "rgba(255, 255, 255, 1)", backgroundColor: "rgba(255, 255, 255, 0.05)" }}
+              whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center rounded-full text-base sm:text-lg font-bold bg-transparent text-white border-2 border-white/30 h-12 sm:h-14 px-6 sm:px-10"
+              className="inline-flex items-center justify-center rounded-full text-base sm:text-lg font-medium bg-white/10 backdrop-blur-sm text-white border border-white/20 h-14 sm:h-16 px-8 sm:px-12"
             >
+              <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               Watch Demo
-              <Play className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
             </motion.button>
           </motion.div>
           
@@ -2182,23 +2241,14 @@ export default function Home() {
 
       {/* Features Section - Revolut-style with better visual hierarchy */}
       <section className="container mx-auto px-4 py-16 sm:py-20">
-        <div className="text-center mb-12">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl font-bold mb-4"
-          >
-            Why Teams Choose Lumin House AI
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
-          >
+        <ParallaxTitle className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+            <KineticText>Why Teams Choose Lumin House AI</KineticText>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Everything you need to train, deploy, and scale AI models
-          </motion.p>
-        </div>
+          </p>
+        </ParallaxTitle>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { 
@@ -2226,24 +2276,22 @@ export default function Home() {
               highlight: "Save 40% vs AWS"
             },
           ].map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              className="group p-6 sm:p-8 rounded-2xl border border-border bg-gradient-to-br from-card to-card/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-default"
-            >
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-pink-500/20 mb-5 group-hover:scale-110 transition-transform">
-                <feature.icon className="h-7 w-7 text-primary" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-semibold mb-3">{feature.title}</h3>
-              <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">{feature.description}</p>
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-success/10 text-success-foreground text-xs font-medium">
-                <CheckCircle2 className="h-3 w-3 mr-1" />
-                {feature.highlight}
-              </span>
-            </motion.div>
+            <ScrollReveal key={feature.title} delay={index * 0.1}>
+              <motion.div
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                className="group p-6 sm:p-8 rounded-2xl border border-border bg-gradient-to-br from-card to-card/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-default h-full"
+              >
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-pink-500/20 mb-5 group-hover:scale-110 transition-transform">
+                  <feature.icon className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-semibold mb-3">{feature.title}</h3>
+                <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">{feature.description}</p>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-success/10 text-success-foreground text-xs font-medium">
+                  <CheckCircle2 className="h-3 w-3 mr-1" />
+                  {feature.highlight}
+                </span>
+              </motion.div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -2982,58 +3030,44 @@ export default function Home() {
 
       {/* CTA Section - Revolut-style with strong visual impact */}
       <section className="container mx-auto px-4 py-16 sm:py-20">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-purple-600 to-pink-600 p-8 sm:p-12 md:p-16 text-center"
-        >
-          {/* Background decoration */}
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-          
-          <div className="relative z-10">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
-            >
-              Ready to 10x your<br className="hidden sm:block" /> AI training speed?
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto"
-            >
-              Join 2,500+ teams who have already made the switch. Get <span className="font-bold text-white">$100 in free credits</span> to start.
-            </motion.p>
+        <ScaleOnScroll>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-purple-600 to-pink-600 p-8 sm:p-12 md:p-16 text-center">
+            {/* Background decoration */}
+            <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
             
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row justify-center gap-4"
-            >
-              <button className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-white text-primary shadow-xl hover:bg-white/90 h-14 px-10 transition-all hover:scale-105">
-                Start Free Trial
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-              <button className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-white/30 text-white hover:bg-white/10 h-14 px-10 transition-all">
-                Talk to Sales
-              </button>
-            </motion.div>
-            
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mt-6 text-sm text-white/60"
-            >
-              No credit card required • Deploy in 60 seconds • Cancel anytime
-            </motion.p>
+            <div className="relative z-10">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                Ready to 10x your<br className="hidden sm:block" /> AI training speed?
+              </h2>
+              <p className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+                Join 2,500+ teams who have already made the switch. Get <span className="font-bold text-white">$100 in free credits</span> to start.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <motion.button 
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-white text-primary shadow-xl h-14 px-10 transition-colors"
+                >
+                  Start Free Trial
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </motion.button>
+                <motion.button 
+                  whileHover={{ scale: 1.03, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-white/30 text-white h-14 px-10 transition-colors"
+                >
+                  Talk to Sales
+                </motion.button>
+              </div>
+              
+              <p className="mt-6 text-sm text-white/60">
+                No credit card required • Deploy in 60 seconds • Cancel anytime
+              </p>
+            </div>
           </div>
-        </motion.div>
+        </ScaleOnScroll>
       </section>
 
       {/* Footer */}
