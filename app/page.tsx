@@ -1519,14 +1519,14 @@ export default function Home() {
           animate={{ opacity: 0.15, scale: 1 }}
           transition={{ duration: 2, delay: 0.5 }}
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full blur-[120px] pointer-events-none"
-          style={{ willChange: 'transform' }}
+          style={{ willChange: "opacity, transform" }}
         />
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 0.1, scale: 1 }}
           transition={{ duration: 2, delay: 0.8 }}
           className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600 rounded-full blur-[120px] pointer-events-none"
-          style={{ willChange: 'transform' }}
+          style={{ willChange: "opacity, transform" }}
         />
         
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-12 py-20 max-w-7xl z-10">
@@ -1560,12 +1560,13 @@ export default function Home() {
                 className="inline-block bg-gradient-to-r from-white via-purple-400 to-white bg-clip-text text-transparent"
                 style={{
                   backgroundSize: "200% auto",
+                  willChange: "background-position",
                 }}
                 animate={{
                   backgroundPosition: ["0% center", "200% center"],
                 }}
                 transition={{
-                  duration: 6,
+                  duration: 8,
                   repeat: Infinity,
                   ease: "linear",
                 }}
@@ -1586,8 +1587,7 @@ export default function Home() {
               damping: 15,
               delay: 0.6 
             }}
-            className="text-xl sm:text-2xl md:text-3xl text-white/70 max-w-2xl mb-14 leading-relaxed"
-            style={{ maxWidth: "40ch" }}
+            className="text-xl sm:text-2xl md:text-3xl text-white/70 max-w-[40ch] mb-14 leading-relaxed"
           >
             Deploy GPU clusters in 60 seconds. Train faster. Pay less.
           </motion.p>
@@ -1706,7 +1706,7 @@ export default function Home() {
             <KineticText className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
               World-Class Infrastructure
             </KineticText>
-            <p className="text-lg sm:text-xl text-white/60 max-w-3xl mx-auto" style={{ maxWidth: "50ch" }}>
+            <p className="text-lg sm:text-xl text-white/60 max-w-[50ch] mx-auto">
               Built for the future of AI with enterprise-grade hardware and global edge locations
             </p>
           </div>
