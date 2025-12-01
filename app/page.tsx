@@ -1508,104 +1508,139 @@ export default function Home() {
   const [selectedGpu, setSelectedGpu] = useState<typeof gpuInventory[0] | null>(null);
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-black overflow-x-hidden scroll-smooth snap-y snap-mandatory">
       <Navbar />
       
-      {/* HERO SECTION - Revolut/N26 Style: Clean, Light, Professional */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white">
-        {/* Subtle gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 via-white to-pink-50/20" />
+      {/* HERO SECTION - Pure Black with Kinetic Entrance & Floating Glows */}
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-black snap-start">
+        {/* Floating purple/blue glows - Parallax effect */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.15, scale: 1 }}
+          transition={{ duration: 2, delay: 0.5 }}
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full blur-[120px] pointer-events-none"
+          style={{ willChange: 'transform' }}
+        />
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.1, scale: 1 }}
+          transition={{ duration: 2, delay: 0.8 }}
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600 rounded-full blur-[120px] pointer-events-none"
+          style={{ willChange: 'transform' }}
+        />
         
-        {/* Optional background pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }} />
-        
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20 max-w-7xl">
-          {/* Badge - Minimal style */}
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-12 py-20 max-w-7xl z-10">
+          {/* Badge - Staggered entrance (0-0.2s) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center px-4 py-2 rounded-full border border-gray-200 bg-white text-sm mb-8"
-          >
-            <Zap className="h-4 w-4 text-purple-600 mr-2" />
-            <span className="font-medium text-gray-900">New:</span>
-            <span className="ml-1 text-gray-600">RTX 5090 & B200 SuperPods now available</span>
-          </motion.div>
-          
-          {/* CLEAN HEADLINE - Fintech style */}
-          <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="space-y-4 mb-8"
+            transition={{ duration: 0.6, delay: 0 }}
+            className="inline-flex items-center px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-sm mb-12"
           >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
+            <Sparkles className="h-4 w-4 text-purple-400 mr-2" />
+            <span className="font-medium text-white">New:</span>
+            <span className="ml-1 text-white/70">RTX 5090 & B200 SuperPods now available</span>
+          </motion.div>
+          
+          {/* KINETIC HEADLINE - Flowing gradient animation (0.6s-1.0s) */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 80,
+              damping: 15,
+              delay: 0.2 
+            }}
+            className="space-y-6 mb-12"
+          >
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight text-white leading-[1.05]">
               Focus on{" "}
-              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <motion.span 
+                className="inline-block bg-gradient-to-r from-white via-purple-400 to-white bg-clip-text text-transparent"
+                style={{
+                  backgroundSize: "200% auto",
+                }}
+                animate={{
+                  backgroundPosition: ["0% center", "200% center"],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              >
                 your AI
-              </span>
+              </motion.span>
               {" "}models
             </h1>
           </motion.div>
           
-          {/* Subheadline - Clean and simple */}
+          {/* Subheadline - Breathing space with max-width (1.0s) */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-10 leading-relaxed"
+            transition={{ 
+              type: "spring",
+              stiffness: 80,
+              damping: 15,
+              delay: 0.6 
+            }}
+            className="text-xl sm:text-2xl md:text-3xl text-white/70 max-w-2xl mb-14 leading-relaxed"
+            style={{ maxWidth: "40ch" }}
           >
             Deploy GPU clusters in 60 seconds. Train faster. Pay less.
           </motion.p>
           
-          {/* Single Strong CTA - Revolut/N26 style */}
+          {/* Single Strong CTA with spring animation (1.2s) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 mb-12"
+            transition={{ delay: 1.0 }}
+            className="flex flex-col sm:flex-row gap-4 mb-16"
           >
             <motion.button 
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="inline-flex items-center justify-center rounded-full text-lg font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white h-14 sm:h-16 px-10 sm:px-12 shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-shadow"
+              whileHover={{ scale: 1.05, y: -4 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className="inline-flex items-center justify-center rounded-full text-lg font-semibold bg-gradient-to-r from-purple-600 to-pink-600 text-white h-16 px-12 shadow-2xl shadow-purple-500/50 hover:shadow-purple-500/70 transition-shadow"
             >
               Deploy Now — Get $100 Free
               <ArrowRight className="ml-2 h-5 w-5" />
             </motion.button>
             <motion.button 
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="inline-flex items-center justify-center rounded-full text-lg font-medium bg-white text-foreground border-2 border-gray-200 h-14 sm:h-16 px-10 sm:px-12 hover:border-gray-300 transition-colors"
+              whileHover={{ scale: 1.05, y: -4 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className="inline-flex items-center justify-center rounded-full text-lg font-medium bg-white/5 text-white border-2 border-white/10 h-16 px-12 hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-sm"
             >
               <Play className="mr-2 h-5 w-5" />
               Watch Demo
             </motion.button>
           </motion.div>
           
-          {/* Trust Badges - Clean minimal cards */}
+          {/* Trust Badges - Minimal white cards on black (1.4s) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 1.2 }}
             className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12 max-w-4xl"
           >
-            {trustBadges.map((badge) => {
+            {trustBadges.map((badge, i) => {
               const Icon = badge.icon;
               return (
-                <div 
+                <motion.div 
                   key={badge.label}
-                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-white border border-gray-200 hover:border-purple-200 hover:shadow-sm transition-all"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.2 + i * 0.1 }}
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-purple-500/30 transition-all backdrop-blur-sm"
                 >
-                  <div className="h-10 w-10 rounded-full bg-purple-50 flex items-center justify-center">
-                    <Icon className="h-5 w-5 text-purple-600" />
+                  <div className="h-10 w-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <Icon className="h-5 w-5 text-purple-400" />
                   </div>
-                  <span className="text-sm font-medium text-foreground text-center">{badge.label}</span>
-                </div>
+                  <span className="text-sm font-medium text-white text-center">{badge.label}</span>
+                </motion.div>
               );
             })}
           </motion.div>
@@ -1614,16 +1649,16 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-            className="flex items-center gap-6 text-muted-foreground text-sm"
+            transition={{ delay: 1.6 }}
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-white/60 text-sm"
           >
             <div className="flex items-center gap-2">
               <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-              <span className="font-medium text-foreground">4.9</span>
+              <span className="font-medium text-white">4.9</span>
               <span>from 2,400+ reviews</span>
             </div>
-            <div className="hidden sm:block h-4 w-px bg-gray-300" />
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="hidden sm:block h-4 w-px bg-white/20" />
+            <div className="flex items-center gap-2">
               <Users className="h-5 w-5" />
               <span>Trusted by 10,000+ AI teams</span>
             </div>
@@ -1631,69 +1666,70 @@ export default function Home() {
         </div>
       </section>
 
-      {/* STATS SECTION - Clean card-based design */}
-      <section className="py-16 sm:py-20 bg-gray-50">
+      {/* STATS SECTION - WHITE background (Zebra pattern) */}
+      <section className="py-20 sm:py-28 bg-white snap-start">
         <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             {[
               { label: "GPU Uptime", value: "99.99%", icon: Gauge },
               { label: "Deploy Time", value: "<60s", icon: Zap },
               { label: "AI Teams", value: "10K+", icon: Users },
               { label: "Global DCs", value: "24/7", icon: Globe2 },
-            ].map((stat) => {
+            ].map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <div 
-                  key={stat.label}
-                  className="p-6 rounded-2xl bg-white border border-gray-200 hover:border-purple-200 hover:shadow-md transition-all"
-                >
-                  <div className="h-12 w-12 rounded-full bg-purple-50 flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <div className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </div>
+                <ScrollReveal key={stat.label} delay={i * 0.1}>
+                  <motion.div 
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="p-6 sm:p-8 rounded-2xl bg-white border-2 border-gray-100 hover:border-purple-200 hover:shadow-xl transition-all"
+                  >
+                    <div className="h-14 w-14 rounded-2xl bg-purple-50 flex items-center justify-center mb-6">
+                      <Icon className="h-7 w-7 text-purple-600" />
+                    </div>
+                    <div className="text-4xl sm:text-5xl font-bold text-gray-900 mb-3">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm font-medium text-gray-600">{stat.label}</div>
+                  </motion.div>
+                </ScrollReveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Stats Section - Clean Design with kinetic elements */}
-      <section className="py-16 sm:py-24 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
-          <ParallaxTitle className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
-              <span className="text-foreground">World-Class </span>
-              <StretchText className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Infrastructure
-              </StretchText>
-            </h2>
-            <p className="text-base sm:text-lg text-muted-foreground">Built for the future of AI</p>
-          </ParallaxTitle>
+      {/* Infrastructure/Features Section - BLACK background (Zebra pattern) */}
+      <section className="py-20 sm:py-28 bg-black snap-start">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl">
+          <div className="text-center mb-16">
+            <KineticText className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+              World-Class Infrastructure
+            </KineticText>
+            <p className="text-lg sm:text-xl text-white/60 max-w-3xl mx-auto" style={{ maxWidth: "50ch" }}>
+              Built for the future of AI with enterprise-grade hardware and global edge locations
+            </p>
+          </div>
           
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center p-4 sm:p-6 rounded-2xl border border-border bg-card hover:border-primary/30 transition-all group"
-              >
-                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
-                  {stat.icon && <stat.icon className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />}
-                </div>
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-black mb-2">
-                  <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                    {stat.value}
-                  </span>
-                </div>
-                <div className="text-xs sm:text-sm text-muted-foreground font-medium">{stat.label}</div>
-              </motion.div>
+              <ScrollReveal key={stat.label} delay={index * 0.1}>
+                <motion.div
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="text-center p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all backdrop-blur-sm group"
+                >
+                  <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-purple-500/20 mb-6 group-hover:bg-purple-500/30 transition-colors">
+                    {stat.icon && <stat.icon className="h-7 w-7 sm:h-8 sm:w-8 text-purple-400" />}
+                  </div>
+                  <div className="text-3xl sm:text-4xl lg:text-5xl font-black mb-3">
+                    <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      {stat.value}
+                    </span>
+                  </div>
+                  <div className="text-sm font-medium text-white/60">{stat.label}</div>
+                </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>

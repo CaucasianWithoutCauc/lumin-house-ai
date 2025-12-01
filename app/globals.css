@@ -71,6 +71,8 @@
     scroll-behavior: smooth;
     /* Prevent horizontal overflow on mobile */
     overflow-x: hidden;
+    /* Scroll snap for full-screen sections */
+    scroll-snap-type: y proximity;
   }
   body {
     @apply bg-background text-foreground;
@@ -88,6 +90,16 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     /* Improved line-height for readability */
     line-height: 1.6;
+  }
+  
+  /* Scroll snap sections */
+  .snap-start {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+  
+  .snap-center {
+    scroll-snap-align: center;
   }
 }
 
