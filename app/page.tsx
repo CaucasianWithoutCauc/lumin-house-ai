@@ -1653,6 +1653,327 @@ export default function Home() {
       {/* Pricing Calculator */}
       <PricingCalculator />
 
+      {/* Managed Inference Section - Crusoe-inspired */}
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm mb-4">
+              <Zap className="h-4 w-4 mr-2" />
+              New: Managed Inference
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">Deploy AI Models in Minutes</h2>
+            <p className="text-muted-foreground mb-6">
+              Our managed inference platform handles scaling, load balancing, and optimization automatically. 
+              Deploy popular open-source models or bring your own with zero infrastructure management.
+            </p>
+            <div className="space-y-4 mb-6">
+              {[
+                { title: "One-Click Deployment", desc: "Deploy Llama 3.1, Mistral, SDXL, and more instantly" },
+                { title: "Auto-Scaling", desc: "Scale from 0 to 1000+ requests/sec automatically" },
+                { title: "Cost Optimization", desc: "Pay only for actual compute time, not idle instances" },
+                { title: "Low Latency", desc: "Sub-100ms response times with global edge routing" },
+              ].map((feature, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-success-foreground mt-0.5" />
+                  <div>
+                    <p className="font-medium">{feature.title}</p>
+                    <p className="text-sm text-muted-foreground">{feature.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <button className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-6">
+                Try Managed Inference
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </button>
+              <button className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 px-6">
+                View Supported Models
+              </button>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="rounded-2xl border border-border bg-card p-6"
+          >
+            <h3 className="font-semibold mb-4">Supported Models</h3>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { name: "Llama 3.1 405B", category: "LLM", hot: true },
+                { name: "Mistral Large", category: "LLM", hot: false },
+                { name: "SDXL Turbo", category: "Image", hot: true },
+                { name: "Whisper Large v3", category: "Audio", hot: false },
+                { name: "DeepSeek Coder", category: "Code", hot: true },
+                { name: "Qwen 2.5 72B", category: "LLM", hot: false },
+                { name: "FLUX.1 Pro", category: "Image", hot: true },
+                { name: "Gemma 2 27B", category: "LLM", hot: false },
+              ].map((model, index) => (
+                <motion.div
+                  key={model.name}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className="p-3 rounded-lg border border-border bg-muted/50 hover:border-primary/50 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs text-muted-foreground">{model.category}</span>
+                    {model.hot && <span className="text-xs">🔥</span>}
+                  </div>
+                  <p className="font-medium text-sm">{model.name}</p>
+                </motion.div>
+              ))}
+            </div>
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              + 50 more models available
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Use Cases Section */}
+      <section className="container mx-auto px-4 py-12 sm:py-16 bg-muted/30 rounded-3xl my-8">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Built for Every AI Use Case</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            From training foundation models to running real-time inference at scale
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            {
+              icon: "🧠",
+              title: "LLM Training",
+              description: "Train custom language models with distributed multi-node setups. Support for DeepSpeed, FSDP, and Megatron.",
+              features: ["Multi-node training", "Checkpointing", "Gradient accumulation"],
+              color: "from-purple-500/20 to-pink-500/20"
+            },
+            {
+              icon: "🎨",
+              title: "Image Generation",
+              description: "Run Stable Diffusion, FLUX, and Midjourney-style models at scale with optimized inference.",
+              features: ["Batch processing", "ControlNet support", "LoRA fine-tuning"],
+              color: "from-blue-500/20 to-cyan-500/20"
+            },
+            {
+              icon: "🎬",
+              title: "Video AI",
+              description: "Generate and process video with state-of-the-art models like Runway, Sora alternatives.",
+              features: ["Frame interpolation", "Video-to-video", "Real-time processing"],
+              color: "from-green-500/20 to-emerald-500/20"
+            },
+            {
+              icon: "🔊",
+              title: "Audio & Speech",
+              description: "Transcription, TTS, voice cloning, and music generation with low-latency streaming.",
+              features: ["Real-time STT", "Multi-speaker", "Custom voices"],
+              color: "from-orange-500/20 to-amber-500/20"
+            },
+            {
+              icon: "🤖",
+              title: "Agent Systems",
+              description: "Build autonomous AI agents with tool use, RAG, and long-context processing.",
+              features: ["128K+ context", "Function calling", "Memory systems"],
+              color: "from-red-500/20 to-rose-500/20"
+            },
+            {
+              icon: "📊",
+              title: "ML Research",
+              description: "Accelerate research with Jupyter notebooks, experiment tracking, and collaboration tools.",
+              features: ["W&B integration", "Git versioning", "Team sharing"],
+              color: "from-indigo-500/20 to-violet-500/20"
+            },
+          ].map((useCase, index) => (
+            <motion.div
+              key={useCase.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`p-6 rounded-xl border border-border bg-gradient-to-br ${useCase.color} backdrop-blur`}
+            >
+              <span className="text-4xl mb-4 block">{useCase.icon}</span>
+              <h3 className="text-lg font-semibold mb-2">{useCase.title}</h3>
+              <p className="text-sm text-muted-foreground mb-4">{useCase.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {useCase.features.map((feature) => (
+                  <span key={feature} className="px-2 py-1 rounded-full bg-background/50 text-xs font-medium">
+                    {feature}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Kubernetes & Orchestration Section */}
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="p-8 lg:p-12">
+              <div className="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm mb-4">
+                Enterprise
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4">Managed Kubernetes for AI</h2>
+              <p className="text-muted-foreground mb-6">
+                Deploy GPU workloads on managed Kubernetes with auto-scaling, spot instance integration, 
+                and native support for popular ML frameworks.
+              </p>
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                {[
+                  { label: "Slurm Support", icon: "⚡" },
+                  { label: "Ray Clusters", icon: "🔮" },
+                  { label: "KubeFlow", icon: "🌊" },
+                  { label: "MLflow", icon: "📈" },
+                  { label: "Spark", icon: "✨" },
+                  { label: "Dask", icon: "🔥" },
+                ].map((tool) => (
+                  <div key={tool.label} className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
+                    <span>{tool.icon}</span>
+                    <span className="font-medium text-sm">{tool.label}</span>
+                  </div>
+                ))}
+              </div>
+              <button className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-6">
+                Learn About K8s for AI
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </button>
+            </div>
+            <div className="bg-muted/50 p-8 lg:p-12 flex items-center justify-center">
+              <div className="w-full max-w-sm">
+                <div className="text-center mb-6">
+                  <Server className="h-16 w-16 text-primary mx-auto mb-4" />
+                  <h3 className="font-semibold text-lg">AutoClusters</h3>
+                  <p className="text-sm text-muted-foreground">Automatically scale your GPU fleet</p>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    { label: "Active Nodes", value: "156", trend: "+12" },
+                    { label: "Pending Jobs", value: "23", trend: "-5" },
+                    { label: "GPU Utilization", value: "94%", trend: "+2%" },
+                  ].map((stat) => (
+                    <div key={stat.label} className="flex items-center justify-between p-3 rounded-lg bg-background border border-border">
+                      <span className="text-sm text-muted-foreground">{stat.label}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold">{stat.value}</span>
+                        <span className="text-xs text-success-foreground">{stat.trend}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Getting Started Section */}
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Get Started in 3 Steps</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            From sign-up to running your first GPU workload in under 5 minutes
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {[
+            {
+              step: "01",
+              title: "Create Account",
+              description: "Sign up with email or GitHub. Get $100 in free credits instantly.",
+              icon: Users,
+              cta: "Sign Up Free"
+            },
+            {
+              step: "02",
+              title: "Choose Your GPU",
+              description: "Select from RTX 4090 to H200. Configure vCPU, RAM, and storage.",
+              icon: Cpu,
+              cta: "View GPUs"
+            },
+            {
+              step: "03",
+              title: "Deploy & Scale",
+              description: "SSH, Jupyter, or API. Auto-scale based on demand.",
+              icon: Zap,
+              cta: "Read Docs"
+            },
+          ].map((item, index) => (
+            <motion.div
+              key={item.step}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              className="relative p-6 rounded-xl border border-border bg-card text-center"
+            >
+              {index < 2 && (
+                <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
+                  <ChevronRight className="h-6 w-6 text-muted-foreground" />
+                </div>
+              )}
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary font-bold text-lg mb-4">
+                {item.step}
+              </div>
+              <item.icon className="h-8 w-8 text-primary mx-auto mb-3" />
+              <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
+              <p className="text-sm text-muted-foreground mb-4">{item.description}</p>
+              <button className="text-sm text-primary hover:underline font-medium">
+                {item.cta} →
+              </button>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="container mx-auto px-4 py-12 sm:py-16">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Stay Updated</h2>
+          <p className="text-muted-foreground mb-6">
+            Get the latest updates on new GPU availability, pricing changes, and AI infrastructure tips.
+          </p>
+          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 h-11 rounded-md border border-input bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <button 
+              type="submit"
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-11 px-6"
+            >
+              Subscribe
+            </button>
+          </form>
+          <p className="text-xs text-muted-foreground mt-3">
+            No spam. Unsubscribe anytime.
+          </p>
+        </div>
+      </section>
+
+      {/* Security Certifications Banner */}
+      <section className="container mx-auto px-4 py-8">
+        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 p-6 rounded-xl border border-border bg-muted/30">
+          {[
+            { name: "SOC 2 Type II", icon: "🛡️" },
+            { name: "GDPR Compliant", icon: "🇪🇺" },
+            { name: "ISO 27001", icon: "📋" },
+            { name: "HIPAA Ready", icon: "🏥" },
+            { name: "PCI DSS", icon: "💳" },
+          ].map((cert) => (
+            <div key={cert.name} className="flex items-center gap-2 text-muted-foreground">
+              <span className="text-xl">{cert.icon}</span>
+              <span className="font-medium text-sm">{cert.name}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-12 sm:py-16">
         <div className="rounded-2xl bg-gradient-to-r from-primary/20 via-pink-500/20 to-red-500/20 border border-primary/30 p-8 sm:p-12 text-center">
