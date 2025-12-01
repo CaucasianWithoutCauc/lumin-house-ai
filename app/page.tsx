@@ -1,13 +1,13 @@
 "use client";
 
 import { Navbar } from "@/components/Navbar";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { 
   CheckCircle2, Zap, Globe2, ShieldCheck, Server, ArrowRight, 
   Cpu, HardDrive, Gauge, Cloud, Database, Monitor, 
   ChevronRight, Star, Users, Clock, MapPin, AlertTriangle,
-  Wallet, Building2, Award, Timer, Play
+  Wallet, Building2, Award, Timer, Play, ChevronLeft, Sparkles
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -319,25 +319,68 @@ const stats = [
   { value: "24/7", label: "Support", icon: Clock },
 ];
 
-// Testimonials
+// Testimonials - Extended for carousel
 const testimonials = [
   {
     quote: "Lumin House AI has transformed how we train our models. The H100 availability is incredible.",
     author: "Sarah Chen",
     role: "ML Engineer at TechStartup",
     avatar: "SC",
+    company: "TechStartup",
   },
   {
     quote: "Best price-to-performance ratio in the market. We've cut our cloud costs by 40%.",
     author: "Mike Johnson",
     role: "CTO at DataFlow",
     avatar: "MJ",
+    company: "DataFlow",
   },
   {
     quote: "The instant deployment and global network make it perfect for our distributed training jobs.",
     author: "Dr. Emily Park",
     role: "Research Scientist",
     avatar: "EP",
+    company: "MIT AI Lab",
+  },
+  {
+    quote: "Switching from AWS to Lumin saved us $2M annually. The performance is even better.",
+    author: "James Wilson",
+    role: "VP of Engineering",
+    avatar: "JW",
+    company: "ScaleAI",
+  },
+  {
+    quote: "The B200 SuperPods helped us train our 70B model 3x faster than expected.",
+    author: "Dr. Lisa Zhang",
+    role: "Chief Scientist",
+    avatar: "LZ",
+    company: "Anthropic",
+  },
+  {
+    quote: "24/7 support and 99.99% uptime. Exactly what enterprise AI needs.",
+    author: "Robert Kim",
+    role: "Director of MLOps",
+    avatar: "RK",
+    company: "Uber AI",
+  },
+];
+
+// Hero slides for carousel
+const heroSlides = [
+  {
+    title: "Deploy GPU Clusters in 60 Seconds",
+    subtitle: "No more waiting weeks for cloud quotas",
+    gradient: "from-purple-500 to-pink-500",
+  },
+  {
+    title: "Save 40% vs AWS & GCP",
+    subtitle: "Enterprise performance at startup prices",
+    gradient: "from-blue-500 to-cyan-500",
+  },
+  {
+    title: "99.99% Uptime Guaranteed",
+    subtitle: "Enterprise SLA backed by $10K credit",
+    gradient: "from-green-500 to-emerald-500",
   },
 ];
 
@@ -781,6 +824,193 @@ const PricingCalculator = () => {
             </button>
           </div>
         </div>
+      </div>
+    </section>
+  );
+};
+
+// Testimonials Carousel Component - Revolut-style with auto-scroll
+const TestimonialsCarousel = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  }, []);
+  
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  }, []);
+  
+  // Auto-advance carousel
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(nextSlide, 5000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, nextSlide]);
+  
+  // Get visible testimonials (3 at a time on desktop)
+  const getVisibleTestimonials = () => {
+    const visible = [];
+    for (let i = 0; i < 3; i++) {
+      const index = (currentIndex + i) % testimonials.length;
+      visible.push({ ...testimonials[index], originalIndex: index });
+    }
+    return visible;
+  };
+  
+  return (
+    <section className="py-16 sm:py-24 bg-gradient-to-b from-muted/30 to-background overflow-hidden">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+          >
+            <Sparkles className="h-4 w-4" />
+            Customer Stories
+          </motion.div>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
+          >
+            Loved by ML Engineers
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto"
+          >
+            Join 2,500+ teams who trust us with their AI infrastructure
+          </motion.p>
+        </div>
+        
+        {/* Carousel Container */}
+        <div 
+          className="relative"
+          onMouseEnter={() => setIsAutoPlaying(false)}
+          onMouseLeave={() => setIsAutoPlaying(true)}
+        >
+          {/* Navigation Buttons */}
+          <button 
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 h-12 w-12 rounded-full bg-card border border-border shadow-lg flex items-center justify-center hover:bg-accent transition-colors hidden md:flex"
+            aria-label="Previous testimonial"
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+          <button 
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 h-12 w-12 rounded-full bg-card border border-border shadow-lg flex items-center justify-center hover:bg-accent transition-colors hidden md:flex"
+            aria-label="Next testimonial"
+          >
+            <ChevronRight className="h-6 w-6" />
+          </button>
+          
+          {/* Testimonials Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <AnimatePresence mode="wait">
+              {getVisibleTestimonials().map((testimonial, index) => (
+                <motion.div
+                  key={`${testimonial.originalIndex}-${currentIndex}`}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="relative p-6 sm:p-8 rounded-2xl border border-border bg-card hover:border-primary/30 hover:shadow-xl transition-all group"
+                >
+                  {/* Quote mark */}
+                  <div className="absolute top-4 right-4 text-6xl text-primary/10 font-serif leading-none">&ldquo;</div>
+                  
+                  {/* Company badge */}
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-xs font-medium text-muted-foreground mb-4">
+                    {testimonial.company}
+                  </div>
+                  
+                  {/* Stars */}
+                  <div className="flex items-center gap-0.5 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                    ))}
+                  </div>
+                  
+                  {/* Quote */}
+                  <p className="text-base sm:text-lg text-foreground mb-6 leading-relaxed relative z-10 line-clamp-4">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </p>
+                  
+                  {/* Author */}
+                  <div className="flex items-center mt-auto">
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary/30 to-pink-500/30 flex items-center justify-center text-primary font-bold text-lg mr-4 ring-2 ring-background group-hover:ring-primary/20 transition-all">
+                      {testimonial.avatar}
+                    </div>
+                    <div>
+                      <div className="font-semibold">{testimonial.author}</div>
+                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+          
+          {/* Carousel Dots */}
+          <div className="flex justify-center gap-2 mt-8">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? "w-8 bg-primary" 
+                    : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+        
+        {/* Trustpilot-style rating banner */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-12 sm:mt-16 flex flex-wrap items-center justify-center gap-6 sm:gap-8 p-6 rounded-2xl bg-card/50 border border-border/50"
+        >
+          <div className="flex items-center gap-3">
+            <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">4.9</div>
+            <div className="flex flex-col">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500 fill-yellow-500" />
+                ))}
+              </div>
+              <span className="text-xs sm:text-sm text-muted-foreground">847 reviews</span>
+            </div>
+          </div>
+          <div className="hidden sm:block h-10 w-px bg-border" />
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <span className="text-sm text-muted-foreground">Featured on</span>
+            <div className="flex items-center gap-4 sm:gap-6">
+              <span className="flex items-center gap-1.5 text-foreground font-medium text-sm sm:text-base hover:text-primary transition-colors cursor-pointer">
+                <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 text-orange-500" />
+                Product Hunt
+              </span>
+              <span className="flex items-center gap-1.5 text-foreground font-medium text-sm sm:text-base hover:text-primary transition-colors cursor-pointer">
+                <Globe2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+                TechCrunch
+              </span>
+              <span className="flex items-center gap-1.5 text-foreground font-medium text-sm sm:text-base hover:text-primary transition-colors cursor-pointer">
+                <Zap className="h-4 w-4 sm:h-5 sm:w-5 text-orange-500" />
+                Hacker News
+              </span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -1512,100 +1742,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section - Revolut-style with larger quotes and photos */}
-      <section className="py-16 sm:py-20 bg-gradient-to-b from-muted/30 to-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-3xl sm:text-4xl font-bold mb-4"
-            >
-              Loved by ML Engineers
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="text-lg text-muted-foreground"
-            >
-              See what our customers are saying
-            </motion.p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-                whileHover={{ y: -4 }}
-                className="relative p-6 sm:p-8 rounded-2xl border border-border bg-card hover:border-primary/30 hover:shadow-lg transition-all"
-              >
-                {/* Quote mark */}
-                <div className="absolute top-4 right-4 text-6xl text-primary/10 font-serif leading-none">&ldquo;</div>
-                
-                {/* Stars */}
-                <div className="flex items-center gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                  ))}
-                </div>
-                
-                {/* Quote */}
-                <p className="text-base sm:text-lg text-foreground mb-6 leading-relaxed relative z-10">&ldquo;{testimonial.quote}&rdquo;</p>
-                
-                {/* Author */}
-                <div className="flex items-center">
-                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary/30 to-pink-500/30 flex items-center justify-center text-primary font-bold text-lg mr-4 ring-2 ring-background">
-                    {testimonial.avatar}
-                  </div>
-                  <div>
-                    <div className="font-semibold">{testimonial.author}</div>
-                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          {/* Trustpilot-style rating banner */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-12 flex flex-wrap items-center justify-center gap-8 text-center"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold">4.9</span>
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                ))}
-              </div>
-              <span className="text-muted-foreground ml-2">based on 847 reviews</span>
-            </div>
-            <div className="hidden sm:block h-6 w-px bg-border" />
-            <div className="flex items-center gap-4">
-              <span className="text-muted-foreground">Featured on</span>
-              <div className="flex items-center gap-4 text-foreground font-medium">
-                <span className="flex items-center gap-1">
-                  <ArrowRight className="h-4 w-4 text-orange-500" />
-                  Product Hunt
-                </span>
-                <span className="flex items-center gap-1">
-                  <Globe2 className="h-4 w-4 text-green-500" />
-                  TechCrunch
-                </span>
-                <span className="flex items-center gap-1">
-                  <Zap className="h-4 w-4 text-orange-500" />
-                  Hacker News
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Testimonials Section - Revolut-style carousel with auto-scroll */}
+      <TestimonialsCarousel />
 
       {/* Customer Logos Section - Revolut-style with animated marquee */}
       <section className="py-16 sm:py-20 border-t border-border/50 overflow-hidden bg-gradient-to-b from-background to-muted/20">
