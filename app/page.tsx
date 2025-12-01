@@ -7,7 +7,7 @@ import {
   CheckCircle2, Zap, Globe2, ShieldCheck, Server, ArrowRight, 
   Cpu, HardDrive, Gauge, Cloud, Database, Monitor, 
   ChevronRight, Star, Users, Clock, MapPin, AlertTriangle,
-  Wallet, Building2, Award, Timer, Play, ChevronLeft, Sparkles
+  Wallet, Building2, Award, Timer, Play, ChevronLeft, Sparkles, X
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -2335,6 +2335,121 @@ export default function Home() {
           <p className="text-xs text-muted-foreground mt-3">
             No spam. Unsubscribe anytime.
           </p>
+        </div>
+      </section>
+
+      {/* Cost Savings Comparison - Revolut-style before/after */}
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-background via-muted/30 to-background overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-success/10 text-success-foreground text-sm font-medium mb-4"
+            >
+              <Wallet className="h-4 w-4" />
+              Save Money
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
+            >
+              Stop Overpaying for GPUs
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto"
+            >
+              See how much you could save by switching to Lumin House AI
+            </motion.p>
+          </div>
+          
+          {/* Comparison Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+            {/* Before Card - AWS/GCP */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="relative p-6 sm:p-8 rounded-2xl border border-destructive/30 bg-gradient-to-br from-card to-destructive/5"
+            >
+              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-destructive/20 text-destructive text-xs font-semibold">
+                Before: AWS/GCP
+              </div>
+              <div className="mt-4">
+                <div className="text-4xl sm:text-5xl font-bold text-foreground mb-2">
+                  $4,800<span className="text-lg font-normal text-muted-foreground">/mo</span>
+                </div>
+                <p className="text-muted-foreground mb-6">8× A100 GPUs on AWS</p>
+                <ul className="space-y-3 text-sm">
+                  {[
+                    "Long quota approval wait times",
+                    "Complex pricing and hidden fees",
+                    "Limited GPU availability",
+                    "No spot instance guarantees"
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <X className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+                      <span className="text-muted-foreground">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+            
+            {/* After Card - Lumin House AI */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="relative p-6 sm:p-8 rounded-2xl border-2 border-success/50 bg-gradient-to-br from-card to-success/5 shadow-xl shadow-success/10"
+            >
+              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-success text-white text-xs font-semibold">
+                After: Lumin House AI
+              </div>
+              <div className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-pink-500 text-white text-xs font-semibold">
+                Save 40%
+              </div>
+              <div className="mt-4">
+                <div className="text-4xl sm:text-5xl font-bold text-foreground mb-2">
+                  $2,880<span className="text-lg font-normal text-muted-foreground">/mo</span>
+                </div>
+                <p className="text-muted-foreground mb-6">8× H100 GPUs on Lumin</p>
+                <ul className="space-y-3 text-sm">
+                  {[
+                    "Deploy in 60 seconds",
+                    "Simple per-second billing",
+                    "Always-available inventory",
+                    "70% off with spot instances"
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-success-foreground shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          </div>
+          
+          {/* Savings Calculator CTA */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-12 text-center"
+          >
+            <p className="text-lg text-muted-foreground mb-4">
+              Average customer saves <span className="text-success-foreground font-bold">$18,000/year</span>
+            </p>
+            <button className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 h-14 px-8 transition-all hover:scale-105">
+              Calculate Your Savings
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </button>
+          </motion.div>
         </div>
       </section>
 
