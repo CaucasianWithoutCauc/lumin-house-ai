@@ -7,7 +7,7 @@ import {
   CheckCircle2, Zap, Globe2, ShieldCheck, Server, ArrowRight, 
   Cpu, HardDrive, Gauge, Cloud, Database, Monitor, 
   ChevronRight, Star, Users, Clock, MapPin, AlertTriangle,
-  Wallet, Building2, Award, Timer
+  Wallet, Building2, Award, Timer, Play
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -821,7 +821,7 @@ export default function Home() {
                 transition={{ duration: 2, repeat: Infinity }}
                 className="mr-2"
               >
-                ⚡
+                <Zap className="h-4 w-4" />
               </motion.span>
               <span className="font-medium">New:</span>
               <span className="ml-1">RTX 5090 & B200 SuperPods now available</span>
@@ -860,7 +860,7 @@ export default function Home() {
                 className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-border bg-background/50 backdrop-blur-sm shadow-sm hover:bg-accent hover:text-accent-foreground h-14 px-8 w-full sm:w-auto transition-all"
               >
                 Watch 2-min Demo
-                <span className="ml-2">▶</span>
+                <Play className="ml-2 h-4 w-4" />
               </motion.button>
             </div>
             
@@ -1588,10 +1588,19 @@ export default function Home() {
             <div className="hidden sm:block h-6 w-px bg-border" />
             <div className="flex items-center gap-4">
               <span className="text-muted-foreground">Featured on</span>
-              <div className="flex items-center gap-3 text-foreground font-medium">
-                <span>🚀 Product Hunt</span>
-                <span>📰 TechCrunch</span>
-                <span>🔬 Hacker News</span>
+              <div className="flex items-center gap-4 text-foreground font-medium">
+                <span className="flex items-center gap-1">
+                  <ArrowRight className="h-4 w-4 text-orange-500" />
+                  Product Hunt
+                </span>
+                <span className="flex items-center gap-1">
+                  <Globe2 className="h-4 w-4 text-green-500" />
+                  TechCrunch
+                </span>
+                <span className="flex items-center gap-1">
+                  <Zap className="h-4 w-4 text-orange-500" />
+                  Hacker News
+                </span>
               </div>
             </div>
           </motion.div>
@@ -2075,61 +2084,93 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Getting Started Section */}
-      <section className="container mx-auto px-4 py-12 sm:py-16">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Get Started in 3 Steps</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            From sign-up to running your first GPU workload in under 5 minutes
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {[
-            {
-              step: "01",
-              title: "Create Account",
-              description: "Sign up with email or GitHub. Get $100 in free credits instantly.",
-              icon: Users,
-              cta: "Sign Up Free"
-            },
-            {
-              step: "02",
-              title: "Choose Your GPU",
-              description: "Select from RTX 4090 to H200. Configure vCPU, RAM, and storage.",
-              icon: Cpu,
-              cta: "View GPUs"
-            },
-            {
-              step: "03",
-              title: "Deploy & Scale",
-              description: "SSH, Jupyter, or API. Auto-scale based on demand.",
-              icon: Zap,
-              cta: "Read Docs"
-            },
-          ].map((item, index) => (
-            <motion.div
-              key={item.step}
+      {/* Getting Started Section - Revolut-style with connected steps */}
+      <section className="py-16 sm:py-20 bg-gradient-to-b from-background to-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="relative p-6 rounded-xl border border-border bg-card text-center"
+              className="text-3xl sm:text-4xl font-bold mb-4"
             >
-              {index < 2 && (
-                <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
-                  <ChevronRight className="h-6 w-6 text-muted-foreground" />
+              Start Training in 5 Minutes
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            >
+              Three simple steps from sign-up to your first GPU workload
+            </motion.p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto relative">
+            {/* Connection line for desktop */}
+            <div className="hidden md:block absolute top-24 h-0.5 bg-gradient-to-r from-primary via-pink-500 to-primary" style={{ left: '16.67%', right: '16.67%' }} />
+            
+            {[
+              {
+                step: "01",
+                title: "Create Account",
+                description: "Sign up with email or GitHub. Instantly receive $100 in free credits to get started.",
+                icon: Users,
+                cta: "Sign Up Free",
+                highlight: "Takes 30 seconds"
+              },
+              {
+                step: "02",
+                title: "Choose Your GPU",
+                description: "Select from RTX 4090 to B200 SuperPods. Configure vCPU, RAM, and storage.",
+                icon: Cpu,
+                cta: "View GPUs",
+                highlight: "6 GPU types available"
+              },
+              {
+                step: "03",
+                title: "Deploy & Scale",
+                description: "Connect via SSH, Jupyter, or API. Auto-scale from 1 to 1000+ GPUs on demand.",
+                icon: Zap,
+                cta: "Read Docs",
+                highlight: "< 60s deploy time"
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={item.step}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                whileHover={{ y: -4 }}
+                className="relative p-8 rounded-2xl border border-border bg-card hover:border-primary/50 hover:shadow-xl transition-all text-center group"
+              >
+                {/* Step number */}
+                <div className="relative z-10 inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-pink-500 text-white font-bold text-xl mb-6 shadow-lg shadow-primary/25 group-hover:scale-110 transition-transform">
+                  {item.step}
                 </div>
-              )}
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 text-primary font-bold text-lg mb-4">
-                {item.step}
-              </div>
-              <item.icon className="h-8 w-8 text-primary mx-auto mb-3" />
-              <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{item.description}</p>
-              <button className="text-sm text-primary hover:underline font-medium">
-                {item.cta} →
-              </button>
-            </motion.div>
-          ))}
+                
+                {/* Icon */}
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-6 group-hover:bg-primary/20 transition-colors">
+                  <item.icon className="h-8 w-8 text-primary" />
+                </div>
+                
+                <h3 className="font-bold text-xl mb-3">{item.title}</h3>
+                <p className="text-muted-foreground mb-4 leading-relaxed">{item.description}</p>
+                
+                {/* Highlight badge */}
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-success/10 text-success-foreground text-xs font-medium mb-4">
+                  <CheckCircle2 className="h-3 w-3 mr-1" />
+                  {item.highlight}
+                </span>
+                
+                <div>
+                  <button className="text-sm text-primary hover:text-primary/80 font-semibold inline-flex items-center group-hover:gap-2 gap-1 transition-all">
+                    {item.cta}
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -2177,23 +2218,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="container mx-auto px-4 py-12 sm:py-16">
-        <div className="rounded-2xl bg-gradient-to-r from-primary/20 via-pink-500/20 to-red-500/20 border border-primary/30 p-8 sm:p-12 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Ready to accelerate your AI workloads?</h2>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Get started with $100 free credits. No credit card required.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <button className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground shadow hover:bg-primary/90 h-11 px-8">
-              Start Free Trial
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </button>
-            <button className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-11 px-8">
-              Contact Sales
-            </button>
+      {/* CTA Section - Revolut-style with strong visual impact */}
+      <section className="container mx-auto px-4 py-16 sm:py-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-purple-600 to-pink-600 p-8 sm:p-12 md:p-16 text-center"
+        >
+          {/* Background decoration */}
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+          
+          <div className="relative z-10">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
+            >
+              Ready to 10x your<br className="hidden sm:block" /> AI training speed?
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto"
+            >
+              Join 2,500+ teams who have already made the switch. Get <span className="font-bold text-white">$100 in free credits</span> to start.
+            </motion.p>
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-col sm:flex-row justify-center gap-4"
+            >
+              <button className="inline-flex items-center justify-center rounded-xl text-base font-semibold bg-white text-primary shadow-xl hover:bg-white/90 h-14 px-10 transition-all hover:scale-105">
+                Start Free Trial
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </button>
+              <button className="inline-flex items-center justify-center rounded-xl text-base font-semibold border-2 border-white/30 text-white hover:bg-white/10 h-14 px-10 transition-all">
+                Talk to Sales
+              </button>
+            </motion.div>
+            
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mt-6 text-sm text-white/60"
+            >
+              No credit card required • Deploy in 60 seconds • Cancel anytime
+            </motion.p>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
