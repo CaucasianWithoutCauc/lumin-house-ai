@@ -21,7 +21,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Script to detect system color scheme preference and apply dark/light mode */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function getTheme() {
+                  if (typeof window !== 'undefined') {
+                    // Check system preference
+                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                      return 'dark';
+                    }
+                    return 'light';
+                  }
+                  return 'light';
+                }
+                
+                const theme = getTheme();
+                document.documentElement.classList.add(theme);
+                
+                // Listen for system theme changes
+                if (typeof window !== 'undefined') {
+                  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                    document.documentElement.classList.remove('light', 'dark');
+                    document.documentElement.classList.add(e.matches ? 'dark' : 'light');
+                  });
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen antialiased">
         <AuthProvider>{children}</AuthProvider>
       </body>
