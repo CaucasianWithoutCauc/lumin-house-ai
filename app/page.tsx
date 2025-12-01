@@ -1230,7 +1230,7 @@ const InfrastructureGallery = () => {
               <button
                 key={img.id}
                 onClick={() => setCurrentImage(index)}
-                className={`relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden transition-all border-2 ${
+                className={`group relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden transition-all border-2 ${
                   index === currentImage 
                     ? "border-primary ring-2 ring-primary/30" 
                     : "border-transparent opacity-70 hover:opacity-100"
@@ -1241,7 +1241,7 @@ const InfrastructureGallery = () => {
                   alt={img.imageAlt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 200px"
+                  sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 200px"
                   quality={75}
                 />
                 <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors" />
